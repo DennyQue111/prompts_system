@@ -61,3 +61,9 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 **If user asks for evaluation** of "a lab":  
 Score: Location identity 4, Spatial composition 2, Atmospheric quality 1, Visual distinctiveness 2, Narrative potential 3 → weighted total ~2.4.  
 Suggestions: Add scale/layout, lighting atmosphere, a distinctive detail, and a style suffix.
+
+## Image Structure
+For the **layout grid, panel positions, and 16:9 composition**, see:
+→ **`concept-sheet/location-sheet.md`** — not yet created.
+
+Until the sheet template is available, the generated image follows the single-panel structure defined in this file: one dominant composition filling the 16:9 frame with the location as the sole subject. The formula defined above (location type → spatial layout → architecture → time/weather → atmosphere → lighting → details → style) provides all content the image needs.

@@ -3,7 +3,7 @@
 Use this architecture when the user wants to generate a **concept design sheet** for a non-humanoid sentient entity — a single 16:9 composite image that presents the entity's main look alongside its viewing angles, detail close-ups, form variations, and emotional states in a structured multi-panel layout. This is the "design document" format: a reference sheet that a production team would use to understand the entity's full visual range.
 
 **Not for**: single-shot entity prompts → use `concept/entity.md`.  
-**Not for**: humanoid character sheets → use `concept-sheet/character-sheet.md` (to be added).
+**Not for**: humanoid character sheets → use `concept-sheet/character-sheet.md`.
 
 ## Layout Grid (16:9)
 

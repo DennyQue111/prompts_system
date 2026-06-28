@@ -1,28 +1,44 @@
 
 ## Description
-Use this architecture when the user wants to generate an image focused on **a single character** with a specific appearance, clothing, emotion, pose, and context. The structure ensures the model receives enough detail to render a coherent figure while leaving enough creative space for the AI's interpretation.
+Use this architecture when the user wants to generate an image of **a humanoid character** — a being with a recognizable head, torso, limbs, and face, capable of expressing emotion through facial features and body language. The generated image is always a multi-panel concept design sheet (16:9) that presents the character's full visual range as a video production reference.
 
-## Prompt Structure Formula
-[Subject] + [Appearance details] + [Outfit & accessories] + [Emotion / expression] + [Pose / action] + [Environment / background] + [Style suffix]
+**Not for**: non-humanoid sentient entities → use `entity.md`.
 
+## What the Image Must Include
 
-### Formula Components
+This architecture defines **what content goes into each panel** of the character concept image. The final image is a single 16:9 composite with the following panels:
 
-| Component                    | Description                                                       | Examples / Keywords                                                                                                                            |
-| ---------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Subject**                  | Who or what the character is (profession, archetype, species)     | "A lone samurai", "an elven archer", "a cyberpunk detective"                                                                                   |
-| **Appearance details**       | Physical traits (age, hair, skin, build, distinguishing features) | "middle-aged, scar over left eye, silver-streaked hair, lean build"                                                                            |
-| **Outfit & accessories**     | Clothing, armor, accessories, weapons                             | "worn leather coat, brass goggles, utility belt with vials"                                                                                    |
-| **Emotion / expression**     | Facial expression, mood                                           | "calm yet determined gaze", "melancholic smirk", "wide-eyed wonder"                                                                            |
-| **Pose / action**            | Body posture, movement, activity                                  | "standing with arms crossed", "mid-dash, one hand drawing a blade", "crouched, adjusting a glowing device"                                     |
-| **Environment / background** | Surrounding scene, lighting, time of day                          | "rain-slicked neon alley at night", "sunlit forest clearing", "aboard a steampunk airship"                                                     |
-| **Style suffix**             | Artistic style, medium, rendering quality                         | See `reference.md` for options (e.g., "photorealistic, cinematic lighting", "anime, Studio Ghibli style", "oil painting, chiaroscuro") |
+| Panel Area | Content | Detail Level |
+|------------|---------|--------------|
+| **Main Visual** | Full-body, default outfit, neutral expression, standing posture | Richest description — every visual signal: face, hair, build, outfit from outer to inner to shoes, accessories, posture |
+| **View Variations** | 2–3 camera angles of the same default appearance | Each angle: what's newly visible (back view → hair rear, jacket back, shoulder width; side → profile, build thickness, clothing drape) |
+| **Expressions / 喜怒哀乐** | 4 shoulder-up or face-only panels: 喜 (joy), 怒 (anger), 哀 (sorrow), 乐 (happiness) | Each: emotion label + key facial changes (brow position, eye shape, mouth, wrinkles/tension) |
+| **Wardrobe & Body Marks** | All clothing items, accessories, scars, birthmarks — each in its own panel, one horizontal row | Clothing laid flat or on ghost mannequin. Scars/birthmarks as cropped body close-ups. More items → smaller panels. |
+
+## Prompt Content Formula
+
+For the main visual description, structure the text as:
+
+[Subject: name + age + role] + [Facial features: shape, proportions, expression] + [Hair] + [Build / physique] + [Outfit: outer → inner → bottom → shoes] + [Accessories & body marks] + [Posture / stance] + [Style suffix]
+
+### Content Components
+
+| Component | Description | What to Cover |
+|-----------|-------------|---------------|
+| **Subject** | Who this character is | Name, age, profession/role, one-line archetype (e.g., "28-year-old office worker turned death game survivor") |
+| **Facial features** | Face shape, proportions, key impression | Face width, jawline, cheekbones, nose, mouth, overall "feel" (honest, sharp, gentle, etc.), any distinguishing marks |
+| **Hair** | Hairstyle, color, maintenance level | Length, cut style, color, how it falls, tidiness, any battle-wear changes |
+| **Build / physique** | Body type, height, frame | Height, build type, shoulder width, arm/leg thickness, the "silhouette" — contrast between face and body if notable |
+| **Outfit** | Clothing from outer to inner to bottom to shoes | Each layer's cut, color, fabric, function. If the outfit has lore (e.g., "wedding suit adapted for combat"), include that |
+| **Accessories & body marks** | Rings, necklaces, scars, birthmarks, tattoos | Visibility rules (e.g., "ring appears as translucent glimmer for split-second only"), scar location and appearance |
+| **Posture / stance** | How the character stands/holds themselves | Default pose, what it communicates about personality (alert, guarded, relaxed, burdened) |
+| **Style suffix** | Artistic style | From `../reference.md`: e.g., "cinematic character concept sheet, photorealistic 8K, game production character design reference" |
 
 ## Usage Notes for Gemini 2.5 Flash Image
-- Gemini responds well to natural language; you can use full sentences or comma-separated phrases.
-- The model can handle moderate complexity but may lose small details if the prompt is too long. Keep each component concise.
-- Avoid contradictory emotions (e.g., "happy and sad"); choose one dominant mood and a subtle secondary one if desired.
-- If a component is unspecified by the user, omit it or use a generic placeholder (e.g., "simple background").
+- The main visual description is the anchor — it occupies ~1/3 width × ~4/5 height and gets the richest paragraph.
+- Expression panels must show **clear contrast**: joy (eye crinkle + smile) vs anger (brow down + jaw tight) vs sorrow (inner brows up + unfocused eyes) vs happiness (wide relaxed smile + bright eyes). Avoid "same face, slightly different mouth."
+- Always scan the user's character description for **hidden wearable items and body marks** (rings, scars, birthmarks, tattoos) and include them in the wardrobe row.
+- If the character has multiple outfit variants or battle-damage stages, pick the default/earliest state for the main visual and note variants can be separate sheets.
 
 ## Scoring Rubric (for evaluating user prompts)
 
@@ -30,33 +46,35 @@ Score each dimension 0–10 (0 = missing, 10 = excellent).
 
 | Dimension | Weight | Description |
 |-----------|--------|-------------|
-| **Clarity** | 1.0 | Is the character clearly defined? No ambiguous terms; subject and appearance are explicit. |
-| **Detail richness** | 1.0 | Does the prompt include enough specifics on clothing, facial features, and accessories? |
-| **Character consistency** | 1.2 | Do emotion, pose, and outfit align with the character's role/archetype? (e.g., a warrior shouldn't look bored) |
-| **Environment relevance** | 0.8 | Does the background support or contrast the character meaningfully? |
-| **Creativity / flair** | 0.8 | Does the prompt stand out with unexpected but fitting elements? |
+| **Character identity** | 1.0 | Does the sheet communicate who this character is, their build, face, and overall vibe at a glance? |
+| **Detail coverage** | 1.2 | Are facial features, hair, build, outfit, accessories, and body marks all covered? |
+| **View completeness** | 0.8 | Do the viewing angles reveal meaningful silhouette/drape information? |
+| **Expression range** | 1.0 | Are 喜怒哀乐 visually distinct? Can the viewer tell each emotion apart? |
+| **Wardrobe & marks inventory** | 1.0 | Are all wearable items, scars, and birthmarks accounted for and individually displayed? |
 
 Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 
 ### Score interpretation
-- 9–10: Ready to produce a high-quality character image.
-- 7–8: Good, but could benefit from one or two added details.
-- 5–6: Core idea is there but several dimensions are weak; revise structure.
-- 1–4: Likely missing critical information; rebuild the prompt.
+- 9–10: Production-ready. A video model has everything it needs.
+- 7–8: Strong core; one zone could use more items or contrast.
+- 5–6: Zones blur together or some clothing/marks are missing.
+- 1–4: Reads more like a portrait than a reference sheet.
 
 ## Common Issues & Adjustments
-- **Missing subject**: Prompt starts with an environment or style; add a clear subject at the beginning.
-- **Vague appearance**: "a warrior" → add "a weary Middle-Eastern warrior, sunburned skin, shoulder-length black hair, mustache".
-- **Clashing emotion and pose**: "angry face, lying lazily on a couch" → adjust emotion to "bored" or pose to "clenching fists".
-- **Overcrowded prompt**: Split overly long descriptions into separate prompts or move some details to environment.
-- **Dead background**: "white background" → use a mood-setting phrase like "misty graveyard at dawn" unless a clean look is desired.
+- **Missing subject**: Prompt starts with environment or style → add the character as the clear subject.
+- **Vague face**: "a warrior" → add face shape, proportions, and the honest/sharp/gentle impression.
+- **Clashing build and face**: The user describes a massive body but forgets to mention it → always link build and face in the main visual as contrast if notable.
+- **Expressions too subtle**: Video model references need CLEAR facial changes. Don't be subtle.
+- **Wardrobe row missing items**: Scan the full character description for rings, scars, birthmarks, tattoos.
 
-## Example Generation
-**User input**: "a pirate queen"
+## Image Structure
+For the **layout grid, panel positions, and 16:9 composition**, see:
+→ **`concept-sheet/character-sheet.md`**
 
-**Generated prompt**:  
-"A fierce pirate queen, mid-30s, long braided auburn hair, sun-kissed skin, gold hoop earrings, tricorn hat, crimson frock coat over a linen blouse, cutlass in one hand, determined smirk, standing on the bow of a galleon, storm clouds gathering on the horizon, oil painting, dramatic lighting."
+That file defines:
+- Exact panel positions (main visual top-left 1/3×4/5, view variations upper-right, expressions lower-right 2×2, wardrobe row bottom full-width)
+- How to write the full combined prompt with layout instructions + panel content
+- Detailed example generation
+- Sheet-specific scoring and common issues
 
-**If user asks for evaluation** of "a pirate":  
-Score: Clarity 3, Detail 2, Consistency 5, Environment 1, Creativity 2 → weighted total ~2.8.  
-Suggestions: Add clothing details, emotion, environment, and a style suffix.
+The agent workflow is: read this file for **what** content to generate → read `concept-sheet/character-sheet.md` for **how** to compose the image → combine both into the final prompt.

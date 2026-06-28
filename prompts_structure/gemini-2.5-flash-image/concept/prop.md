@@ -61,3 +61,9 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 **If user asks for evaluation** of "a magic staff":  
 Score: Subject clarity 5, Material specificity 2, Detail distinctiveness 2, Composition intent 1, Narrative suggestion 3 → weighted total ~2.6.  
 Suggestions: Add wood type, crystal detail, lighting, and a composition hint.
+
+## Image Structure
+For the **layout grid, panel positions, and 16:9 composition**, see:
+→ **`concept-sheet/prop-sheet.md`** — not yet created.
+
+Until the sheet template is available, the generated image follows the single-panel structure defined in this file: one dominant composition filling the 16:9 frame with the prop as the sole subject. The formula defined above (subject → material → scale → condition → details → composition → environment → style) provides all content the image needs.
