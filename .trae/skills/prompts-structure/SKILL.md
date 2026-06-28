@@ -1,12 +1,12 @@
 ---
 name: "prompts-structure"
-description: "Generate and evaluate image generation prompts using model-specific architecture templates for character, entity, location, and prop concepts. Invoke when user wants to create or score prompts for AI image models like Gemini 2.5 Flash Image."
+description: "Generate and evaluate image generation prompts using model-specific architecture templates for single-shot concepts (character, entity, location, prop) and multi-panel concept sheets. Invoke when user wants to create or score prompts for AI image models like Gemini 2.5 Flash Image."
 ---
 
 # Prompts Structure
 
 This skill assists users in two tasks:
-1. **Generate prompts** — Based on a given model name and content type (e.g., character, location, prop), automatically construct a high-quality prompt using a predefined architecture template.
+1. **Generate prompts** — Based on a given model name, content category (single-shot `concept` or multi-panel `concept-sheet`), and subtype, automatically construct a high-quality prompt using a predefined architecture template.
 2. **Evaluate prompts** — Score a user-provided prompt on multiple dimensions and deliver concrete, actionable suggestions for improvement.
 
 ## Architecture Data Location
@@ -18,7 +18,7 @@ All architecture template files are stored at:
 
 - **Model name** (e.g., `gemini-2.5-flash-image`)
 - **Content category** (e.g., `concept`)
-- **Subtype** (e.g., `character`, `entity`, `location`, `prop`)
+- **Subtype** (e.g., for `concept`: `character`, `entity`, `location`, `prop`; for `concept-sheet`: `entity-sheet`)
 - **User description / subject** — free text describing the desired content
 - (Optional) **Existing prompt** — when the user wants a score and revision advice
 
@@ -58,19 +58,21 @@ D:\files\github\prompts_system\prompts_structure\
 │   └── evaluate-prompt.md
 └── gemini-2.5-flash-image/
     ├── reference.md              ← Cross-category style reference library
-    └── concept/
-        ├── character.md          ← Humanoid character architecture
-        ├── entity.md             ← Non-humanoid sentient entity architecture
-        ├── location.md           ← Location/environment architecture
-        └── prop.md               ← Prop/object architecture
+    ├── concept/                  ← Single-shot prompt architectures
+    │   ├── character.md          ← Humanoid character
+    │   ├── entity.md             ← Non-humanoid sentient entity
+    │   ├── location.md           ← Location/environment
+    │   └── prop.md               ← Prop/object
+    └── concept-sheet/            ← Multi-panel concept design sheets
+        └── entity-sheet.md       ← Entity concept sheet (16:9 grid layout)
 ```
 
 - Each model has its own directory, e.g., `gemini-2.5-flash-image/`
-- Inside model directories, content types become subfolders, e.g., `concept/`
-- Subfolders contain `.md` architecture files with prompt formulas and scoring rubrics
+- `concept/` = single-shot prompt architectures (one image, one subject)
+- `concept-sheet/` = multi-panel design sheet architectures (one image, multiple panels in a grid)
 - `reference.md` holds reusable style templates
-- `concept-classification.md` defines the boundary between the four subtypes
-- `examples/` contains detailed session walkthroughs; refer here when you need to see the skill in action
+- `concept-classification.md` defines the boundary between subtypes
+- `examples/` contains detailed session walkthroughs
 
 ## Scoring Mechanism
 
@@ -82,7 +84,8 @@ D:\files\github\prompts_system\prompts_structure\
 ## Currently Supported Models & Categories
 
 - **gemini-2.5-flash-image**
-  - `concept/`: `character`, `entity`, `location`, `prop`
+  - `concept/`: `character`, `entity`, `location`, `prop` — single-shot prompts
+  - `concept-sheet/`: `entity-sheet` — multi-panel concept design sheets
   - Style reference: `reference.md`
   - **Classification guide**: `concept-classification.md` — read first when subtype is uncertain
 
