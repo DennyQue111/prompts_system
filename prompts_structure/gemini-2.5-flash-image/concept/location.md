@@ -64,6 +64,12 @@ Suggestions: Add scale/layout, lighting atmosphere, a distinctive detail, and a 
 
 ## Image Structure
 For the **layout grid, panel positions, and 16:9 composition**, see:
-→ **`concept-sheet/location-sheet.md`** — not yet created.
+→ **`concept-sheet/location-sheet.md`**
 
-Until the sheet template is available, the generated image follows the single-panel structure defined in this file: one dominant composition filling the 16:9 frame with the location as the sole subject. The formula defined above (location type → spatial layout → architecture → time/weather → atmosphere → lighting → details → style) provides all content the image needs.
+That file defines:
+- Exact panel positions (main visual top-left 1/3×4/5, alternate angle + top-down upper-right, mid-distance shots lower-right AI-flexible grid, bottom row detail close-ups + color palette)
+- How to write the full combined prompt with layout instructions + panel content
+- Detailed example generation
+- Sheet-specific scoring and common issues
+
+The agent workflow is: read this file for **what** content to generate → read `concept-sheet/location-sheet.md` for **how** to compose the image → combine both into the final prompt.

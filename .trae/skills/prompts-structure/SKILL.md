@@ -75,7 +75,8 @@ D:\files\github\prompts_system\prompts_structure\
     │   └── prop.md               ← Prop/object formula
     └── concept-sheet/            ← Layout architectures (HOW to compose)
         ├── entity-sheet.md       ← Entity layout grid (16:9)
-        └── character-sheet.md    ← Character layout grid (16:9)
+        ├── character-sheet.md    ← Character layout grid (16:9)
+        └── location-sheet.md     ← Location layout grid (16:9)
 ```
 
 - Each model has its own directory, e.g., `gemini-2.5-flash-image/`
@@ -95,7 +96,7 @@ D:\files\github\prompts_system\prompts_structure\
 
 - **gemini-2.5-flash-image**
   - `concept/`: `character`, `entity`, `location`, `prop` — content architectures
-  - `concept-sheet/`: `entity-sheet`, `character-sheet` — (location-sheet and prop-sheet pending)
+  - `concept-sheet/`: `entity-sheet`, `character-sheet`, `location-sheet` — (prop-sheet pending)
   - Style reference: `reference.md`
   - **Classification guide**: `concept-classification.md`
 

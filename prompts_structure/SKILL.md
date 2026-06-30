@@ -62,7 +62,7 @@ Each concept file + sheet file pair is a complete "prompt recipe."
 ## Currently Supported Models & Categories
 - **gemini-2.5-flash-image**
   - `concept/`: `character`, `entity`, `location`, `prop` — content architectures
-  - `concept-sheet/`: `entity-sheet`, `character-sheet` — (location-sheet and prop-sheet pending)
+  - `concept-sheet/`: `entity-sheet`, `character-sheet`, `location-sheet` — (prop-sheet pending)
   - Style reference: `reference.md`
   - **Classification guide**: `concept-classification.md`
 (Additional models and categories can be added later)
