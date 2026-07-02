@@ -2,13 +2,13 @@
 
 ## User Input
 
-> Model: gemini-2.5-flash-image, concept – character, a detective in a steampunk trench coat
+> Model: general (Gemini 2.5 Flash / GPT), concept – character, a detective in a steampunk trench coat
 
 ## Skill Behavior
 
-1. Parse input: model=`gemini-2.5-flash-image`, category=`concept`, subtype=`character`, description=`a detective in a steampunk trench coat`
+1. Parse input: model=`general`, category=`concept`, subtype=`character`, description=`a detective in a steampunk trench coat`
 2. Subtype is `character` — no ambiguity, no need to check `concept-classification.md`
-3. Locate and read `gemini-2.5-flash-image/concept/character.md`
+3. Locate and read `concept/character/general.md`
 4. Obtain the character prompt structure formula:
 
    ```

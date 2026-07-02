@@ -1,9 +1,5 @@
-
 ## Description
 Use this architecture when the user wants to generate a **character concept design sheet** — a single 16:9 composite image that presents the character's full-body main look alongside viewing angles, facial expressions (joy/anger/sorrow/happiness), and all clothing items, accessories, scars, and birthmarks in a structured multi-panel layout. This is the "production reference" format: a one-page design document that gives a video model everything it needs to understand the character's visual range.
-
-**Not for**: single-shot character prompts → use `concept/character.md`.  
-**Not for**: non-humanoid entity sheets → use `concept-sheet/entity-sheet.md`.
 
 ## Layout Grid (16:9)
 
@@ -58,7 +54,7 @@ All panels sit on a unified clean white or near-white background (e.g., `#FAFAFA
 | **Panel 4: Bottom row** | All wearable items + body marks, one row, AI-scaled | Each item in its own panel — coat/jacket, shirt, pants, shoes, ring, necklace, scar close-up, birthmark location. For clothing: show the item laid flat or on a mannequin fragment. For marks: a cropped body close-up with the mark visible. More items → smaller panels, fewer items → larger panels. |
 | **Style suffix** | Rendering quality, art style | `cinematic character concept sheet`, `photorealistic 8K`, `game production character design reference`, aesthetic tag |
 
-## Usage Notes for Gemini 2.5 Flash Image
+## Usage Notes
 - **Layout first**: The grid instruction must come first. Go macro (zones) → micro (panel contents).
 - **Main visual is the anchor**: ~4/5 height × 1/3 width is the hero panel. This paragraph should contain every visual signal the model needs to render the character accurately.
 - **View variations are about silhouette and drape**: Side and back views reveal how the clothing hangs on the build, how the hair falls from behind, how thick the body reads in profile. These are production-critical details for a video model.
@@ -66,9 +62,7 @@ All panels sit on a unified clean white or near-white background (e.g., `#FAFAFA
 - **Bottom row = inventory display**: Think of it as the character's equipment screen. Each item gets its own panel. Clothing items can be shown laid flat or on a ghost mannequin. Scars and birthmarks should be cropped body close-ups with the mark clearly visible.
 - **Item count drives panel size**: 4 items → fewer items (e.g., jacket + shirt + pants + boots) gets spacious panels. 8 items (adding ring, necklace, scar, birthmark) gets narrower panels. Tell the AI: "panel width adjusts to fit count."
 
-## Scoring Rubric (for evaluating user prompts)
-
-Score each dimension 0–10 (0 = missing, 10 = excellent).
+## Scoring Rubric
 
 | Dimension | Weight | Description |
 |-----------|--------|-------------|
@@ -79,12 +73,6 @@ Score each dimension 0–10 (0 = missing, 10 = excellent).
 | **Wardrobe & marks completeness** | 0.8 | Are all clothing items, accessories, scars, and birthmarks accounted for and individually displayed? |
 
 Total score = (sum of weighted scores) / (sum of weights) → 0–10.
-
-### Score interpretation
-- 9–10: Production-ready character reference. A video model has everything it needs.
-- 7–8: Strong core; one zone (expressions or bottom row) could use more items or contrast.
-- 5–6: Zones blur together or some clothing/marks are missing.
-- 1–4: Reads more like a single portrait than a structured reference sheet.
 
 ## Common Issues & Adjustments
 - **Expressions too subtle**: Video model references need CLEAR facial changes. Joy = visible smile + eye crinkle. Anger = visible brow furrow + jaw tension. Don't be subtle.
@@ -110,7 +98,3 @@ The BOTTOM ROW spans the full width at roughly one-fifth height — one horizont
 
 Cinematic character concept sheet, photorealistic 8K, game production character design reference, Gantz-inspired tone.
 ```
-
-**If user asks for evaluation** of "a character sheet of Shen Ye":  
-Score: Layout clarity 2, Character identity 3, View coverage 1, Expression range 1, Wardrobe completeness 2 → weighted total ~1.9.  
-Suggestions: Describe the grid layout, add view variations from 2-3 angles, add 喜怒哀乐 four expressions, list all clothing items and body marks individually in the bottom row.

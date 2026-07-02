@@ -40,7 +40,7 @@ Does the subject have CONSCIOUSNESS, AGENCY, or narrative personhood?
 - Can strike poses, perform actions with limbs
 - Age, hair, skin tone, build are relevant descriptors
 
-**Architecture file**: `concept/character.md`
+**Architecture directory**: `concept/character/` → read `README.md` for available model variants, then `general.md` (default).
 
 ---
 
@@ -75,7 +75,7 @@ Does the subject have CONSCIOUSNESS, AGENCY, or narrative personhood?
 | A ghost that is a shifting cloud of light | **entity** | No humanoid form |
 | A talking sword | **entity** | Consciousness + no body |
 
-**Architecture file**: `concept/entity.md`
+**Architecture directory**: `concept/entity/` → read `README.md` for available model variants, then `general.md` (default).
 
 ---
 
@@ -95,7 +95,7 @@ Does the subject have CONSCIOUSNESS, AGENCY, or narrative personhood?
 - Story loses an object → **prop**
 - Story loses a character → **entity** or **character**
 
-**Architecture file**: `concept/prop.md`
+**Architecture directory**: `concept/prop/` → read `README.md` for available model variants, then `general.md` (default).
 
 ---
 
@@ -110,7 +110,7 @@ Does the subject have CONSCIOUSNESS, AGENCY, or narrative personhood?
 - Fantasy/sci-fi environments
 - Abstract or dream spaces
 
-**Architecture file**: `concept/location.md`
+**Architecture directory**: `concept/location/` → read `README.md` for available model variants, then `general.md` (default).
 
 ---
 
@@ -139,7 +139,7 @@ When the SKILL receives a request, it should:
 1. Identify which concept type is being requested (or infer from the description)
 2. If unsure, **consult this classification guide**
 3. If still ambiguous, ask the user: "Is this a humanoid character, a non-humanoid entity, a prop, or a location?"
-4. Load the corresponding architecture file
+4. Load the type's README, then the appropriate model variant file
 5. Generate or evaluate the prompt accordingly
 
 This file should be checked BEFORE loading any architecture file, whenever the subject type is ambiguous.

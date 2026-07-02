@@ -18,9 +18,9 @@ Use this architecture when the user wants to generate an image focused on **a lo
 | **Detail accents**                    | Small environmental storytelling elements                    | "prayer flags fluttering in the wind", "steam vents hissing from grates", "overgrown vines cracking the stone floor"  |
 | **Style suffix**                      | Artistic style, rendering quality                            | See `reference.md` for options (e.g., "cinematic wide shot", "matte painting, epic scale", "photorealistic landscape") |
 
-## Usage Notes for Gemini 2.5 Flash Image
+## Usage Notes
 - Locations benefit from a clear focal anchor — a building, a tree, a light source — around which the scene is composed.
-- Atmospheric and lighting keywords are the strongest drivers of location quality in Gemini. Invest more detail here than in object-level specifics.
+- Atmospheric and lighting keywords are the strongest drivers of location quality. Invest more detail here than in object-level specifics.
 - Time of day dramatically changes the feel; always specify it unless the user wants flexibility.
 - For interiors, include a hint about the ceiling height and room scale to avoid cramped compositions.
 - Avoid listing every object in the scene — use "detail accents" to sprinkle narrative flavor rather than cataloging inventory.
@@ -52,19 +52,9 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 - **Mood/lighting mismatch**: "haunted house, bright sunny day" → either commit to "bright, uncanny, too-perfect" or shift to "overcast, crepuscular rays through broken shutters".
 - **List-like description**: Don't enumerate objects; integrate them into the spatial narrative.
 
-## Example Generation
-**User input**: "a futuristic laboratory"
-
-**Generated prompt**:  
-"A vast underground futuristic laboratory, multi-level open atrium with glass-walled research chambers, polished white polymer floors reflecting cold LED strips, deep blue hour with no natural light, sterile and eerily silent atmosphere, holographic DNA sequences floating above central console, rows of dormant android bodies in translucent pods lining the walls, cinematic wide shot, dystopian sci-fi concept art, anamorphic lens flare."
-
-**If user asks for evaluation** of "a lab":  
-Score: Location identity 4, Spatial composition 2, Atmospheric quality 1, Visual distinctiveness 2, Narrative potential 3 → weighted total ~2.4.  
-Suggestions: Add scale/layout, lighting atmosphere, a distinctive detail, and a style suffix.
-
 ## Image Structure
 For the **layout grid, panel positions, and 16:9 composition**, see:
-→ **`concept-sheet/location-sheet.md`**
+→ **`concept-sheet/location-sheet/general.md`**
 
 That file defines:
 - Exact panel positions (main visual top-left 1/3×4/5, alternate angle + top-down upper-right, mid-distance shots lower-right AI-flexible grid, bottom row detail close-ups + color palette)
@@ -72,4 +62,4 @@ That file defines:
 - Detailed example generation
 - Sheet-specific scoring and common issues
 
-The agent workflow is: read this file for **what** content to generate → read `concept-sheet/location-sheet.md` for **how** to compose the image → combine both into the final prompt.
+The agent workflow is: read this file for **what** content to generate → read the corresponding sheet file for **how** to compose the image → combine both into the final prompt.

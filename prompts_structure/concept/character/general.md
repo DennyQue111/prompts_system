@@ -2,7 +2,7 @@
 ## Description
 Use this architecture when the user wants to generate an image of **a humanoid character** — a being with a recognizable head, torso, limbs, and face, capable of expressing emotion through facial features and body language. The generated image is always a multi-panel concept design sheet (16:9) that presents the character's full visual range as a video production reference.
 
-**Not for**: non-humanoid sentient entities → use `entity.md`.
+**Not for**: non-humanoid sentient entities → use `entity`.
 
 ## What the Image Must Include
 
@@ -32,9 +32,9 @@ For the main visual description, structure the text as:
 | **Outfit** | Clothing from outer to inner to bottom to shoes | Each layer's cut, color, fabric, function. If the outfit has lore (e.g., "wedding suit adapted for combat"), include that |
 | **Accessories & body marks** | Rings, necklaces, scars, birthmarks, tattoos | Visibility rules (e.g., "ring appears as translucent glimmer for split-second only"), scar location and appearance |
 | **Posture / stance** | How the character stands/holds themselves | Default pose, what it communicates about personality (alert, guarded, relaxed, burdened) |
-| **Style suffix** | Artistic style | From `../reference.md`: e.g., "cinematic character concept sheet, photorealistic 8K, game production character design reference" |
+| **Style suffix** | Artistic style | From `../../reference.md`: e.g., "cinematic character concept sheet, photorealistic 8K, game production character design reference" |
 
-## Usage Notes for Gemini 2.5 Flash Image
+## Usage Notes
 - The main visual description is the anchor — it occupies ~1/3 width × ~4/5 height and gets the richest paragraph.
 - Expression panels must show **clear contrast**: joy (eye crinkle + smile) vs anger (brow down + jaw tight) vs sorrow (inner brows up + unfocused eyes) vs happiness (wide relaxed smile + bright eyes). Avoid "same face, slightly different mouth."
 - Always scan the user's character description for **hidden wearable items and body marks** (rings, scars, birthmarks, tattoos) and include them in the wardrobe row.
@@ -69,7 +69,7 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 
 ## Image Structure
 For the **layout grid, panel positions, and 16:9 composition**, see:
-→ **`concept-sheet/character-sheet.md`**
+→ **`concept-sheet/character-sheet/general.md`**
 
 That file defines:
 - Exact panel positions (main visual top-left 1/3×4/5, view variations upper-right, expressions lower-right 2×2, wardrobe row bottom full-width)
@@ -77,4 +77,4 @@ That file defines:
 - Detailed example generation
 - Sheet-specific scoring and common issues
 
-The agent workflow is: read this file for **what** content to generate → read `concept-sheet/character-sheet.md` for **how** to compose the image → combine both into the final prompt.
+The agent workflow is: read this file for **what** content to generate → read the corresponding sheet file for **how** to compose the image → combine both into the final prompt.

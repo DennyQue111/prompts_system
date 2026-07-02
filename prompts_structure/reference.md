@@ -1,6 +1,7 @@
-
 ## Description
-This is the cross-category style reference library for **Gemini 2.5 Flash Image**. Each section provides reusable style snippets that can be appended to the end of any prompt across `concept/` architectures (character, location, prop). Pick the style that best matches the creative vision requested by the user.
+This is the cross-category style reference library. Each section provides reusable style snippets that can be appended to the end of any prompt across all concept types (character, entity, location, prop). Pick the style that best matches the creative vision requested by the user.
+
+Currently applies to: Gemini 2.5 Flash Image, GPT image models.
 
 ---
 

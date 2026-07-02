@@ -1,24 +1,24 @@
 
 ## Description
 This skill assists users in two tasks:
-1. **Generate prompts** — For a given model and concept type (character, entity, location, prop), automatically construct a high-quality image generation prompt combining content specifications and layout structure.
+1. **Generate prompts** — For a given concept type (character, entity, location, prop) and optionally a model, automatically construct a high-quality image generation prompt combining content specifications and layout structure.
 2. **Evaluate prompts** — Score a user-provided prompt on multiple dimensions and deliver concrete, actionable suggestions for improvement.
 
 **Important**: Before determining which architecture to use, consult `concept-classification.md` to verify the correct subtype — especially for cases where a subject could be miscategorized (e.g., sentient non-humanoid beings should use `entity`, not `character` or `prop`).
 
-## Architecture Philosophy: Content + Structure
+## Architecture Philosophy: Type-First, Model-Second
 
-Each concept type is defined by **two files working together**:
+The directory hierarchy is organized by **concept type**, not by model:
 
-- **`concept/{subtype}.md`** — defines **WHAT** content the image must include (panels, content formula, scoring rubric). This tells you what to describe.
-- **`concept-sheet/{subtype}-sheet.md`** — defines **HOW** the image is composed (layout grid, panel positions, 16:9 structure). This tells you how to arrange it.
+- **`concept/{type}/`** — defines **WHAT** content the image must include. Each type directory contains one or more model-specific variant files (e.g., `general.md`).
+- **`concept-sheet/{type}-sheet/`** — defines **HOW** the image is composed (layout grid, panel positions, 16:9 structure). Same structure: one or more model-specific variant files.
 
-The two files are always used together — `concept/` files point to their corresponding `concept-sheet/` file in a section called "Image Structure" at the bottom.
+Each type's `README.md` describes the type and lists available model variants. If the user specifies a model, use that variant; otherwise default to `general.md`.
 
 ## Input
-- **Model name** (e.g., `gemini-2.5-flash-image`)
 - **Concept subtype** (e.g., `character`, `entity`, `location`, `prop`)
 - **User description / subject** — free text describing the desired content
+- (Optional) **Model name** — if specified (e.g., `midjourney`), use the corresponding variant file
 - (Optional) **Existing prompt** — when the user wants a score and revision advice
 
 ## Output
@@ -28,44 +28,72 @@ The two files are always used together — `concept/` files point to their corre
   - A list of specific suggestions for improvement
 
 ## Workflow
-1. Parse the user input to extract model name, concept subtype, and description.
+1. Parse the user input to extract concept subtype, model (if specified), and description.
 2. **If the subtype is ambiguous**, consult `concept-classification.md` to determine the correct architecture (character vs entity vs prop vs location).
-3. Read the content architecture at `model-name/concept/subtype.md`:
-   - Example: `gemini-2.5-flash-image/concept/character.md`
-   - Obtain: panel content definitions, content formula, scoring rubric
-4. **Follow the "Image Structure" section** at the bottom of the content file — it references the corresponding sheet file.
-5. Read the sheet file at `model-name/concept-sheet/subtype-sheet.md`:
-   - Example: `gemini-2.5-flash-image/concept-sheet/character-sheet.md`
+3. Read the type's README at `concept/{type}/README.md` to understand what this type is and to find the available model variants.
+4. Read the content architecture at `concept/{type}/general.md` (or whichever model variant is appropriate):
+   - Obtain: what panels are needed, content formula, scoring rubric
+5. **Follow the "Image Structure" section** at the bottom — it references the corresponding sheet file.
+6. Read the sheet file at `concept-sheet/{type}-sheet/general.md` (or appropriate variant):
    - Obtain: layout grid, panel positions, how to write the combined layout + content prompt
-6. Optionally consult `reference.md` inside the model folder for style snippets.
-7. Combine the content formula and sheet layout into the final prompt.
-8. If the user supplied an existing prompt, evaluate it against the architecture's scoring rubric.
-9. Return the result to the user.
+7. If the sheet file does not yet exist (e.g., prop-sheet), use the content file's own structure directly.
+8. Optionally consult `reference.md` for style snippets.
+9. Combine the content formula and sheet layout into the final prompt.
+10. If the user supplied an existing prompt, evaluate it against the architecture's scoring rubric.
+11. Return the result to the user.
 
 ## Directory Structure
-This skill file resides in a folder organized by model and category:
-- Each model has its own directory, e.g., `gemini-2.5-flash-image/`
-- `concept/` contains architecture files defining **what content** goes into each concept image. Each file references its sheet counterpart for layout.
-- `concept-sheet/` contains sheet files defining **how the image is composed** — grid layout, panel positions, 16:9 structure, and full example generation.
-- `reference.md` holds reusable style templates
-- `concept-classification.md` at the root defines the boundary between the four subtypes
-- `examples/` folder contains detailed session walkthroughs
+```
+prompts_structure/
+├── SKILL.md
+├── concept-classification.md    ← Boundary guide: which type to use
+├── reference.md                 ← Cross-type style reference library
+├── concept/                     ← Content architectures (WHAT to include)
+│   ├── character/
+│   │   ├── README.md            ← Type description + available model variants
+│   │   └── general.md            ← Prompt structure
+│   ├── entity/
+│   │   ├── README.md
+│   │   └── general.md
+│   ├── location/
+│   │   ├── README.md
+│   │   └── general.md
+│   └── prop/
+│       ├── README.md
+│       └── general.md
+├── concept-sheet/               ← Layout architectures (HOW to compose)
+│   ├── character-sheet/
+│   │   ├── README.md
+│   │   └── general.md
+│   ├── entity-sheet/
+│   │   ├── README.md
+│   │   └── general.md
+│   └── location-sheet/
+│       ├── README.md
+│       └── general.md
+└── examples/                    ← Detailed session walkthroughs
+```
 
-Each concept file + sheet file pair is a complete "prompt recipe."
+- `concept/` = defines **what** panels and content each concept image needs. Each type has its own directory with one or more model variant files.
+- `concept-sheet/` = defines **how** the image is composed — grid positions, panel sizes, 16:9 structure. Same directory-per-type structure.
+- `reference.md` = reusable style snippets applicable across all types.
+- `concept-classification.md` = decision guide for character vs entity vs prop vs location.
+- Each type's `README.md` describes the type, lists available model variants, and specifies the default.
 
 ## Scoring Mechanism
 - Score range: 0–10
-- Dimensions are defined inside each concept architecture file (typically 5 weighted dimensions scored 0–10)
+- Dimensions are defined inside each content architecture file (typically 5 weighted dimensions scored 0–10)
 - Final score = weighted average
-- Suggestions are drawn from the "common issues & adjustments" section at the end of the file
+- Suggestions are drawn from the "common issues & adjustments" section
 
-## Currently Supported Models & Categories
-- **gemini-2.5-flash-image**
-  - `concept/`: `character`, `entity`, `location`, `prop` — content architectures
-  - `concept-sheet/`: `entity-sheet`, `character-sheet`, `location-sheet` — (prop-sheet pending)
-  - Style reference: `reference.md`
-  - **Classification guide**: `concept-classification.md`
-(Additional models and categories can be added later)
+## Currently Supported Types & Model Variants
+- **character** → `general.md` (compatible with Gemini 2.5 Flash Image and GPT)
+- **entity** → `general.md` (compatible with Gemini 2.5 Flash Image and GPT)
+- **location** → `general.md` (compatible with Gemini 2.5 Flash Image and GPT)
+- **prop** → `general.md` (compatible with Gemini 2.5 Flash Image and GPT) — sheet pending
+- **Style reference**: `reference.md`
+- **Classification guide**: `concept-classification.md`
+(Future: Midjourney, DALL-E, Flux variants can be added as new files within each type directory)
 
 ## Example Sessions
 See `examples/` folder for detailed walkthroughs:

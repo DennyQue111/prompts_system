@@ -18,7 +18,7 @@ Use this architecture when the user wants to generate an image focused on **a si
 | **Environment / context**         | Surrounding hints that tell a story                          | "resting on an alchemist's workbench", "half-buried in desert sand", "mounted on a gallery pedestal", "floating in a void with soft rim light" |
 | **Style suffix**                  | Artistic style, rendering quality                            | See `reference.md` for options (e.g., "photorealistic product photography", "concept art, key shot", "cinematic macro photography") |
 
-## Usage Notes for Gemini 2.5 Flash Image
+## Usage Notes
 - Props work best with a clear focal point; avoid cluttering the scene with multiple competing objects.
 - Material keywords (e.g., "polished brass", "aged oak", "frosted glass") are highly effective — the model responds strongly to surface descriptions.
 - Include a scale reference when the object is unusual (fantasy weapon, sci-fi device).
@@ -52,18 +52,10 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 - **Describing function instead of appearance**: Focus on what the object looks like, not what it does.
 - **Flat lighting implication**: If no environment is given, the model may render flat studio lighting → add "dramatic rim light" or "warm candlelit glow".
 
-## Example Generation
-**User input**: "a wizard's staff"
-
-**Generated prompt**:  
-"A wizard's staff, ancient gnarled oak wood with twisting natural grain, approximately 2 meters tall, centuries-old with dark patina and faint moss in the crevices, topped with a rough-cut amethyst crystal held by silver-wrapped roots, standing upright against a stone wall in a dimly lit chamber, faint purple glow emanating from the crystal, cinematic fantasy concept art, volumetric lighting."
-
-**If user asks for evaluation** of "a magic staff":  
-Score: Subject clarity 5, Material specificity 2, Detail distinctiveness 2, Composition intent 1, Narrative suggestion 3 → weighted total ~2.6.  
-Suggestions: Add wood type, crystal detail, lighting, and a composition hint.
-
 ## Image Structure
 For the **layout grid, panel positions, and 16:9 composition**, see:
-→ **`concept-sheet/prop-sheet.md`** — not yet created.
+→ **`concept-sheet/prop-sheet/`** — not yet created.
 
-Until the sheet template is available, the generated image follows the single-panel structure defined in this file: one dominant composition filling the 16:9 frame with the prop as the sole subject. The formula defined above (subject → material → scale → condition → details → composition → environment → style) provides all content the image needs.
+Until the sheet template is available, the image follows a single-panel composition: one dominant shot filling the 16:9 frame with the prop as the sole subject. The formula above (subject → material → scale → condition → details → composition → environment → style) provides all content.
+
+The agent workflow is: read this file for **what** content to generate → use the single-panel structure defined here → combine into the final prompt.

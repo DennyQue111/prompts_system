@@ -2,13 +2,13 @@
 
 ## User Input
 
-> Evaluate this prompt against gemini-2.5-flash-image concept character:
+> Evaluate this prompt against general (Gemini 2.5 Flash / GPT) concept character:
 > "a pirate"
 
 ## Skill Behavior
 
-1. Parse: model=`gemini-2.5-flash-image`, category=`concept`, subtype=`character`, evaluate existing prompt=`a pirate`
-2. Locate and read `gemini-2.5-flash-image/concept/character.md`
+1. Parse: model=`general`, category=`concept`, subtype=`character`, evaluate existing prompt=`a pirate`
+2. Locate and read `concept/character/general.md`
 3. Load the character scoring rubric (5 weighted dimensions)
 4. Score each dimension:
 

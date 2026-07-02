@@ -1,9 +1,5 @@
-
 ## Description
 Use this architecture when the user wants to generate a **concept design sheet** for a non-humanoid sentient entity — a single 16:9 composite image that presents the entity's main look alongside its viewing angles, detail close-ups, form variations, and emotional states in a structured multi-panel layout. This is the "design document" format: a reference sheet that a production team would use to understand the entity's full visual range.
-
-**Not for**: single-shot entity prompts → use `concept/entity.md`.  
-**Not for**: humanoid character sheets → use `concept-sheet/character-sheet.md`.
 
 ## Layout Grid (16:9)
 
@@ -30,7 +26,7 @@ Use this architecture when the user wants to generate a **concept design sheet**
 - **Main Visual** — top-left, 1/3 width × ~4/5 height. The entity in its default/normal form, full visual presence, with name/label.
 - **Right Upper — View Variations** — upper half of the right area. The same default form shown from 2–3 different viewing angles (front, side, top-down, 3/4 perspective, etc.), giving a sense of the entity's three-dimensionality.
 - **Right Lower — Detail Close-ups** — lower half of the right area. Close-ups of critical visual components. The AI should determine the best grid arrangement based on how many details are provided: fewer details = larger panels, more details = smaller panels. No need to strictly enforce equal sizes.
-- **Bottom Row** — full width, ~1/5 height. One continuous horizontal row. **Form variations first**, then **emotion states**. All panels in this row share the same height. The number of panels in each group can vary (typically 2–3 forms + 2–3 emotions = 4–6 total).
+- **Bottom Row** — full width, ~1/5 height. One continuous horizontal row. **Form variations first**, then **emotion states**. All panels in this row share the same height. The number of panels can vary (typically 2–3 forms + 2–3 emotions = 4–6 total).
 
 All panels sit on a unified clean white or near-white background (e.g., `#FAFAFA` or subtle paper texture), with thin dark divider lines. Labels appear under each panel in small, clean typography.
 
@@ -57,7 +53,7 @@ All panels sit on a unified clean white or near-white background (e.g., `#FAFAFA
 | **Panel 4: Bottom row** | Form variations + emotion states, one horizontal row | First group: 2–3 alternative shapes (each a different configuration of the entity). Second group: 2–3 emotional color/energy states (each a different hue, arc tempo, glow intensity). Keep each ~1–2 sentences. |
 | **Style suffix** | Rendering quality, art style | `cinematic concept art sheet`, `hyperrealistic 8K`, `game production design reference`, aesthetic tag |
 
-## Usage Notes for Gemini 2.5 Flash Image
+## Usage Notes
 - **Layout first**: The grid instruction must be the first thing. Go macro (layout zones) → micro (panel contents).
 - **Main visual gets the richest text**: ~4/5 height × 1/3 width is a big render area. This paragraph should be the most detailed.
 - **View variations show angles, not forms**: This is about different camera perspectives of the SAME form. If the entity has no permanent geometry (like a swarm), show it from front vs side vs top — the side view might reveal how "thick" the swarm silhouette is, the top view might show a radial symmetry invisible from the front.
@@ -66,9 +62,7 @@ All panels sit on a unified clean white or near-white background (e.g., `#FAFAFA
 - **Emotion panels are about color and energy tempo**: Don't re-describe form. Name the emotion + specify hue shift + arc speed + glow radius.
 - **Unified clean background**: A white or near-white background helps all panels read as one clean composition. Thin dark divider lines separate zones.
 
-## Scoring Rubric (for evaluating user prompts)
-
-Score each dimension 0–10 (0 = missing, 10 = excellent).
+## Scoring Rubric
 
 | Dimension | Weight | Description |
 |-----------|--------|-------------|
@@ -79,12 +73,6 @@ Score each dimension 0–10 (0 = missing, 10 = excellent).
 | **Detail depth** | 1.0 | Do the close-ups reveal construction secrets invisible at full-body scale? |
 
 Total score = (sum of weighted scores) / (sum of weights) → 0–10.
-
-### Score interpretation
-- 9–10: Production-ready concept sheet. Every zone earns its space.
-- 7–8: Strong core; one zone could use more contrast or coverage.
-- 5–6: Zones blur together or repeat information.
-- 1–4: Reads more like a single image than a structured sheet.
 
 ## Common Issues & Adjustments
 - **View variations confused with form variations**: View = same form, different camera angle. Form = different shape entirely. Keep them separated.
@@ -110,7 +98,3 @@ The BOTTOM ROW spans the full width at roughly one-fifth height — one horizont
 
 Cinematic concept art sheet, hyperrealistic 8K, game production design reference, dark sci-fi aesthetic, Gantz-inspired.
 ```
-
-**If user asks for evaluation** of "a concept sheet of Zero the cube swarm":  
-Score: Layout clarity 2, Entity identity 4, View & form coverage 1, Emotion range 1, Detail depth 2 → weighted total ~2.0.  
-Suggestions: Describe the grid layout explicitly (main visual zone, right halves, bottom row), add 2-3 viewing angles, add 3-4 detail close-ups, add form variations and emotion states with color contrast.

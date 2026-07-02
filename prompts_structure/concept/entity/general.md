@@ -2,8 +2,8 @@
 ## Description
 Use this architecture when the user wants to generate an image of **a sentient, non-humanoid entity** — a being that possesses consciousness, agency, or narrative presence but does not conform to the humanoid body plan. This includes AI manifestations, god-projections, alien consciousness, elemental beings, abstract sentient constructs, and any character whose "form" is inseparable from its identity. The generated image is always a multi-panel concept design sheet (16:9) that presents the entity's full visual range as a video production reference.
 
-**Not for**: humanoid characters with clothes and limbs → use `character.md`.  
-**Not for**: inert objects without consciousness → use `prop.md`.
+**Not for**: humanoid characters with clothes and limbs → use `character`.  
+**Not for**: inert objects without consciousness → use `prop`.
 
 ## What the Image Must Include
 
@@ -33,9 +33,9 @@ For the main visual description, structure the text as:
 | **Sentience indicators** | Visual cues of awareness/aliveness | Eyes (embedded, blinking), glow rhythms, reactive surfaces, any non-facial signal that says "this thing is alive" |
 | **Behavior / agency** | What the entity is doing or capable of doing | Static behavior (staring, hovering, pulsing) or dynamic (rotating, blinking, form-shifting). Pick one clear primary behavior |
 | **Environment / context** | Surrounding space | Void, altar, rift, chamber — minimal backgrounds preferred when the entity's form is the primary subject |
-| **Style suffix** | Artistic style | From `../reference.md` |
+| **Style suffix** | Artistic style | From `../../reference.md` |
 
-## Usage Notes for Gemini 2.5 Flash Image
+## Usage Notes
 - Entities thrive on **material contrast** — interior vs exterior tension (magma inside obsidian, light inside shadow).
 - **Sentience indicators are the make-or-break component.** Without them, the entity reads as a prop. An eye, a glow rhythm, a responsive surface — these separate a dead object from a living presence.
 - Gemini handles geometric precision well (spheres, crystals, floating structures) — lean into precise form descriptions.
@@ -67,12 +67,12 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 - **Entity confused with prop**: If the prompt describes only materials and form but gives no signal of consciousness → it's a prop. Add an eye, a glow, a movement, a reactive surface.
 - **No scale anchor**: "floating in space" gives no size reference → add a measurement or comparison object.
 - **Over-describing function**: "a being that controls the rules of the game" → describe what it looks like and how it behaves visually, not its metaphysical powers.
-- **Humanoid leakage**: If the entity starts growing arms, legs, or clothing → switch to `character.md`.
+- **Humanoid leakage**: If the entity starts growing arms, legs, or clothing → switch to `character`.
 - **Form variations and emotion states are distinct**: Forms = different physical configurations of the cubes/matter. Emotions = same form but different light color/arc tempo/glow intensity. Don't confuse them.
 
 ## Image Structure
 For the **layout grid, panel positions, and 16:9 composition**, see:
-→ **`concept-sheet/entity-sheet.md`**
+→ **`concept-sheet/entity-sheet/general.md`**
 
 That file defines:
 - Exact panel positions (main visual top-left 1/3×4/5, view variations upper-right, details lower-right AI-flexible grid, bottom row full-width)
@@ -80,4 +80,4 @@ That file defines:
 - Detailed example generation
 - Sheet-specific scoring and common issues
 
-The agent workflow is: read this file for **what** content to generate → read `concept-sheet/entity-sheet.md` for **how** to compose the image → combine both into the final prompt.
+The agent workflow is: read this file for **what** content to generate → read the corresponding sheet file for **how** to compose the image → combine both into the final prompt.
