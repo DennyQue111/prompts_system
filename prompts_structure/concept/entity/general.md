@@ -38,6 +38,15 @@ For the main visual description, structure the text as:
 ## Usage Notes
 - Entities thrive on **material contrast** — interior vs exterior tension (magma inside obsidian, light inside shadow).
 - **Sentience indicators are the make-or-break component.** Without them, the entity reads as a prop. An eye, a glow rhythm, a responsive surface — these separate a dead object from a living presence.
+- **Personality-to-Visual for entities**: Non-humanoid beings also need their inner nature translated into visible cues:
+
+| Entity Trait (don't write) | Visual Translation (write this instead) |
+|---------------------------|----------------------------------------|
+| Ancient / timeless | Surface shows geological layering, slow erosion patterns, movement at tectonic speed |
+| Benevolent / protective | Warm light leaks from internal cracks, form curves around smaller beings like cupped hands |
+| Cold / indifferent | Perfect geometric symmetry, zero surface imperfections, light reflects without absorption |
+| Hungry / predatory | Surfaces ripple toward the viewer, edges sharpen when facing living things, ambient light dims around its perimeter |
+| Broken / mourning | Chunks missing from its form, internal light flickers irregularly, asymmetrical posture, fragments orbit slowly |
 - Gemini handles geometric precision well (spheres, crystals, floating structures) — lean into precise form descriptions.
 - Scale anchors matter enormously for non-human forms. Without a body to reference, the viewer needs to know whether this thing is palm-sized or building-sized.
 - Behavior/agency can be static (staring, hovering) or dynamic (pulsing, rotating, blinking).

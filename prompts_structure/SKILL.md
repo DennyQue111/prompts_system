@@ -15,6 +15,13 @@ The directory hierarchy is organized by **concept type**, not by model:
 
 Each type's `README.md` describes the type and lists available model variants. If the user specifies a model, use that variant; otherwise default to `general.md`.
 
+## Core Principles (applied across all types)
+
+1. **Personality-to-Visual Translation**: AI models don't understand abstract adjectives. Every personality trait must be translated into visible physical cues before entering the prompt. "He is loyal" → "he unconsciously positions his body half a step in front of his teammates."
+2. **Prototype Outfit Rule**: Write what the garment was BEFORE it became what it is now. "Combat suit adapted from a wedding tuxedo" is ten times more distinctive than "black tactical suit."
+3. **Lens Focal Length**: Include a specific focal length (e.g., `shot on a 50mm lens`) when the target model understands camera terminology. See `reference.md` Section 5 for the full focal length guide.
+4. **CG Anime Fallback**: For platforms with strict realism/person filters (即梦, 豆包), use 3D CG anime styles (Section 6 in `reference.md`) to route through different moderation paths.
+
 ## Input
 - **Concept subtype** (e.g., `character`, `entity`, `location`, `prop`)
 - **User description / subject** — free text describing the desired content
@@ -50,17 +57,21 @@ prompts_structure/
 ├── reference.md                 ← Cross-type style reference library
 ├── concept/                     ← Content architectures (WHAT to include)
 │   ├── character/
-│   │   ├── README.md            ← Type description + available model variants
-│   │   └── general.md            ← Prompt structure
+│   │   ├── README.md
+│   │   ├── general.md           ← Gemini/GPT: multi-panel concept sheet
+│   │   └── midjourney.md        ← MJ: single cinematic character still
 │   ├── entity/
 │   │   ├── README.md
-│   │   └── general.md
+│   │   ├── general.md
+│   │   └── midjourney.md
 │   ├── location/
 │   │   ├── README.md
-│   │   └── general.md
+│   │   ├── general.md
+│   │   └── midjourney.md
 │   └── prop/
 │       ├── README.md
-│       └── general.md
+│       ├── general.md
+│       └── midjourney.md
 ├── concept-sheet/               ← Layout architectures (HOW to compose)
 │   ├── character-sheet/
 │   │   ├── README.md
@@ -71,6 +82,14 @@ prompts_structure/
 │   └── location-sheet/
 │       ├── README.md
 │       └── general.md
+├── frame/                       ← NEW: Single cinematic frame
+│   └── midjourney.md            ← MJ: one shot, one emotion, one composition
+├── world_view/                  ← NEW: World-building visual constitution
+│   └── midjourney.md            ← MJ: 9-aspect establishing shots (MOKEAIGC)
+├── storyboard/                  ← NEW: Multi-frame narrative sequence
+│   └── general.md               ← Gemini/GPT: visual script for scenes
+├── sequence/                    ← NEW: Timed multi-shot pre-vis
+│   └── general.md               ← Gemini/GPT + Seedance: video production blueprint
 └── examples/                    ← Detailed session walkthroughs
 ```
 
@@ -87,13 +106,24 @@ prompts_structure/
 - Suggestions are drawn from the "common issues & adjustments" section
 
 ## Currently Supported Types & Model Variants
-- **character** → `general.md` (compatible with Gemini 2.5 Flash Image and GPT)
-- **entity** → `general.md` (compatible with Gemini 2.5 Flash Image and GPT)
-- **location** → `general.md` (compatible with Gemini 2.5 Flash Image and GPT)
-- **prop** → `general.md` (compatible with Gemini 2.5 Flash Image and GPT) — sheet pending
-- **Style reference**: `reference.md`
-- **Classification guide**: `concept-classification.md`
-(Future: Midjourney, DALL-E, Flux variants can be added as new files within each type directory)
+
+### Concept Types (content-driven)
+- **character** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
+- **entity** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
+- **location** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
+- **prop** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
+
+### New Types (outside concept/)
+- **frame** → `midjourney.md` (MJ, single cinematic frame — atomic visual storytelling unit)
+- **world_view** → `midjourney.md` (MJ, 9-aspect world-building establishing shots based on MOKEAIGC framework)
+- **storyboard** → `general.md` (Gemini/GPT, multi-frame narrative sequence — visual script)
+- **sequence** → `general.md` (Gemini/GPT + Seedance, timed multi-shot sequence — video pre-vis blueprint)
+
+### Shared
+- **reference.md** — Cross-type style library (artistic medium, rendering, aesthetics, color palettes, lens focal lengths, CG anime styles)
+- **concept-classification.md** — Decision guide for type boundaries
+
+(Future: DALL-E, Flux, Sora variants can be added as new files within each type directory)
 
 ## Example Sessions
 See `examples/` folder for detailed walkthroughs:

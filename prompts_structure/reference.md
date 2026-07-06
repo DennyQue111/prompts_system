@@ -62,6 +62,48 @@ Currently applies to: Gemini 2.5 Flash Image, GPT image models.
 | `dutch angle, off-kilter`                       | Uneasy, dynamic tension                                 |
 | `overhead flat lay, top-down`                   | Bird's eye, organized composition (great for props)     |
 
+### Lens Focal Length Quick Reference (from MOKEAIGC V9)
+
+When writing prompts for image models that understand lens terminology, include a specific focal length for stronger composition control:
+
+| Focal Length | Visual Characteristic | Best For |
+|-------------|----------------------|----------|
+| `18-24mm` (ultra-wide) | Strong perspective exaggeration, stretched edges, dramatic depth | Epic landscapes, narrow interiors, environment-dominating-subject shots |
+| `28-35mm` (wide) | Environmental storytelling, natural presence, slight perspective | Architecture panoramas, group/migration shots, documentary-style daily life |
+| `40-50mm` (standard) | Near-human-eye, neutral perspective | General narrative shots, single character with environment, balanced mid-shots |
+| `65-85mm` (medium telephoto) | Mild compression, pleasing bokeh, subject separation from background | Portraits, facial close-ups, intimate single-character, shallow-DOF emotional shots |
+| `100-135mm` (telephoto) | Strong compression, very shallow DOF | Distant subject close-ups, compressing giant objects with people, isolation details |
+| `135mm+` (super-telephoto) | Extreme compression and blur | Distant giants pulled close, layered silhouette compression |
+
+**Mapping to concept types (default starting points):**
+
+| Concept Type | Default Focal Length | Rationale |
+|-------------|---------------------|-----------|
+| Character main visual | `50mm` or `85mm` | Natural presence or flattering portrait compression |
+| Character expressions | `85mm` | Tight face shots, soft background separation |
+| Entity (sentient being) | `24-35mm` or `100mm+` | Either sweeping wide for scale, or tight telephoto for detail |
+| Location (environment) | `18-28mm` or `135mm` | Ultra-wide for scale, or super-telephoto for compressed distant features |
+| Prop (object) | `50mm` or `85mm` | Neutral reference or dramatic hero shot |
+
+---
+
+## Section 6: CG & Anime Styles (ComfyUI / 即梦 / 豆包 Compatible)
+
+For platforms with strict realism/person filters (即梦, 豆包), using a clearly non-photorealistic 3D CG or anime style passes different moderation paths:
+
+| Style Keyword | Effect Description | Best For |
+|--------------|-------------------|----------|
+| `3D CG anime cinematic render, GANTZ:O (2016) style, Unreal Engine 5 quality` | Dark sci-fi 3D anime, glossy surfaces, dramatic lighting, cel-shaded faces on detailed 3D models | Dark sci-fi, tactical combat, death game settings |
+| `3D CG anime film, cel-shaded characters, smooth anime skin, raytraced reflections` | Clean CG anime look with subsurface scattering on skin, ambient occlusion | Characters that need to look intentionally "not real" |
+| `Japanese 3D anime movie style, detailed character models, volumetric lighting` | High-end anime film look with depth and atmosphere | Emotional character moments, dramatic lighting scenes |
+| `anime concept art sheet, clean linework, cel shading, flat color blocks` | 2D anime reference sheet aesthetic | Character design sheets, turnarounds |
+| `Studio Orange 3D anime style, dynamic camera, expressive lighting` | Modern 3D anime (Beastars, Land of the Lustrous) with strong cinematography | Action sequences, dramatic character introductions |
+
+**When to use Section 6 over Section 1-2:**
+- The target platform is 即梦 or 豆包 (strict human realism filters)
+- The project direction is intentionally 3D CG anime (like GANTZ:O) rather than photorealistic
+- The user wants to avoid deepfake/escalation flags on Chinese AI image platforms
+
 ---
 
 ## Usage Tips
