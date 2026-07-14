@@ -1,7 +1,7 @@
 ## Description
-Use this architecture when generating an image of a humanoid character with **GPT** — a multi-panel concept design sheet (16:9) presenting full visual range as a video production reference.
+Use this architecture when generating an image of a humanoid character with **GPT** — a multi-panel concept design sheet (16:9).
 
-GPT tends to produce "dirty" images (uncontrolled micro-texture, residual noise, muddy shadows, hidden watermark-like marks). This architecture bakes in anti-noise discipline while preserving the full character concept structure.
+GPT tends to produce "dirty" images (uncontrolled micro-texture, residual noise, muddy shadows). Anti-noise is embedded in word choice, not appended as a long block.
 
 **For Gemini** → use `text_to_image_gemini.md`.
 
@@ -36,23 +36,21 @@ Same as Gemini: every personality trait must be translated into a visible physic
 [Outfit: outer → inner → bottom → shoes. Prototype rule: "combat-adapted [original garment]"] +
 [Accessories & body marks] +
 [Posture] +
-[🧹 GPT Clean-Ready Layer — SEE BELOW] +
 [Layout instruction: 16:9 concept design sheet, clean near-white background, subtle paper texture, thin dark panel dividers, exact grid positions from concept-sheet/character-sheet/gpt.md]
 ```
 
-## 🧹 GPT Anti-Noise Layer (MANDATORY — append to EVERY output prompt)
+## GPT Anti-Noise: Pre-Writing Checklist
 
-### Step 1: Material-Light Definition
-Before writing the prompt, define:
+Define before writing (do NOT output to model):
 - **Main materials**: skin, hair, each garment fabric, each accessory material
 - **Surface response**: matte/satin/rough/wet/reflective — each material's light behavior
 - **Light direction**: main light + color temp + rim light (if any)
 - **Contact shadows**: only at real seams, collars, cuffs, belt line, under chin
 - **Exposure control**: highlights not blown, shadows with readable structure
 
-### Step 2: Detail Word Control — GPT replacements
+## GPT Word Choice Guide
 
-| ❌ Avoid (causes dirty images on GPT) | ✅ Use instead |
+| ❌ Avoid (triggers GPT noise) | ✅ Use in description |
 |---|---|
 | ultra detailed, 8K, hyper detailed | balanced detail |
 | micro detail everywhere | selective fine detail on key surfaces only |
@@ -63,38 +61,33 @@ Before writing the prompt, define:
 | wet glossy | subtle reflections, strict wet/dry boundaries |
 | photorealistic skin texture | natural facial planes, matte skin with soft specular highlights |
 
-### Step 3: Clean Rendering Block (paste verbatim at end of every prompt)
+## Negative Prompt (scene-specific, short)
 
+Tailor ~10-15 terms to the character. Example for a character sheet:
 ```
-clean rendering, balanced detail, realistic detail only,
-natural texture only, controlled material rendering,
-clean gradients, controlled highlights,
-clean blurred background, smooth background tones,
-minimal repetitive patterns.
-
-Avoid: ghost texture, latent artifacts, hidden watermark-like marks,
-repetitive micro-pattern noise, low-contrast residual textures,
-dirty texture buildup, pasted-on texture, muddy shadows,
-noisy bokeh, dirty AO halos, uniform plastic gloss,
+Avoid: ghost texture, latent artifacts, repetitive micro-pattern noise,
+dirty texture buildup, muddy shadows, uniform plastic gloss,
 milky reflections, clipped highlights, crushed blacks,
 waxy skin, dirty pore noise, facial artifact marks.
 ```
 
-### Step 4: If output is already dirty → Clean-slate regenerate
+## If Output Is Already Dirty → Regenerate Fresh
+
 Don't i2i repair a dirty image (amplifies noise). Regenerate with fresh prompt, keeping subject/pose/composition but rebuilding the material-light-detail stack from scratch.
 
-## Key Rules (GPT-extended)
+## Key Rules
 
 1. Personality first — same as Gemini.
 2. Prototype rule — same as Gemini.
 3. Expression contrast — same as Gemini.
 4. Scan for hidden items — same as Gemini.
 5. **Layout reference**: `concept-sheet/character-sheet/gpt.md`
-6. **Every prompt must carry the Clean Rendering Block from Step 3. No exceptions.**
-7. **Never use "ultra detailed", "8K", "hyper detailed", "photorealistic skin texture" in a GPT prompt.**
-8. **Material-light definition is NOT optional — single-most important anti-noise intervention.**
-9. **Background must be explicitly "smooth clean background" — not "studio background" or left unspecified.**
-10. **Read `meta/gpt-image-hygiene.md` for full methodology reference.**
+6. **Anti-noise is in word choice, not an appended block** — use the word choice table while writing. Negative prompt is short and scene-specific.
+7. **Never use "ultra detailed", "8K", "hyper detailed", "photorealistic skin texture"** — these trigger dirty rendering on GPT.
+8. **Material-light definition is NOT optional** — single-most important pre-writing step.
+9. **Background must be explicitly "smooth clean background"** — not "studio background" or left unspecified.
+10. **Check for repetition before output** — delete anything that says the same thing twice.
+11. Read `meta/gpt-image-hygiene.md` for full methodology.
 
 ## Scoring Rubric (same as Gemini)
 

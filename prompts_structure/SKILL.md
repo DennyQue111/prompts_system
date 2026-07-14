@@ -53,7 +53,7 @@ Each type's `README.md` describes the type and lists available model variants. I
    - Obtain: layout grid, panel positions, model-specific style suffix
 8. If the sheet file does not yet exist (e.g., prop-sheet), use the content file's own structure directly.
 9. Optionally consult `reference.md` for style snippets.
-10. **If GPT: read `meta/gpt-image-hygiene.md`** for the anti-noise Clean Rendering Block and Negative Prompt Block before writing the prompt.
+10. **If GPT: read `meta/gpt-image-hygiene.md`** for anti-noise word choice and scene-specific negative terms. Do NOT copy methodology blocks — clean language lives in panel description word choice, not appended text.
 11. Combine the content formula and sheet layout into the final prompt.
 12. If the user supplied an existing prompt, evaluate it against the architecture's scoring rubric.
 13. Return the result to the user.

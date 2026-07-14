@@ -19,67 +19,59 @@ When analyzing the reference image, explicitly flag:
 - **Gradient artifacts**: sky or fog areas with visible step artifacts
 - **Clean zones**: areas where detail is appropriately controlled — these are the model for GPT output
 
-### Output Prompt (Step 5) — append GPT Clean-Render Layer:
+### Output Prompt (Step 5)
+
+Reference-anchored structure (NOT pure text-to-image from scratch):
 
 ```
-[style preservation keywords] +
+Based on the attached reference image — [brief scene ID: "a night suburban ring road in heavy rain"] — generate a [project]. EXTEND this location from the reference, not create from scratch.
 
-[Layout instruction: 16:9 location concept design sheet, clean near-white background...] +
+Reference content: [key features observed in reference — what's in foreground/midground/background, light sources, signs with garbled text to fix].
 
-MAIN VISUAL — [establishing shot, content from gemini workflow] +
+[Layout instruction] +
 
-ALTERNATE ANGLE — [from gemini workflow] +
+[Panel 1: MAIN VISUAL — "reproduce the reference image exactly" + text fixes + spatial markers] +
+[Panel 2-5: deduced from reference spatial logic] +
+[BOTTOM ROW: macro details + color palette extracted from reference] +
 
-TOP-DOWN VIEW — [from gemini workflow] +
+Style: [keywords extracted from reference — model, lighting, atmosphere — 1 line only] +
 
-MID-DISTANCE SHOTS — [from gemini workflow] +
-
-BOTTOM ROW — [from gemini workflow] +
-
-🧹 GPT CLEAN-RENDER LAYER:
-Preserve the reference image's creative style (color palette, light ratio, atmosphere, camera language, material palette) but FILTER OUT:
-— Reference's dark-band noise and shadow artifacts
-— Compression grain in gradient regions
-— Excessive micro-texture on distant surfaces
-— Reference's background noise pattern
-
-Apply controlled detail:
-— Architectural surfaces: texture only on near-plane materials, not distant facades
-— Sky/atmosphere: smooth clean gradients, no step artifacts
-— Ground/wet surfaces: subtle reflections with clean boundaries, not full mirror noise
-— Shadows: smooth dark tones with readable detail, not muddy crushed blacks
-
-clean rendering, balanced detail, realistic detail only,
-natural texture only, controlled material rendering,
-clean gradients, controlled highlights,
-smooth background tones, clean depth of field,
-smooth dark tones with readable shadow detail,
-minimal repetitive patterns.
-
-Avoid: ghost texture, latent artifacts, hidden watermark-like marks,
-repetitive micro-pattern noise, low-contrast residual textures,
-dirty texture buildup, pasted-on texture, muddy shadows,
-noisy bokeh, dirty AO halos, milky reflections,
-clipped highlights, crushed blacks, dark-band noise,
-sky gradient artifacts, fog noise patterns,
-reference artifact bleed, compression grain transfer.
+Avoid: [~10-15 scene-relevant terms only, not full methodology dump]
 ```
 
-### Detail Word Control in Output Prompt
+### Word Choice Guide (embed in panel descriptions, don't append as block)
 
-| ❌ Avoid | ✅ Use |
+| ❌ Avoid | ✅ Use in description |
 |---|---|
 | ultra detailed environment | balanced spatial detail |
-| micro texture on all surfaces | selective texture on architectural focus points |
+| micro texture on all surfaces | selective texture on near-plane architectural focus |
 | highly textured rendering | controlled material rendering |
 | atmospheric cinematic bokeh | clean depth of field |
 | dark atmospheric scene | smooth dark tones, clean shadow falloff |
+| mirror-like wet reflections | subtle controlled reflections with clean boundaries |
+| chaotic rain particle spray | directional linear rain streaks |
+| neon bloom / glow overdrive | soft clean glow halos centered on source |
 
-## Key Rules (GPT-extended)
+### Scene-Specific Negative Prompt (end of prompt, short)
+
+Tailored to scene content — never copy the full generic list. For a rainy night urban scene:
+```
+Avoid: garbled text, pseudo-characters, compression grain, dark-band noise,
+muddy shadows, clipped highlights, crushed blacks, ghost texture,
+dirty texture buildup, over-detailed distant facades,
+neon glow overdrive, mirror-like reflections.
+```
+
+For other scene types, curate relevant terms from `meta/gpt-image-hygiene.md`.
+
+## Key Rules
 
 1. Use gemini.md for Steps 1-4 — identical workflow.
-2. In Step 5, always append the GPT Clean-Render Layer.
-3. **Never transfer reference image noise** — compression artifacts, banding, micro-pattern noise are pollution, not style.
-4. **Reference background texture ≠ style** — extract only color palette, light ratio, and atmosphere from the reference background, not its noise profile.
-5. **Wet/dark scenes are highest risk** — add "smooth dark tones, subtle reflections with clean boundaries" for any night/rain/fog location.
-6. Read `meta/gpt-image-hygiene.md` for full methodology.
+2. **Prompts must reference the image**: start with "Based on the attached reference image..."
+3. **Clean language is in the word choice, not an appended block** — use the word choice table above while writing each panel description. The proof is in the writing, not the disclaimer.
+4. **Negative prompt is scene-specific and short**: ~10-15 terms relevant to actual scene content. Never dump the full generic methodology.
+5. **Never transfer reference image noise** — compression artifacts, banding, micro-pattern noise are pollution, not style.
+6. **Reference background texture ≠ style** — extract only color palette, light ratio, and atmosphere from the reference background, not its noise profile.
+7. **Wet/dark scenes are highest risk** — use "smooth dark tones, subtle reflections with clean boundaries" in descriptions.
+8. **Check for repetition before output** — every sentence should carry new information.
+9. Read `meta/gpt-image-hygiene.md` for full methodology.
