@@ -42,16 +42,21 @@ Each type's `README.md` describes the type and lists available model variants. I
 2. **Detect i2i vs t2i**: If the user uploaded a reference image and wants to extract/reproduce content from it, route to `image_to_image_{type}.md` instead of the text-to-image variant. Skip to step 4 with the i2i file.
 3. **If the subtype is ambiguous**, consult `concept-classification.md` to determine the correct architecture (character vs entity vs prop vs location).
 4. Read the type's README at `concept/{type}/README.md` to understand what this type is and to find the available model variants.
-5. Read the content architecture at the appropriate variant file identified in step 4 (for t2i: `general.md` or model-specific variant; for i2i: `image_to_image_general.md` or `image_to_image_{model}.md`):
-   - Obtain: what panels are needed, content formula, scoring rubric
+5. Read the content architecture at the appropriate variant file identified in step 4:
+   - Gemini → `gemini.md` (or `text_to_image_gemini.md` / `image_to_image_gemini.md` for character/location)
+   - GPT → `gpt.md` (or `text_to_image_gpt.md` / `image_to_image_gpt.md` for character/location)
+   - Midjourney → `midjourney.md` (or `text_to_image_midjourney.md` for character)
+   - If user didn't specify → default to `gemini.md`
+   - This file defines the **content formula** — WHAT the image must include
 6. **Follow the "Image Structure" section** at the bottom — it references the corresponding sheet file.
-7. Read the sheet file at `concept-sheet/{type}-sheet/general.md` (or appropriate variant):
-   - Obtain: layout grid, panel positions, how to write the combined layout + content prompt
+7. Read the sheet file at `concept-sheet/{type}-sheet/` matching the model (`gemini.md` or `gpt.md`):
+   - Obtain: layout grid, panel positions, model-specific style suffix
 8. If the sheet file does not yet exist (e.g., prop-sheet), use the content file's own structure directly.
 9. Optionally consult `reference.md` for style snippets.
-10. Combine the content formula and sheet layout into the final prompt.
-11. If the user supplied an existing prompt, evaluate it against the architecture's scoring rubric.
-12. Return the result to the user.
+10. **If GPT: read `meta/gpt-image-hygiene.md`** for the anti-noise Clean Rendering Block and Negative Prompt Block before writing the prompt.
+11. Combine the content formula and sheet layout into the final prompt.
+12. If the user supplied an existing prompt, evaluate it against the architecture's scoring rubric.
+13. Return the result to the user.
 
 ## Directory Structure
 ```
@@ -132,22 +137,23 @@ prompts_structure/
 ## Currently Supported Types & Model Variants
 
 ### Concept Types (content-driven)
-- **character** → `text_to_image_general.md` (Gemini/GPT, multi-panel sheet), `text_to_image_midjourney.md` (MJ, single cinematic still), `image_to_image_general.md` (MJ reference → Gemini prompt, extract + reproduce)
-- **entity** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
-- **location** → `text_to_image_general.md` (Gemini/GPT, multi-panel sheet), `image_to_image_general.md` (MJ reference → Gemini prompt, extract + reproduce), `midjourney.md` (MJ, single atmospheric establishing shot)
-- **prop** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
+- **character** → `text_to_image_gemini.md` (Gemini, multi-panel sheet), `text_to_image_gpt.md` (GPT, multi-panel sheet with anti-noise), `image_to_image_gemini.md` (MJ ref → Gemini), `image_to_image_gpt.md` (MJ ref → GPT with anti-noise), `text_to_image_midjourney.md` (MJ)
+- **location** → `text_to_image_gemini.md` (Gemini, multi-panel sheet), `text_to_image_gpt.md` (GPT, multi-panel sheet with anti-noise), `image_to_image_gemini.md` (MJ ref → Gemini), `image_to_image_gpt.md` (MJ ref → GPT with anti-noise), `midjourney.md` (MJ)
+- **entity** → `gemini.md` (Gemini, multi-panel sheet), `gpt.md` (GPT, multi-panel sheet with anti-noise), `midjourney.md` (MJ)
+- **prop** → `gemini.md` (Gemini), `gpt.md` (GPT with anti-noise), `midjourney.md` (MJ)
 
 ### New Types (outside concept/)
-- **frame** → `general.md` (Gemini/GPT, single cinematic frame — frameRef / look reference), `midjourney.md` (MJ, single cinematic frame with --params), `style_reference.md` (frame-level style reference architecture)
-- **keyFrames** → `general.md` (Gemini/GPT, 3×3 grid single-image anchor for visual consistency), `examples.md`
+- **frame** → `gemini.md` (Gemini, single cinematic frame — frameRef / look reference), `gpt.md` (GPT, single cinematic frame with anti-noise), `midjourney.md` (MJ, single cinematic frame with --params), `style_reference.md` (frame-level style reference architecture)
+- **keyFrames** → `gemini.md` (Gemini, 3×3 grid single-image anchor for visual consistency), `gpt.md` (GPT, 3×3 grid with anti-noise), `examples.md`
 - **world_view** → `midjourney_animation.md` (MJ, 9-aspect world-building, animation style), `midjourney_realistic.md` (MJ, 9-aspect world-building, realistic style)
-- **storyboard** → `general.md` (Gemini/GPT, multi-frame narrative sequence), `action.md` (action-heavy scenes), `dialogue.md` (dialogue-heavy scenes), `vfx.md` (VFX-heavy scenes)
-- **sequence** → `general.md` (Gemini/GPT + Seedance, timed multi-shot sequence — video pre-vis blueprint), `examples.md`
+- **storyboard** → `gemini.md` (Gemini, multi-frame narrative sequence), `gpt.md` (GPT, multi-frame with anti-noise), `action.md` (action-heavy scenes, model-agnostic), `dialogue.md` (dialogue-heavy scenes, model-agnostic), `vfx.md` (VFX-heavy scenes, model-agnostic)
+- **sequence** → `gemini.md` (Gemini + Seedance, timed multi-shot sequence — video pre-vis blueprint), `gpt.md` (GPT, timed multi-shot with anti-noise), `examples.md`
 
 ### Shared
 - **reference.md** — Cross-type style library (artistic medium, rendering, aesthetics, color palettes, lens focal lengths, CG anime styles)
 - **concept-classification.md** — Decision guide for type boundaries
 - **meta/prompt-hygiene.md** — Prompt hygiene checklist and best practices (apply before final delivery)
+- **meta/gpt-image-hygiene.md** — GPT anti-noise methodology (July 2026, mandatory read before writing any GPT prompt)
 
 (Future: DALL-E, Flux, Sora variants can be added as new files within each type directory)
 

@@ -110,7 +110,7 @@ SHOT_ID label in small light gray or white text at the top-left corner of each c
 
 Appended as the final block after all per-frame descriptions. Unlike storyboard's B&W suffix, keyFrames use a full-color CG anime style declaration:
 
-**Default for 《复生协议》:**
+**Default (CG Anime / Dark Sci-Fi):**
 `3D CG anime cinematic render, GANTZ:O (2016) style, Unreal Engine 5 quality, cel-shaded characters with detailed 3D face models, dark sci-fi aesthetic, Japanese CG anime film, dramatic cinematic lighting, glossy wet surfaces with raytraced reflections, 16:9 aspect ratio, high detail, cinematic quality`
 
 > Swap per project. Always verify against `frame/style_reference.md`.

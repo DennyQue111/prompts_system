@@ -82,6 +82,23 @@ _横切规则：撰写 concept / storyboard / frame / shot 四种产出类型时
 
 ---
 
+## 规则 7：禁止叙事元数据
+
+图像/视频模型不需要知道项目内部的组织信息。任何仅对人类有意义的叙事标签都属于污染。
+
+❌ `SCENE 01 — SUBURBAN RING ROAD`
+❌ `复生协议 · 第一幕`
+❌ `Character concept sheet for Xiao Wu`
+❌ `This is the establishing shot for Sequence 3`
+❌ `属于《复生协议》世界观`
+
+✅ 直接描述画面内容，不加场号、项目名、剧本背景、角色隶属关系等元数据：
+`A wide four-lane elevated ring road at midnight, cutting through the outer edge of a Chinese city...`
+
+> **例外**：多面板合成图的面板位置标签保留（`TOP-LEFT — MAIN VISUAL`、`BOTTOM ROW — COLOR PALETTE` 等），因为这是模型渲染布局所需的功能性指令，不是叙事元数据。
+
+---
+
 ## 通用负面限制（唯一允许的 forbid list）
 
 以下为**所有项目通用**的失败类型——不涉及任何具体角色/场景/道具，可以放入 forbid list：

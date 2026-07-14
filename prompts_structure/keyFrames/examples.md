@@ -15,7 +15,7 @@ Full 9-grid keyframe prompt for CAD_0010–0090, ready to feed to Gemini.
 Entire scene is rainy night: wet asphalt with reflective sheen, high air humidity creating soft halos around distant light sources. Cool dark tones dominate, warm orange sodium streetlights are the only warm accent in the frame. Starting from CAD_0070, Seven's cold blue arc light is introduced.
 
 ### Negative Constraints
-No second person visible. No daylight or clear weather. No cyberpunk neon. No non-project character designs. No American 2D animation style. No photorealistic live-action style. Xiao Wu's outfit is consistent across all frames: dark jacket unzipped to chest, visible light crew-neck T-shirt underneath.
+No second person visible. No daylight or clear weather. No cyberpunk neon. No characters other than Xiao Wu. No American 2D animation style. No photorealistic live-action style. Xiao Wu's outfit is consistent across all frames: dark jacket unzipped to chest, visible light crew-neck T-shirt underneath.
 
 ---
 
