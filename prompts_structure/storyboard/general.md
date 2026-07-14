@@ -1,16 +1,16 @@
 ## Description
-Use this architecture when generating a **storyboard for Gemini 2.5 Flash / GPT image models** — a single 16:9 composite image containing multiple sequential frames that show narrative progression. This is the visual script: key story moments arranged in reading order to communicate the scene's flow before video production begins.
+Use this architecture when generating a storyboard — a single 16:9 composite image containing 4–8 sequential frames that show narrative progression. This is the visual script: key moments arranged in reading order to communicate a scene's flow before video production.
 
-Unlike Midjourney `frame` (single shot), a storyboard shows multiple frames in one image. The model must render consistent characters and environments across all frames.
+**⚠️ Storyboards are BLACK AND WHITE LINE ART.** They serve as structural reference only: camera position, character blocking, scene layout, and composition. Color is deliberately avoided to prevent polluting the final video model's color/style decisions — those come from separate Frame references (see `frame/` skills).
 
-## Core Principles
+**Subtype variants** (load for specialized scene types):
+- `action.md` — fight choreography, fast cuts, impact frames
+- `dialogue.md` — reaction shots, eye-line continuity, emotional beats
+- `vfx.md` — particle effects, energy trails, transformation sequences
 
-1. **Narrative progression, not random stills.** Each frame must advance the story — an action, a reaction, a reveal, a cut. The sequence should read like a comic strip of the scene.
-2. **Consistency over perfection.** The top priority is that characters, outfits, and environments remain the SAME across all frames. Individual frame quality is secondary to consistency.
-3. **Clear reading order.** Frames arranged left→right, top→bottom (comic/manga style) or numbered. The viewer must immediately understand the sequence.
-4. **Key moments only.** A storyboard is NOT every shot of the scene. It's 4–8 critical beats that define the emotional arc.
+If the scene type isn't specified, use this general file as fallback.
 
-## Layout Grid (16:9)
+## Layout Grid
 
 ```
 ┌──────────────┬──────────────┬──────────────┐
@@ -21,89 +21,118 @@ Unlike Midjourney `frame` (single shot), a storyboard shows multiple frames in o
 ├──────────────┼──────────────┼──────────────┤
 │              │              │              │
 │   FRAME 4    │   FRAME 5    │   FRAME 6    │
-│   (Turning)  │   (Climax)   │  (Aftermath) │
+│   (Turning)  │   (Climax)   │  (Aftermath)  │
 │              │              │              │
 └──────────────┴──────────────┴──────────────┘
 ```
 
-- Standard: 6 frames (3×2 grid)
-- Short scenes: 4 frames (2×2)
-- Complex scenes: 8 frames (4×2)
-- Each frame labeled with number and shot type
-- Thin borders between frames, consistent background color (dark or clean white)
+- Default: 6 frames (3×2). Short scenes: 4 frames (2×2). Complex scenes: 8 frames (4×2).
+- Frames read left→right, top→bottom like a comic/manga page.
+- Each frame labeled: `FRAME N (SHOT TYPE — BEAT NAME)`
+- Thin black borders between frames. Clean white background.
 
-## Prompt Content Formula
+## Prompt Composition
 
 ```
-[Layout instruction: 16:9 storyboard, grid size, frame count] +
-[Scene context: what scene this is, time/location, emotional arc] +
-[Character consistency note: same characters in all frames, consistent outfits] +
+[Layout: 16:9 storyboard, N×M grid, N frames, labeled, thin black borders, clean white background] +
+[Scene context: scene number, location, time, emotional arc (tension→action→resolution)] +
+[Character anchor: "<Name>, <outfit>, <build> — consistent across ALL frames"] +
 
-[FRAME 1: (label) — shot type + what happens + camera] +
-[FRAME 2: (label) — shot type + what happens + camera] +
-[FRAME 3: (label) — shot type + what happens + camera] +
-[FRAME 4: (label) — shot type + what happens + camera] +
-[FRAME 5: (label) — shot type + what happens + camera] +
-[FRAME 6: (label) — shot type + what happens + camera] +
+Frame 1: (SHOT TYPE — BEAT) <subject> + <action> + <key detail>. Camera: <focal length>, <angle>, <distance>.
+Frame 2: (SHOT TYPE — BEAT) <subject> + <action> + <key detail>. Camera: <focal length>, <angle>, <distance>.
+Frame 3: (SHOT TYPE — BEAT) <subject> + <action> + <key detail>. Camera: <focal length>, <angle>, <distance>.
+...
+Frame N: (SHOT TYPE — BEAT) <subject> + <action> + <key detail>. Camera: <focal length>, <angle>, <distance>.
 
 [Style suffix]
 ```
 
-### Content Components
+### Frame Micro-Format
+```
+FRAME N (SHOT TYPE — BEAT NAME):
+<Subject> + <Action/moment — visual evidence only, no interpretation> + <Key visual detail>.
+Camera: <focal length>, <angle>, <distance>. Light: <key light source position, shadow quality>.
+```
+2–3 sentences per frame max. Every word must describe something visible on screen.
+**No**: internal thoughts, emotional interpretations, narrative significance, what the moment "means."
+**Yes**: facial muscle positions, object placements, light angles, shadow edges, what's in frame.
 
-| Component | Description | Key Info |
-|-----------|-------------|----------|
-| **Layout instruction** | Grid spec + frame count | `16:9 storyboard, 3×2 grid, 6 frames with thin borders, dark background, each frame labeled with shot number and type` |
-| **Scene context** | What scene, location, time, emotional arc | Scene number, location name, time of day, the 3-act emotional shape (tension → action → resolution) |
-| **Character consistency** | List who appears in which frames | "All frames feature the same [character name] in [outfit description]" — this is critical for model consistency |
-| **Each frame** | Number + label + shot type + action + camera | Format: `FRAME 1 (WIDE — ESTABLISHING): [description]. Camera: 24mm, high angle.` |
-| **Style suffix** | Rendering style | `cinematic storyboard, film production storyboard, consistent character design across frames` |
+### Story Beat Pattern
+Every scene follows a 4-act pulse: **Setup → Action → Reaction → Shift**. Even in a 6-frame grid, these four beats must be present. A scene that's all action or all reaction doesn't read as a story.
 
-## Frame Description Format
+## Camera & Lens Narrative
 
-Each frame follows this micro-format:
+Every framing decision communicates emotion. These are storytelling tools, not aesthetics.
+
+### Angle → Attitude
+
+| Angle | Story Effect | Use When |
+|-------|-------------|----------|
+| Low angle | Power, authority, threat | Villain intro, dominance, intimidation |
+| High angle | Vulnerability, weakness, isolation | Defeat, loneliness, being watched |
+| Dutch angle | Psychological instability, disorientation | Mental breakdown, chaos, vertigo |
+| Eye level | Objectivity, neutrality, intimacy | Dialogue, connection, audience POV |
+
+### Focal Length → Psychological Distance
+
+| Focal Length | Story Effect | Use When |
+|-------------|-------------|----------|
+| Wide (24–35mm) | Environmental pressure, scale, even comedy | Fight scenes, crowds, establishing |
+| Standard (50mm) | Objectivity, human-eye realism | Neutral observation, dialogue base |
+| Telephoto (85–200mm) | Isolation, intimacy, voyeurism | Private moments, emotional close-ups |
+| Macro | Obsession, detail, fixation | Key props, micro-expressions, hands |
+
+### Light Direction → Mood (B&W)
+
+In B&W storyboards, describe light *direction* and *shadow quality*, not color.
+
+| Light Quality | Story Effect | Use When |
+|--------------|-------------|----------|
+| Hard single-source (deep shadows) | Drama, interrogation, danger | Conflict, reveal, tension |
+| Soft diffused (weak shadows) | Calm, intimacy, safety | Dialogue, quiet moments, hope |
+| Rim / backlight (silhouette) | Mystery, anonymity, revelation | Character intro, the unknown |
+| Side light (half-lit face) | Duality, internal conflict | Moral ambiguity, hesitation |
+| Top light (eye sockets dark) | Oppression, judgment, dread | Power dynamics, threat |
+| Low light (reversed shadows) | Unnatural, wrong, uncanny | Horror, distortion, unreality |
+
+### Foreground → Suspense
+
+- **Blocked subject** (bars, windows, leaves framing shot) = voyeurism, trapped, watched
+- **Object between characters** = emotional barrier. Remove for intimacy frames.
+- **Clean foreground → deep background** = spatial clarity, objectivity
+
+## Style Suffix
+
+**Default (B&W line art — use this 99% of the time):**
+
+`black and white line art storyboard, clean ink drawing style, manga storyboard panel layout, no grayscale shading — pure high-contrast linework, no color of any kind, solid white background, professional film production storyboard`
+
+**Rare alternative — colored reference storyboard (only if explicitly requested):**
+
+`cinematic anime storyboard, GANTZ:O style, cel-shaded consistent character design, dark sci-fi aesthetic, film production storyboard`
+
+## Key Rules
+
+1. **NO COLOR. Storyboards are B&W line art.** Color in a storyboard pollutes the video model's color decisions. Color/style/lighting reference comes from Frame generation (separate skill). Use ink lines only — hatch marks and line weight for shading, never grayscale fills.
+2. **VISUAL ONLY — NO NARRATIVE COMMENTARY.** Describe what the camera sees — not what it "means." The AI draws pixels, not subtext. "Eyes wide, pupils dilated, mouth open" renders. "The moment between seeing and impact, stretched into stillness" does not. If a sentence requires the model to *understand* the story to draw it, delete it. Save director's commentary for the script and shot breakdown.
+3. **Character consistency is the #1 problem.** Describe the same character IDENTICALLY in every frame (same outfit, hair, build). Add "consistent character design across all frames" to the style suffix. Use outfit and hair as visual anchors that don't change.
+4. **Frame 1 sets the baseline.** Spend the most care here — it establishes the composition language and spatial logic. All subsequent frames match this reference.
+5. **Vary shot types.** No two adjacent frames at the same distance. Pattern: Wide → Medium → Close → Wide → Medium → Close. The emotional beat dictates the shot — close-ups for internal moments, wides for scale and isolation.
+6. **Pair action with reaction.** Every action frame needs a reaction frame within the next 1–2 panels. Action → reaction is how stories breathe.
+7. **Light is described by direction and shadow, not color.** "Light from frame left, hard shadows across face" — not "cold blue light."
+8. **2–3 sentences per frame.** Enough to render, not so much the model forgets what it just drew. If a frame needs more explanation, split it into two frames.
+
+### Rule 2: Visual-Only — Examples
 
 ```
-FRAME [N] ([SHOT TYPE] — [BEAT NAME]):
-[Subject] + [Action/moment] + [Key visual detail] +
-Camera: [focal length], [angle]. Lighting: [key light description].
+❌ "This is a glance of longing, of 'finally.' He is heading somewhere important."
+✅ "Eyes shift downward toward the passenger seat. Smile quiet, eyelids relaxed, brow smooth."
+
+❌ "There is no stopping, no swerving — the light is the threat."
+✅ "Truck headlights flood the windshield. Right side of face washed white, left side in deep shadow."
+
+❌ "Seven has come for the ring. Seven has come for Xiao Wu."
+✅ "A floating sphere descends from the portal. The ring glints in the wreckage below."
 ```
 
-### Example:
-
-```
-FRAME 1 (WIDE — ARRIVAL):
-A lone figure stands at the edge of a rain-slicked rooftop, back to camera,
-cold blue emergency lights catching the rain on their tactical suit.
-Camera: 24mm, eye-level from behind. Lighting: single cold blue source from above-right.
-
-FRAME 2 (MCU — RECOGNITION):
-Same figure turns, face half-lit by blue light — a wedding ring glimmers on their
-finger for a split second before fading. Expression shifts from blank to pained recognition.
-Camera: 85mm, eye-level. Lighting: ring glow adds warm accent to cold blue base.
-```
-
-## Usage Notes
-- **Character consistency is the hardest problem.** Gemini/GPT image models struggle to keep the same face across frames. Mitigation: (1) describe the character identically in every frame, (2) use consistent outfit/hair as anchor points, (3) add "consistent character design across all frames" to the style suffix.
-- **Label every frame.** Numbers + shot types help the model understand sequence logic.
-- **2–3 sentences per frame max.** The model needs enough detail to render, but too much text causes drift.
-- **Lighting continuity matters.** If the scene starts in cold blue, it should stay in cold blue unless a deliberate lighting change is a story beat.
-- **The first frame sets the visual baseline.** Spend extra care on Frame 1 — it establishes the look that all subsequent frames should match.
-
-## Scoring Rubric
-
-| Dimension | Weight | Description |
-|-----------|--------|-------------|
-| **Narrative clarity** | 1.2 | Does the sequence tell a clear story? Can a viewer follow without context? |
-| **Character consistency** | 1.5 | Do characters look the same across all frames? (This is weighted highest — it's the hardest) |
-| **Shot variety** | 0.8 | Are there different shot types (wide/medium/close) that serve the narrative? |
-| **Emotional arc** | 1.0 | Do the frames trace a clear emotional shape (tension → action → release)? |
-| **Lighting continuity** | 0.8 | Does light temperature and direction remain consistent across frames? |
-
-Total score = (sum of weighted scores) / (sum of weights) → 0–10.
-
-## Common Issues
-- **Face drift between frames:** Most common failure mode → add more character-anchor detail (hair, outfit, build) and "consistent character design" to style.
-- **Static camera:** All frames at same distance → vary shot types intentionally (wide → medium → close-up → wide).
-- **Missing emotional beat:** Frames show action but no reaction → always pair an action frame with a reaction frame.
-- **Style inconsistency:** Frames look like different movies → unify lighting and color temperature description across all frames.
+**Litmus test:** Can a person who has never read the script draw this frame from the description alone? If the description references emotions, intentions, or narrative significance that aren't visible on screen → rewrite it as visual evidence.

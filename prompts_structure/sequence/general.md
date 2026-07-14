@@ -1,150 +1,144 @@
-## Description
-Use this architecture when generating a **multi-shot sequence prompt for Gemini/GPT image models** — a timed sequence of frames designed to feed directly into a video generation model (e.g., Seedance). Each shot includes not just the visual frame but timing, camera movement, and transition instructions.
+# Sequence · 视频生成镜头序列
 
-Unlike `storyboard/general.md` (key moments only), a sequence covers every shot of a scene with precise timing — this is the pre-visualization blueprint for video production.
+## 是什么
 
-## Core Principles
+Sequence 是**视频模型直出的镜头描述序列**。它的职责是告诉视频模型（即梦、Seedance 等）每一个镜头应该怎么动、怎么演、什么节奏。
 
-1. **Every shot has a duration.** A sequence is a timeline, not just a series of images. Each shot's length determines pacing — shorter shots = tension/action, longer shots = contemplation/emotion.
-2. **Camera movement is the video dimension.** Static frames describe composition; sequences describe how the camera MOVES through that composition (pan, dolly, rack focus, handheld).
-3. **Transitions connect shots.** How one shot flows into the next (cut, dissolve, match cut, smash cut) is as important as the shots themselves.
-4. **Seedance compatibility.** Keep shot durations realistic (2–8 seconds), avoid impossible camera moves, and ensure visual continuity between consecutive shots.
+Sequence 绑定你给的参考图，每次生成前先描述参考图结构，再逐镜写提示词。
 
-## Sequence Structure
+---
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  SCENE HEADER                                           │
-│  [Scene #] — [Location] — [Time of Day] — [Duration]   │
-├─────────────────────────────────────────────────────────┤
-│  SHOT 1  │  SHOT 2  │  SHOT 3  │  SHOT 4  │  SHOT 5   │
-│  00:00   │  00:03   │  00:06   │  00:10   │  00:14    │
-│  → 3s    │  → 3s    │  → 4s    │  → 4s    │  → 4s     │
-│  [type]  │  [type]  │  [type]  │  [type]  │  [type]   │
-├──────────┴──────────┴──────────┴──────────┴───────────┤
-│  TOTAL DURATION: 18s                                    │
-└─────────────────────────────────────────────────────────┘
-```
+## 核心原则
 
-Standard sequence: 10–30 seconds total, 3–8 shots. This is the sweet spot for Seedance — long enough for narrative, short enough for consistency.
+1. **运镜是灵魂。** 视频区别于静帧的本质是"怎么动"——固定、缓推、横摇、手持跟拍、升降。每一个镜头都要明确选择。
+2. **动作是内容。** 镜头里发生了什么——谁动了、什么东西变了、持续多久。告诉模型"演什么"。
+3. **有人就写情绪。** 画面中能看清人物时，加情绪关键词帮助模型理解表演调性；无人就写 `—`。
+4. **光影变化单独写。** 光线从头到尾不变就写"持续不变"；有变化就描述（如"路灯从后方划过"）。
+5. **参考图说清用途就不再重复。** 前面写清楚每张图管什么后，画面内容直接描述画面本身，不每镜写"基于 Image X"。
 
-## Prompt Content Formula
+---
+
+## 输入结构
+
+参考图描述块，用 `@image` 格式。每张图一行说清：是什么 + 管什么 + 不管什么。不需要独立的关联表格或边界段落。
 
 ```
-[Scene header: number, location, time, total duration] +
-[Character consistency note] +
+## 参考图
 
-[SHOT 1: duration + shot type + visual + camera movement + transition to next] +
-[SHOT 2: duration + shot type + visual + camera movement + transition to next] +
-[SHOT 3: duration + shot type + visual + camera movement + transition to next] +
-[...repeat for all shots...] +
+@image1 [名称]概念设计图——[管什么]。仅用于[边界范围]，不用于[边界外]。
 
-[Style suffix + video generation notes]
+@image2 [名称]概念设计图——[管什么]。仅用于[边界范围]，不用于[边界外]。
+
+@image3 keyFrames 合成图——[几个镜头]的关键帧拼接。用于参考机位构图和光影色调。[如有风格偏差以@image1 为准]。
 ```
 
-### Content Components
+**关于 keyFrames 合成图：**
+- Gemini 生成的 keyFrames 图上自带镜头号标签（如 CAD_0010），视频模型能识别
+- **不需要在 prompt 里描述每个镜头在合成图中的格子位置**——让模型自己按镜头号匹配
+- 合成图的拼接方式由用户按时长需求决定（不固定），Sky 不预判排列方式
 
-| Component | Description | Key Info |
-|-----------|-------------|----------|
-| **Scene header** | Scene number, location, time, duration | `SCENE 01 — Rooftop Awakening — Night/Rain — 18s total` |
-| **Character consistency** | Who's in the scene, their outfit, any state changes | "Protagonist wears black tactical suit (adapted from wedding tuxedo), rain-soaked throughout" |
-| **Shot duration** | How long the shot lasts (seconds) | Action: 2–3s. Dialogue/reaction: 3–5s. Establishing: 5–8s. Climax: 2–4s quick cuts |
-| **Shot type** | Wide/medium/close-up + camera movement | "WIDE, slow dolly forward" or "MCU, handheld slight shake" |
-| **Visual description** | What the camera sees during this shot | Include light source, key visual element, any character action |
-| **Camera movement** | How the camera moves during the shot | Static, push in, pull out, dolly L→R, pan up, handheld, rack focus |
-| **Transition** | How this shot connects to the next | Cut (default), dissolve (time passage), match cut (visual connection), smash cut (sudden contrast) |
-| **Style suffix** | Video-oriented rendering | `cinematic video sequence, consistent character across shots, film production pre-visualization` |
+> **完整示例见 `examples.md`**。
 
-## Shot Duration Guide
+---
 
-| Shot Purpose | Recommended Duration | Rationale |
-|-------------|---------------------|-----------|
-| Establishing shot | 5–8s | Viewer needs time to read the environment |
-| Character introduction | 4–6s | First impression of a character |
-| Dialogue / reaction | 3–5s | Natural conversation rhythm |
-| Action beat | 2–3s | Quick cuts create tension |
-| Climax / reveal | 3–5s | Let the moment land |
-| Aftermath / stillness | 5–8s | Emotional processing time |
-| Quick cut sequence | 1–2s each | Rapid-fire tension (max 4 in a row) |
+## 全片设定（可选）
 
-## Camera Movement Reference
-
-| Movement | Description | Emotional Function |
-|----------|-------------|-------------------|
-| Static | Camera doesn't move | Observation, stillness, tension |
-| Push in (dolly forward) | Camera moves toward subject | Intensifying emotion, realization |
-| Pull out (dolly back) | Camera moves away from subject | Isolation, abandonment, scale reveal |
-| Pan left/right | Camera rotates horizontally | Following action, revealing environment |
-| Tilt up/down | Camera rotates vertically | Power (up) or vulnerability (down) |
-| Handheld | Slight shake, organic movement | Urgency, documentary realism, chaos |
-| Rack focus | Focus shifts from foreground to background (or vice versa) | Revelation, connection between subjects |
-| Crane up | Camera rises | Transcendence, overview, departure |
-
-## Transition Reference
-
-| Transition | How It Works | When to Use |
-|-----------|-------------|-------------|
-| Cut | Instant switch to next shot | Default. Most transitions |
-| Dissolve | Gradual fade between shots | Time passage, memory, dream |
-| Match cut | Visual element from shot A aligns with shot B | Elegant connection, thematic link |
-| Smash cut | Abrupt cut to contrasting shot (quiet → loud) | Shock, surprise, tonal shift |
-| Fade to black | Gradual fade to black | Ending, death, loss of consciousness |
-| Fade in from black | Gradual reveal | Beginning, awakening, rebirth |
-
-## Usage Notes
-- **Total duration target: 10–30 seconds.** This is the optimal range for Seedance — enough for a complete narrative beat, short enough for technical stability.
-- **Action = shorter shots.** A fight sequence might be 8 shots in 15 seconds. A dialogue scene might be 4 shots in 20 seconds. Duration IS pacing.
-- **Camera movement must be possible.** Don't write "camera flies through 10 city blocks in 2 seconds." Seedance can't do extreme speed ramping. Write moves a human camera operator could execute.
-- **Transition logic matters.** Don't dissolve between every shot — save dissolves for time passage or emotional shifts. Default to cuts.
-- **Lighting continuity IS character continuity.** If Shot 1 has cold blue rain light, Shot 5 should too — unless a deliberate lighting change is a story beat (e.g., "the arena lights shift from blue to red").
-- **First and last shots are the most important.** Shot 1 establishes the scene (spend your best description here). The last shot is what lingers in the viewer's mind.
-
-## Example (Abbreviated)
+如果多个镜头共享相同的视觉母版、角色约束或全局禁令，在此集中描述一次——逐镜字段不再重复。不需要就跳过。
 
 ```
-SCENE: Rooftop Awakening — Night/Rain — 20s total
-Character: Protagonist in black tactical suit (adapted from wedding tuxedo), rain-soaked
+## 全片设定
 
-SHOT 1 (5s — WIDE, static → slow push in):
-Rooftop at night, cold blue emergency lights reflecting in endless rain puddles.
-A figure lies motionless on the wet concrete. Camera slowly pushes toward them.
-Transition: Cut.
+### 全片影像风格（可选）
+[适用于所有镜头的视觉母版。以下五项至少覆盖前三项（主导维度），不全则后两项标 — ：
+- 基调色：（冷/暖/中性，饱和度高低）
+- 光比：（高光比戏剧 / 低光比柔和）
+- 光硬度/光型：（硬光单源 / 柔光漫射 / 背光剪影等）
+- 逻辑光元类型：（光从哪来、为什么是这个颜色。同一场景所有镜头必须保持一致）
+- 画面元素质感：（金属/玻璃/皮肤/布料/湿润表面等的主导材质]
+⚠️ 逻辑光元类型对连续镜头尤其关键——同一场景内，shot 1 的路灯做主光，shot 2 就不能突然变成月光。]
 
-SHOT 2 (4s — MCU, handheld slight shake):
-The figure's hand twitches. Rain runs between their fingers. A wedding ring
-glows faintly for half a second then fades. Camera: shaky, urgent, 85mm.
-Transition: Cut.
-
-SHOT 3 (3s — CU, static):
-Eyes snap open. Cold blue light reflected in the iris. Expression: disoriented,
-no memory of how they got here. Camera: 100mm, tight on eyes.
-Transition: Cut.
-
-SHOT 4 (5s — WIDE, crane up):
-The figure pushes themselves up, rain streaming off their tactical suit.
-Camera rises slowly, revealing the rooftop and the ruined city beyond.
-A massive holographic display flickers to life in the distance.
-Transition: Dissolve.
-
-SHOT 5 (3s — MCU, push in):
-Protagonist looks at the holographic display, face illuminated by its glow.
-Expression shifts from confusion to grim understanding.
-Camera pushes in slowly. Transition: Cut to black.
+### 全片负面约束（可选）
+[适用所有镜头的全局禁令——不需要在每个镜的负面约束里重复写]
 ```
 
-## Scoring Rubric
+> 全片已写过的约束，逐镜 `负面约束` 字段写 `—` 即可，除非该镜有特殊的额外禁令。
 
-| Dimension | Weight | Description |
-|-----------|--------|-------------|
-| **Pacing** | 1.2 | Do shot durations create the right rhythm for the scene's emotional intent? |
-| **Visual continuity** | 1.2 | Do characters, lighting, and environments remain consistent across shots? |
-| **Camera movement design** | 0.8 | Are camera movements intentional and emotionally motivated? |
-| **Transition logic** | 0.6 | Do transitions serve the narrative (not just random dissolves)? |
-| **Seedance viability** | 1.0 | Is the sequence technically feasible for video generation (duration, complexity)? |
-| **Narrative completeness** | 1.0 | Does the sequence tell a complete beat with a clear emotional arc? |
+---
 
-## Common Issues
-- **All shots same duration:** A sequence where every shot is 3s is mechanically flat → vary durations based on shot purpose.
-- **Camera moves too complex:** "360° orbit while tracking subject down stairs" → simplify to one primary movement per shot.
-- **No breathing room:** Every shot is action-packed → include a 5–8s establishing or aftermath shot for emotional rhythm.
-- **Transition overuse:** Dissolving between every shot → save special transitions for moments that earn them.
+## 镜头模板
+
+每个镜头用以下字段：
+
+```markdown
+### {shot_id} · {中文简述}
+
+- **画面内容**：[画面里有什么——谁、在哪、在做什么。直接描述画面，不写"基于 Image X"]
+- **运镜**：[固定 / 缓推 / 横摇 / 手持跟拍 / 升降 / 拉远 / 环绕 / 甩镜 / 变焦推]
+- **动作**：[镜头内发生了什么事，用什么节奏——慢/快/由缓到急]
+- **情绪**：[有人物时写调性关键词，如"温柔克制"、"压抑恐惧"；无人写 `—`]
+- **光影变化**：[从头到尾不变 → "持续不变"；有变化 → 具体描述变化内容和时机]
+- **衔接**：[切 / 叠化 / 淡入淡出 / 闪白 / —（最后一个镜不写）]
+- **负面约束**：[（可选）本镜需要规避的错误，如"禁止镜头乱晃"、"禁止出现第二个人"]
+```
+
+### 字段约束
+
+| 字段 | 必填 | 写法 |
+|------|------|------|
+| **画面内容** | ✅ | 直接描述画面，不引用参考图编号 |
+| **运镜** | ✅ | 从选项列表中选一个 |
+| **动作** | ✅ | 描述变化过程 + 节奏词；武戏/动作戏按五段弧写 |
+| **情绪** | 看情况 | 有人物就写，无人写 `—` |
+| **光影变化** | ✅ | "持续不变" 或具体写 |
+| **衔接** | 看情况 | 最后一个镜写 `—` |
+| **负面约束** | 看情况 | 有需要规避的点就写，没有可省略整行 |
+
+### 动作描述：五段弧（武戏/动作戏专用）
+
+**仅当镜头涉及打斗、格斗、剧烈肢体动作时使用。** 文戏/静态镜头沿用原来的自由描述方式。
+
+按真实动作逻辑描述五段：**预备 → 发力 → 峰值 → 回收 → 恢复**。
+
+```
+动作：她身体下潜闪避——重心压到前脚，髋部带动肩膀转出（预备→发力），
+拳套短暂逼近镜头形成压迫感（峰值），拳打出后防守手立即回位（回收），
+快速起身+横移两步回到 guard stance（恢复）。整体爆发力强，节奏由缓到急再回收。
+```
+
+> **注意：** 五段弧的核心是"动作有始有终"——打完要收、发力后要恢复。不要让动作悬浮在半空或无缝无限循环。
+
+### 运镜选项
+
+```
+固定 → 机位不动，画面静止
+缓推 → 画面缓慢向前推进，增强沉浸感
+横摇 → 水平方向旋转，展示环境或跟随移动
+手持跟拍 → 模拟手持摄影机，轻微抖动，纪实感
+升降 → 垂直方向移动，改变视角高度
+拉远 → 画面向后拉，从主体退到更大场景
+环绕 → 围绕主体旋转，展示空间关系
+甩镜 → 快速从一个主体甩到另一个
+变焦推 → 焦段变化而非机位移动，压缩空间感
+```
+
+### 衔接选项
+
+```
+切 → 硬切，最常用
+叠化 → 两镜重叠渐隐，过渡自然或暗示时间流逝
+淡入淡出 → 黑场过渡，段落感强
+闪白 → 强光瞬间覆盖画面，冲击/记忆/转换
+— → 最后一个镜头不写衔接
+```
+
+---
+
+## 使用时
+
+1. 让对方**先发参考图，并说明每张图是什么**
+2. Sky 生成时，**第一部分永远是参考图描述**（`@image` 格式，边界直接内联）
+3. 然后逐镜填写模板——画面内容直接描述画面本身，不引用参考图编号
+4. keyFrames 合成图上有镜头号标签，不需要描述格子位置
+5. 如果对方没说明某个字段需要的信息（如情绪、运镜倾向），主动问——别猜
+
+> **完整示例见 `examples.md`**。

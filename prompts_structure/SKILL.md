@@ -25,6 +25,7 @@ Each type's `README.md` describes the type and lists available model variants. I
 ## Input
 - **Concept subtype** (e.g., `character`, `entity`, `location`, `prop`)
 - **User description / subject** — free text describing the desired content
+- (Optional) **Reference image** — if the user uploads an image (e.g., MJ output) and asks to extract/reproduce content from it, use the corresponding `image_to_image_*` variant
 - (Optional) **Model name** — if specified (e.g., `midjourney`), use the corresponding variant file
 - (Optional) **Existing prompt** — when the user wants a score and revision advice
 
@@ -36,18 +37,19 @@ Each type's `README.md` describes the type and lists available model variants. I
 
 ## Workflow
 1. Parse the user input to extract concept subtype, model (if specified), and description.
-2. **If the subtype is ambiguous**, consult `concept-classification.md` to determine the correct architecture (character vs entity vs prop vs location).
-3. Read the type's README at `concept/{type}/README.md` to understand what this type is and to find the available model variants.
-4. Read the content architecture at `concept/{type}/general.md` (or whichever model variant is appropriate):
+2. **Detect i2i vs t2i**: If the user uploaded a reference image and wants to extract/reproduce content from it, route to `image_to_image_{type}.md` instead of the text-to-image variant. Skip to step 4 with the i2i file.
+3. **If the subtype is ambiguous**, consult `concept-classification.md` to determine the correct architecture (character vs entity vs prop vs location).
+4. Read the type's README at `concept/{type}/README.md` to understand what this type is and to find the available model variants.
+5. Read the content architecture at the appropriate variant file identified in step 4 (for t2i: `general.md` or model-specific variant; for i2i: `image_to_image_general.md` or `image_to_image_{model}.md`):
    - Obtain: what panels are needed, content formula, scoring rubric
-5. **Follow the "Image Structure" section** at the bottom — it references the corresponding sheet file.
-6. Read the sheet file at `concept-sheet/{type}-sheet/general.md` (or appropriate variant):
+6. **Follow the "Image Structure" section** at the bottom — it references the corresponding sheet file.
+7. Read the sheet file at `concept-sheet/{type}-sheet/general.md` (or appropriate variant):
    - Obtain: layout grid, panel positions, how to write the combined layout + content prompt
-7. If the sheet file does not yet exist (e.g., prop-sheet), use the content file's own structure directly.
-8. Optionally consult `reference.md` for style snippets.
-9. Combine the content formula and sheet layout into the final prompt.
-10. If the user supplied an existing prompt, evaluate it against the architecture's scoring rubric.
-11. Return the result to the user.
+8. If the sheet file does not yet exist (e.g., prop-sheet), use the content file's own structure directly.
+9. Optionally consult `reference.md` for style snippets.
+10. Combine the content formula and sheet layout into the final prompt.
+11. If the user supplied an existing prompt, evaluate it against the architecture's scoring rubric.
+12. Return the result to the user.
 
 ## Directory Structure
 ```
@@ -58,8 +60,9 @@ prompts_structure/
 ├── concept/                     ← Content architectures (WHAT to include)
 │   ├── character/
 │   │   ├── README.md
-│   │   ├── general.md           ← Gemini/GPT: multi-panel concept sheet
-│   │   └── midjourney.md        ← MJ: single cinematic character still
+│   │   ├── text_to_image_general.md    ← Gemini/GPT: multi-panel concept sheet
+│   │   ├── text_to_image_midjourney.md ← MJ: single cinematic character still
+│   │   └── image_to_image_general.md   ← MJ ref → Gemini: extract + reproduce
 │   ├── entity/
 │   │   ├── README.md
 │   │   ├── general.md
@@ -82,8 +85,10 @@ prompts_structure/
 │   └── location-sheet/
 │       ├── README.md
 │       └── general.md
-├── frame/                       ← NEW: Single cinematic frame
-│   └── midjourney.md            ← MJ: one shot, one emotion, one composition
+├── frame/                       ← Single cinematic frame (frameRef / look reference)
+│   ├── README.md
+│   ├── general.md               ← Gemini/GPT: one shot, one emotion, one composition
+│   └── midjourney.md            ← MJ: one shot, one emotion, one composition (with --params)
 ├── world_view/                  ← NEW: World-building visual constitution
 │   └── midjourney.md            ← MJ: 9-aspect establishing shots (MOKEAIGC)
 ├── storyboard/                  ← NEW: Multi-frame narrative sequence
@@ -108,13 +113,13 @@ prompts_structure/
 ## Currently Supported Types & Model Variants
 
 ### Concept Types (content-driven)
-- **character** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
+- **character** → `text_to_image_general.md` (Gemini/GPT, multi-panel sheet), `text_to_image_midjourney.md` (MJ, single cinematic still), `image_to_image_general.md` (MJ reference → Gemini prompt, extract + reproduce)
 - **entity** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
 - **location** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
 - **prop** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
 
 ### New Types (outside concept/)
-- **frame** → `midjourney.md` (MJ, single cinematic frame — atomic visual storytelling unit)
+- **frame** → `general.md` (Gemini/GPT, single cinematic frame — frameRef / look reference), `midjourney.md` (MJ, single cinematic frame with --params)
 - **world_view** → `midjourney.md` (MJ, 9-aspect world-building establishing shots based on MOKEAIGC framework)
 - **storyboard** → `general.md` (Gemini/GPT, multi-frame narrative sequence — visual script)
 - **sequence** → `general.md` (Gemini/GPT + Seedance, timed multi-shot sequence — video pre-vis blueprint)

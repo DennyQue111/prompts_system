@@ -82,7 +82,7 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 - **Emotion panels unreadable small text**: If the bottom row has 6 panels, emotion labels should be very short — just the emotion word and one color keyword.
 
 ## Example Generation
-**User input**: "a swarm entity made of thousands of micro black cubes, call it Zero, it can change form and has emotional light"
+**User input**: "a swarm entity made of thousands of micro black cubes, call it Seven, it can change form and has emotional light"
 
 **Generated prompt**:  
 ```

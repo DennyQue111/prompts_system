@@ -57,14 +57,14 @@ Derive from the project's visual direction. Concept sheets should use lighter re
 
 ## Example
 
-**Input**: "Shen Ye, 28, office worker in death game. Honest wide face, short black hair, Ma Dong-seok build, combat-adapted charcoal wedding suit, silver ring that glimmers briefly."
+**Input**: "Xiao Wu, 28, office worker in death game. Honest wide face, short black hair, Ma Dong-seok build, combat-adapted charcoal wedding suit, silver ring that glimmers briefly."
 
 **Output** (abbreviated — agent fills in full descriptions from general.md):
 
 ```
 16:9 character concept design sheet. Clean white background with subtle paper texture and thin dark panel dividers.
 
-TOP-LEFT — MAIN VISUAL, one-third width and four-fifths height. Full-body shot of SHEN YE, 28, office worker turned death-game survivor. [Full description from general.md formula: face → hair → build → body language → outfit → accessories → posture. Use prototype rule for the combat-adapted wedding suit.]
+TOP-LEFT — MAIN VISUAL, one-third width and four-fifths height. Full-body shot of XIAO WU, 28, office worker turned death-game survivor. [Full description from general.md formula: face → hair → build → body language → outfit → accessories → posture. Use prototype rule for the combat-adapted wedding suit.]
 
 UPPER-RIGHT — VIEW VARIATIONS. FRONT / BACK / SIDE. [~1 sentence per angle, highlight what's new.]
 
