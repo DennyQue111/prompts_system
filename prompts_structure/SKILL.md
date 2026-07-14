@@ -10,10 +10,12 @@ This skill assists users in two tasks:
 
 The directory hierarchy is organized by **concept type**, not by model:
 
-- **`concept/{type}/`** — defines **WHAT** content the image must include. Each type directory contains one or more model-specific variant files (e.g., `general.md`).
+- **`concept/{type}/`** — defines **WHAT** content the image must include. Each type directory contains one or more model-specific variant files.
 - **`concept-sheet/{type}-sheet/`** — defines **HOW** the image is composed (layout grid, panel positions, 16:9 structure). Same structure: one or more model-specific variant files.
 
-Each type's `README.md` describes the type and lists available model variants. If the user specifies a model, use that variant; otherwise default to `general.md`.
+**Gemini/GPT Split**: As of July 2026, Gemini and GPT have separate variant files (`gemini.md` / `gpt.md`). GPT image generation is prone to "dirty" images (uncontrolled micro-texture, muddy shadows, residual noise). GPT variants include anti-noise discipline. See `meta/gpt-image-hygiene.md` for the full methodology.
+
+Each type's `README.md` describes the type and lists available model variants. If the user specifies a model, use that variant; otherwise default to `gemini.md`.
 
 ## Core Principles (applied across all types)
 
@@ -57,76 +59,95 @@ prompts_structure/
 ├── SKILL.md
 ├── concept-classification.md    ← Boundary guide: which type to use
 ├── reference.md                 ← Cross-type style reference library
-├── concept/                     ← Content architectures (WHAT to include)
+├── concept/                     ← Content architectures (WHAT to render)
 │   ├── character/
 │   │   ├── README.md
-│   │   ├── text_to_image_general.md    ← Gemini/GPT: multi-panel concept sheet
-│   │   ├── text_to_image_midjourney.md ← MJ: single cinematic character still
-│   │   └── image_to_image_general.md   ← MJ ref → Gemini: extract + reproduce
+│   │   ├── text_to_image_gemini.md     ← Gemini: multi-panel concept sheet
+│   │   ├── text_to_image_gpt.md        ← GPT: multi-panel concept sheet (anti-noise)
+│   │   ├── image_to_image_gemini.md    ← MJ ref → Gemini: extract + reproduce
+│   │   ├── image_to_image_gpt.md       ← MJ ref → GPT: extract + reproduce (anti-noise)
+│   │   └── text_to_image_midjourney.md ← MJ: single cinematic character still
 │   ├── entity/
 │   │   ├── README.md
-│   │   ├── general.md
-│   │   └── midjourney.md
+│   │   ├── gemini.md                   ← Gemini: multi-panel concept sheet
+│   │   ├── gpt.md                      ← GPT: multi-panel concept sheet (anti-noise)
+│   │   └── midjourney.md               ← MJ: single cinematic entity still
 │   ├── location/
 │   │   ├── README.md
-│   │   ├── general.md
-│   │   └── midjourney.md
+│   │   ├── text_to_image_gemini.md     ← Gemini: multi-panel concept sheet
+│   │   ├── text_to_image_gpt.md        ← GPT: multi-panel concept sheet (anti-noise)
+│   │   ├── image_to_image_gemini.md    ← MJ ref → Gemini: extract + reproduce
+│   │   ├── image_to_image_gpt.md       ← MJ ref → GPT: extract + reproduce (anti-noise)
+│   │   └── midjourney.md               ← MJ: single atmospheric establishing shot
 │   └── prop/
 │       ├── README.md
-│       ├── general.md
-│       └── midjourney.md
+│       ├── gemini.md                   ← Gemini: prop still
+│       ├── gpt.md                      ← GPT: prop still (anti-noise)
+│       └── midjourney.md               ← MJ: prop still
 ├── concept-sheet/               ← Layout architectures (HOW to compose)
 │   ├── character-sheet/
 │   │   ├── README.md
-│   │   └── general.md
+│   │   ├── gemini.md                  ← Layout grid + Gemini style suffix
+│   │   └── gpt.md                     ← Layout grid + GPT style suffix (anti-noise)
 │   ├── entity-sheet/
 │   │   ├── README.md
-│   │   └── general.md
+│   │   ├── gemini.md                  ← Layout grid + Gemini style suffix
+│   │   └── gpt.md                     ← Layout grid + GPT style suffix (anti-noise)
 │   └── location-sheet/
 │       ├── README.md
-│       └── general.md
+│       ├── gemini.md                  ← Layout grid + Gemini style suffix
+│       └── gpt.md                     ← Layout grid + GPT style suffix (anti-noise)
 ├── frame/                       ← Single cinematic frame (frameRef / look reference)
 │   ├── README.md
-│   ├── general.md               ← Gemini/GPT: one shot, one emotion, one composition
-│   └── midjourney.md            ← MJ: one shot, one emotion, one composition (with --params)
-├── world_view/                  ← NEW: World-building visual constitution
-│   └── midjourney.md            ← MJ: 9-aspect establishing shots (MOKEAIGC)
-├── storyboard/                  ← NEW: Multi-frame narrative sequence
-│   └── general.md               ← Gemini/GPT: visual script for scenes
-├── sequence/                    ← NEW: Timed multi-shot pre-vis
-│   └── general.md               ← Gemini/GPT + Seedance: video production blueprint
+│   ├── gemini.md                ← Gemini: one shot, one emotion, one composition
+│   ├── gpt.md                   ← GPT: one shot, one emotion, one composition (anti-noise)
+│   ├── midjourney.md            ← MJ: one shot, one emotion, one composition (with --params)
+│   └── style_reference.md       ← Frame-level style reference architecture
+├── keyFrames/                   ← Multi-image visual consistency lock (3x3 grid)
+│   ├── gemini.md                ← Gemini: 9-grid single-image anchor
+│   ├── gpt.md                   ← GPT: 9-grid single-image anchor (anti-noise)
+│   └── examples.md              ← KeyFrames usage examples
+├── world_view/                  ← World-building visual constitution
+│   ├── midjourney_animation.md  ← MJ: 9-aspect establishing shots, animation style
+│   └── midjourney_realistic.md  ← MJ: 9-aspect establishing shots, realistic style
+├── storyboard/                  ← Multi-frame narrative sequence
+│   ├── gemini.md                ← Gemini: visual script for scenes
+│   ├── gpt.md                   ← GPT: visual script for scenes (anti-noise)
+│   ├── action.md                ← Action-heavy scene spec (model-agnostic)
+│   ├── dialogue.md              ← Dialogue-heavy scene spec (model-agnostic)
+│   └── vfx.md                   ← VFX-heavy scene spec (model-agnostic)
+├── sequence/                    ← Timed multi-shot pre-vis
+│   ├── gemini.md                ← Gemini + Seedance: video production blueprint
+│   ├── gpt.md                   ← GPT: video production blueprint (anti-noise)
+│   └── examples.md              ← Sequence usage examples
+├── meta/                        ← Cross-cutting prompt quality standards
+│   ├── prompt-hygiene.md        ← Prompt hygiene checklist and best practices
+│   └── gpt-image-hygiene.md     ← GPT anti-noise methodology (July 2026)
 └── examples/                    ← Detailed session walkthroughs
-```
-
-- `concept/` = defines **what** panels and content each concept image needs. Each type has its own directory with one or more model variant files.
-- `concept-sheet/` = defines **how** the image is composed — grid positions, panel sizes, 16:9 structure. Same directory-per-type structure.
-- `reference.md` = reusable style snippets applicable across all types.
-- `concept-classification.md` = decision guide for character vs entity vs prop vs location.
-- Each type's `README.md` describes the type, lists available model variants, and specifies the default.
-
-## Scoring Mechanism
-- Score range: 0–10
-- Dimensions are defined inside each content architecture file (typically 5 weighted dimensions scored 0–10)
-- Final score = weighted average
-- Suggestions are drawn from the "common issues & adjustments" section
+    ├── README.md
+    ├── generate-character.md
+    ├── generate-entity.md
+    └── evaluate-prompt.md
 
 ## Currently Supported Types & Model Variants
 
 ### Concept Types (content-driven)
 - **character** → `text_to_image_general.md` (Gemini/GPT, multi-panel sheet), `text_to_image_midjourney.md` (MJ, single cinematic still), `image_to_image_general.md` (MJ reference → Gemini prompt, extract + reproduce)
 - **entity** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
-- **location** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
+- **location** → `text_to_image_general.md` (Gemini/GPT, multi-panel sheet), `image_to_image_general.md` (MJ reference → Gemini prompt, extract + reproduce), `midjourney.md` (MJ, single atmospheric establishing shot)
 - **prop** → `general.md` (Gemini/GPT, multi-panel sheet), `midjourney.md` (MJ, single cinematic still)
 
 ### New Types (outside concept/)
-- **frame** → `general.md` (Gemini/GPT, single cinematic frame — frameRef / look reference), `midjourney.md` (MJ, single cinematic frame with --params)
-- **world_view** → `midjourney.md` (MJ, 9-aspect world-building establishing shots based on MOKEAIGC framework)
-- **storyboard** → `general.md` (Gemini/GPT, multi-frame narrative sequence — visual script)
-- **sequence** → `general.md` (Gemini/GPT + Seedance, timed multi-shot sequence — video pre-vis blueprint)
+- **frame** → `general.md` (Gemini/GPT, single cinematic frame — frameRef / look reference), `midjourney.md` (MJ, single cinematic frame with --params), `style_reference.md` (frame-level style reference architecture)
+- **keyFrames** → `general.md` (Gemini/GPT, 3×3 grid single-image anchor for visual consistency), `examples.md`
+- **world_view** → `midjourney_animation.md` (MJ, 9-aspect world-building, animation style), `midjourney_realistic.md` (MJ, 9-aspect world-building, realistic style)
+- **storyboard** → `general.md` (Gemini/GPT, multi-frame narrative sequence), `action.md` (action-heavy scenes), `dialogue.md` (dialogue-heavy scenes), `vfx.md` (VFX-heavy scenes)
+- **sequence** → `general.md` (Gemini/GPT + Seedance, timed multi-shot sequence — video pre-vis blueprint), `examples.md`
 
 ### Shared
 - **reference.md** — Cross-type style library (artistic medium, rendering, aesthetics, color palettes, lens focal lengths, CG anime styles)
 - **concept-classification.md** — Decision guide for type boundaries
+- **meta/prompt-hygiene.md** — Prompt hygiene checklist and best practices (apply before final delivery)
 
 (Future: DALL-E, Flux, Sora variants can be added as new files within each type directory)
 

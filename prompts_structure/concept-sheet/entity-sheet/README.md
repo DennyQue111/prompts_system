@@ -1,13 +1,11 @@
-# Entity Sheet (Entity Concept Design Layout)
+# Entity Concept Design Sheet
 
-## What This Is
-Defines the 16:9 multi-panel grid layout for non-humanoid sentient entity concept images. Specifies exact panel positions and sizes: main visual, viewing angles, detail close-ups (AI-flexible grid), and a bottom row for form variations and emotion states.
+Layout grid and prompt composition for **entity concept design sheets** — 16:9 multi-panel production reference format.
 
-## Available Model Variants
-- `general.md` — compatible with Gemini 2.5 Flash Image and GPT image models (default)
-- (Future: Midjourney, DALL-E, etc.)
+| Variant | Target | Use Case |
+|---------|--------|----------|
+| `gemini.md` | Gemini | Full layout grid + Gemini style suffix |
+| `gpt.md` | GPT | Full layout grid + GPT style suffix (anti-noise) |
 
-## Usage
-- For content definitions (what goes into each panel), see `concept/entity/`
-- If the user specifies a model name, load the corresponding layout variant from this directory
-- If no model is specified, default to `general.md`
+For the entity content architecture (what goes IN the panels): see `concept/entity/`.
+For GPT anti-noise methodology: see `../../meta/gpt-image-hygiene.md`.

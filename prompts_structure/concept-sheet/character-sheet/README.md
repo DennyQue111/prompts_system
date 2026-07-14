@@ -1,13 +1,11 @@
-# Character Sheet (Character Concept Design Layout)
+# Character Concept Design Sheet
 
-## What This Is
-Defines the 16:9 multi-panel grid layout for humanoid character concept images. Specifies exact panel positions and sizes: main visual, viewing angles, expressions (喜怒哀乐 2×2 grid), and an inventory bottom row for all clothing, accessories, scars, and birthmarks.
+Layout grid and prompt composition for **character concept design sheets** — 16:9 multi-panel production reference format.
 
-## Available Model Variants
-- `general.md` — compatible with Gemini 2.5 Flash Image and GPT image models (default)
-- (Future: Midjourney, DALL-E, etc.)
+| Variant | Target | Use Case |
+|---------|--------|----------|
+| `gemini.md` | Gemini | Full layout grid + Gemini style suffix |
+| `gpt.md` | GPT | Full layout grid + GPT style suffix (anti-noise) |
 
-## Usage
-- For content definitions (what goes into each panel), see `concept/character/`
-- If the user specifies a model name, load the corresponding layout variant from this directory
-- If no model is specified, default to `general.md`
+For the character content architecture (what goes IN the panels): see `concept/character/`.
+For GPT anti-noise methodology: see `../../meta/gpt-image-hygiene.md`.

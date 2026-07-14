@@ -1,21 +1,21 @@
-# Character (Humanoid Character)
+# Character (Humanoid / Human)
 
 ## What This Is
-Records the concept design prompt structure for **human / humanoid characters**. Used to generate multi-panel reference sheets containing: full-body main visual, viewing angles, 喜怒哀乐 expressions, and an inventory of all clothing items, accessories, scars, and birthmarks displayed individually.
+Records the concept design prompt structure for **human and humanoid characters** — a multi-panel 16:9 design sheet. Covers personality-to-visual translation, faces, body types, outfits, accessories, and expressions.
 
 ## Available Model Variants
 
-### Text-to-Image
-- `text_to_image_general.md` — compatible with Gemini 2.5 Flash Image and GPT image models (default): multi-panel 16:9 concept sheet
-- `text_to_image_midjourney.md` — Midjourney-specific: single cinematic character still
-
-### Image-to-Image (Reference → Concept)
-- `image_to_image_general.md` — MJ reference image → Gemini/GPT character prompt: extract character from a Midjourney image, preserve face/hairstyle/body/art style, generate three-view deduction, output Gemini-compatible prompt for reproduction
-
-### Sheet Layout
-- For image layout structure, see `concept-sheet/character-sheet/`
+| Variant | Target | Use Case |
+|---------|--------|----------|
+| `text_to_image_gemini.md` | Gemini | Generate character from text description |
+| `text_to_image_gpt.md` | GPT | Generate character from text (with anti-noise) |
+| `image_to_image_gemini.md` | Gemini | Extract & reproduce character from MJ reference |
+| `image_to_image_gpt.md` | GPT | Extract & reproduce character from MJ reference (with anti-noise) |
+| `text_to_image_midjourney.md` | Midjourney | Single cinematic character still directly in MJ |
 
 ## Usage
-- **Text-to-image**: If the user describes a character from scratch and wants a concept sheet, load `text_to_image_general.md` (or `text_to_image_midjourney.md` if targeting Midjourney).
-- **Image-to-image**: If the user uploads a reference image (e.g., MJ output) and wants to extract a character for reproduction in another model, load `image_to_image_general.md`.
-- If no model is specified, default to `text_to_image_general.md`.
+- If the user wants Gemini → use `text_to_image_gemini.md` or `image_to_image_gemini.md`
+- If the user wants GPT → use `text_to_image_gpt.md` or `image_to_image_gpt.md`
+- If the user specifically requests Midjourney → use `text_to_image_midjourney.md`
+- For image layout structure, see `concept-sheet/character-sheet/`
+- For GPT anti-noise methodology, see `../../meta/gpt-image-hygiene.md`

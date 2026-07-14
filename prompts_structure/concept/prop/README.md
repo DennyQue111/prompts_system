@@ -1,13 +1,18 @@
 # Prop (Object / Item)
 
 ## What This Is
-Records the concept design prompt structure for **single props or objects** — weapons, tools, vehicles, artifacts, everyday items with narrative weight. Currently uses a single-panel full-frame composition (multi-panel sheet not yet created).
+Records the concept design prompt structure for **props and objects** — items that carry narrative weight: weapons, tools, artifacts, vehicles, everyday objects with story significance.
 
 ## Available Model Variants
-- `general.md` — compatible with Gemini 2.5 Flash Image and GPT image models (default)
-- (Future: Midjourney, DALL-E, Flux, etc.)
+
+| Variant | Target | Use Case |
+|---------|--------|----------|
+| `gemini.md` | Gemini | Generate prop from text description |
+| `gpt.md` | GPT | Generate prop from text (with anti-noise) |
+| `midjourney.md` | Midjourney | Single prop still directly in MJ |
 
 ## Usage
-- If the user specifies a model name, load the corresponding variant file from this directory
-- If no model is specified, default to `general.md`
-- For image layout structure, see `concept-sheet/prop-sheet/` (not yet created)
+- If the user wants Gemini → use `gemini.md`
+- If the user wants GPT → use `gpt.md`
+- If the user specifically requests Midjourney → use `midjourney.md`
+- For GPT anti-noise methodology, see `../../meta/gpt-image-hygiene.md`
