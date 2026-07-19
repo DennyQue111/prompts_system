@@ -32,6 +32,7 @@ User provides:
 | **Location concept** | Environmental visual DNA: palette, light ratio, wet surface rendering, atmospheric treatment, spatial structure | Character appearance, facial features |
 | **Lighting reference** | Light source behavior, color temperature, reflection patterns | Subject matter, composition |
 | **Prop / entity concept** | Exact form, material, glow behavior | Everything else |
+| **Layout / Blockout / Spatial reference** | EXACT spatial layout: object positions, relative distances, camera angle, perspective geometry, road/building configuration, frame arrangement within the sheet | Materials, colors, lighting, atmosphere, surface textures, specific architectural details, annotations, arrows, text labels, dimension lines, wireframe edges |
 
 **Critical distinction:**
 - **Character references** → Identity lock (exact reproduction)
@@ -180,8 +181,10 @@ second person, waxy skin, dirty pore noise.
 5. **Anti-noise lives in word choice per frame + layout-level language**: Use the same clean vocabulary across all cuts and reference zones.
 6. **Negative prompt is scene-specific and short**: ~10–15 terms. Never dump the full generic methodology.
 7. **Never transfer reference image noise**: Compression artifacts, banding, micro-pattern noise are pollution, not style.
-8. **Check for repetition before output.**
-9. Read `meta/gpt-image-hygiene.md` for full methodology.
+8. **Annotations, arrows, and text labels on reference images are NOT scene content.** If the blockout contains red arrows, dimension lines, text labels, or wireframe edges, explicitly instruct the model: "The [color] arrows / text labels in the reference are ANNOTATIONS only. Do NOT draw them in the final image." The model will otherwise treat annotations as part of the scene.
+9. **When a layout/blockout reference is provided, the text prompt MUST NOT describe spatial relationships, object positions, or composition layout.** The image is the sole authority on WHERE things are; text controls HOW things look and FEEL. Any text description of spatial relationships risks overriding or corrupting the reference.
+10. **Check for repetition before output.**
+11. Read `meta/gpt-image-hygiene.md` for full methodology.
 
 ---
 

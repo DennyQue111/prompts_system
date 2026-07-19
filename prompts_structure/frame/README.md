@@ -9,8 +9,10 @@ A frame is NOT a concept sheet. It's a single image that should feel like a free
 
 | File | What It Is |
 |------|-------------|
-| `gemini.md` | Frame architecture for Gemini 2.5 Flash Image (default) |
-| `gpt.md` | Frame architecture for GPT image models (with anti-noise adaptations) |
+| `text_to_image_gemini.md` | Frame architecture for Gemini 2.5 Flash Image — text-to-image (default) |
+| `image_to_image_gemini.md` | Frame architecture for Gemini 2.5 Flash Image — image-to-image with reference images |
+| `text_to_image_gpt.md` | Frame architecture for GPT image models — text-to-image (with anti-noise adaptations) |
+| `image_to_image_gpt.md` | Frame architecture for GPT image models — image-to-image with reference images (with anti-noise adaptations) |
 | `midjourney.md` | Frame architecture for Midjourney (with `--` parameter syntax) |
 | `style_reference.md` | Visual DNA palette library — film stock, CG anime, color palette, camera language templates |
 
