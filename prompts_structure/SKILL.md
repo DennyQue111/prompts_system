@@ -43,9 +43,10 @@ Each type's `README.md` describes the type and lists available model variants. I
 3. **If the subtype is ambiguous**, consult `concept-classification.md` to determine the correct architecture (character vs entity vs prop vs location).
 4. Read the type's README at `concept/{type}/README.md` to understand what this type is and to find the available model variants.
 5. Read the content architecture at the appropriate variant file identified in step 4:
-   - Gemini → `gemini.md` (or `text_to_image_gemini.md` / `image_to_image_gemini.md` for character/location)
-   - GPT → `gpt.md` (or `text_to_image_gpt.md` / `image_to_image_gpt.md` for character/location)
+   - Gemini → `gemini.md` (or `text_to_image_gemini.md` / `image_to_image_gemini.md` for character/location/frame)
+   - GPT → `gpt.md` (or `text_to_image_gpt.md` / `image_to_image_gpt.md` for character/location/frame/keyFrames/vfx)
    - Midjourney → `midjourney.md` (or `text_to_image_midjourney.md` for character)
+   - Seedance → `seedance.md` (for sequence video generation)
    - If user didn't specify → default to `gemini.md`
    - This file defines the **content formula** — WHAT the image must include
 6. **Follow the "Image Structure" section** at the bottom — it references the corresponding sheet file.
@@ -84,11 +85,13 @@ prompts_structure/
 │   │   ├── image_to_image_gemini.md    ← MJ ref → Gemini: extract + reproduce
 │   │   ├── image_to_image_gpt.md       ← MJ ref → GPT: extract + reproduce (anti-noise)
 │   │   └── midjourney.md               ← MJ: single atmospheric establishing shot
-│   └── prop/
-│       ├── README.md
-│       ├── gemini.md                   ← Gemini: prop still
-│       ├── gpt.md                      ← GPT: prop still (anti-noise)
-│       └── midjourney.md               ← MJ: prop still
+│   ├── prop/
+│   │   ├── README.md
+│   │   ├── gemini.md                   ← Gemini: prop still
+│   │   ├── gpt.md                      ← GPT: prop still (anti-noise)
+│   │   └── midjourney.md               ← MJ: prop still
+│   └── vfx/                      ← Visual effects concepts (portals, energy, FX)
+│       └── image_to_image_gpt.md       ← GPT i2i: ref → VFX concept (anti-noise)
 ├── concept-sheet/               ← Layout architectures (HOW to compose)
 │   ├── character-sheet/
 │   │   ├── README.md
@@ -104,26 +107,39 @@ prompts_structure/
 │       └── gpt.md                     ← Layout grid + GPT style suffix (anti-noise)
 ├── frame/                       ← Single cinematic frame (frameRef / look reference)
 │   ├── README.md
-│   ├── gemini.md                ← Gemini: one shot, one emotion, one composition
-│   ├── gpt.md                   ← GPT: one shot, one emotion, one composition (anti-noise)
+│   ├── text_to_image_gemini.md  ← Gemini t2i: one shot, one emotion, one composition
+│   ├── text_to_image_gpt.md     ← GPT t2i: one shot, one emotion, one composition (anti-noise)
+│   ├── image_to_image_gemini.md ← Gemini i2i: ref → single cinematic frame
+│   ├── image_to_image_gpt.md    ← GPT i2i: ref → single cinematic frame (anti-noise)
 │   ├── midjourney.md            ← MJ: one shot, one emotion, one composition (with --params)
 │   └── style_reference.md       ← Frame-level style reference architecture
 ├── keyFrames/                   ← Multi-image visual consistency lock (3x3 grid)
+│   ├── README.md
 │   ├── gemini.md                ← Gemini: 9-grid single-image anchor
-│   ├── gpt.md                   ← GPT: 9-grid single-image anchor (anti-noise)
+│   ├── text_to_image_gpt.md     ← GPT t2i: 9-grid single-image anchor (anti-noise)
+│   ├── image_to_image_gpt.md    ← GPT i2i: ref → 9-grid (anti-noise)
 │   └── examples.md              ← KeyFrames usage examples
-├── world_view/                  ← World-building visual constitution
-│   ├── midjourney_animation.md  ← MJ: 9-aspect establishing shots, animation style
-│   └── midjourney_realistic.md  ← MJ: 9-aspect establishing shots, realistic style
+├── world_view/                  ← World-building visual constitution (V11)
+│   ├── SKILL.md                 ← V11 orchestrator: 9 aspects + continuity bible + shot matrix
+│   ├── references/              ← On-demand references
+│   │   ├── world-aspects.md
+│   │   ├── continuity-and-shot-planning.md
+│   │   ├── camera-and-style-adaptation.md
+│   │   ├── platform-renderers.md
+│   │   └── output-formats.md
+│   ├── style-profiles/          ← Optional: drop-in style presets
+│   │   ├── realistic.md         ← Photographic cinematic: Arri 65mm, film stock, skin detail
+│   │   └── anime.md             ← Gantz × Demon Slayer fusion: hand-drawn, cel shading, no focal lengths
+│   └── _archive/                ← Old V9-based files (kept for reference, not active)
 ├── storyboard/                  ← Multi-frame narrative sequence
 │   ├── gemini.md                ← Gemini: visual script for scenes
 │   ├── gpt.md                   ← GPT: visual script for scenes (anti-noise)
 │   ├── action.md                ← Action-heavy scene spec (model-agnostic)
 │   ├── dialogue.md              ← Dialogue-heavy scene spec (model-agnostic)
 │   └── vfx.md                   ← VFX-heavy scene spec (model-agnostic)
-├── sequence/                    ← Timed multi-shot pre-vis
-│   ├── gemini.md                ← Gemini + Seedance: video production blueprint
-│   ├── gpt.md                   ← GPT: video production blueprint (anti-noise)
+├── sequence/                    ← Timed multi-shot pre-vis (video generation)
+│   ├── README.md
+│   ├── seedance.md              ← Seedance video production blueprint
 │   └── examples.md              ← Sequence usage examples
 ├── meta/                        ← Cross-cutting prompt quality standards
 │   ├── prompt-hygiene.md        ← Prompt hygiene checklist and best practices
@@ -141,13 +157,14 @@ prompts_structure/
 - **location** → `text_to_image_gemini.md` (Gemini, multi-panel sheet), `text_to_image_gpt.md` (GPT, multi-panel sheet with anti-noise), `image_to_image_gemini.md` (MJ ref → Gemini), `image_to_image_gpt.md` (MJ ref → GPT with anti-noise), `midjourney.md` (MJ)
 - **entity** → `gemini.md` (Gemini, multi-panel sheet), `gpt.md` (GPT, multi-panel sheet with anti-noise), `midjourney.md` (MJ)
 - **prop** → `gemini.md` (Gemini), `gpt.md` (GPT with anti-noise), `midjourney.md` (MJ)
+- **vfx** → `image_to_image_gpt.md` (GPT i2i, ref → VFX concept with anti-noise)
 
 ### New Types (outside concept/)
-- **frame** → `gemini.md` (Gemini, single cinematic frame — frameRef / look reference), `gpt.md` (GPT, single cinematic frame with anti-noise), `midjourney.md` (MJ, single cinematic frame with --params), `style_reference.md` (frame-level style reference architecture)
-- **keyFrames** → `gemini.md` (Gemini, 3×3 grid single-image anchor for visual consistency), `gpt.md` (GPT, 3×3 grid with anti-noise), `examples.md`
-- **world_view** → `midjourney_animation.md` (MJ, 9-aspect world-building, animation style), `midjourney_realistic.md` (MJ, 9-aspect world-building, realistic style)
+- **frame** → `text_to_image_gemini.md` (Gemini t2i, single cinematic frame), `text_to_image_gpt.md` (GPT t2i, single cinematic frame with anti-noise), `image_to_image_gemini.md` (Gemini i2i, ref → single frame), `image_to_image_gpt.md` (GPT i2i, ref → single frame with anti-noise), `midjourney.md` (MJ, single cinematic frame with --params), `style_reference.md` (frame-level style reference architecture)
+- **keyFrames** → `gemini.md` (Gemini, 3×3 grid single-image anchor), `text_to_image_gpt.md` (GPT t2i, 3×3 grid with anti-noise), `image_to_image_gpt.md` (GPT i2i, ref → 3×3 grid with anti-noise), `examples.md`
+- **world_view** → SKILL.md (V11 orchestrator), `style-profiles/realistic.md` (photographic cinematic), `style-profiles/anime.md` (Gantz × Demon Slayer fusion)
 - **storyboard** → `gemini.md` (Gemini, multi-frame narrative sequence), `gpt.md` (GPT, multi-frame with anti-noise), `action.md` (action-heavy scenes, model-agnostic), `dialogue.md` (dialogue-heavy scenes, model-agnostic), `vfx.md` (VFX-heavy scenes, model-agnostic)
-- **sequence** → `gemini.md` (Gemini + Seedance, timed multi-shot sequence — video pre-vis blueprint), `gpt.md` (GPT, timed multi-shot with anti-noise), `examples.md`
+- **sequence** → `seedance.md` (Seedance video production blueprint), `examples.md`
 
 ### Shared
 - **reference.md** — Cross-type style library (artistic medium, rendering, aesthetics, color palettes, lens focal lengths, CG anime styles)
