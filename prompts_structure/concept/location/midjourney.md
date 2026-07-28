@@ -1,7 +1,7 @@
 ## Description
 Use this architecture when generating a **single-image location prompt for Midjourney**. Produces one cinematic establishing shot of an environment or setting — optimized for MJ's strength in atmosphere, scale, and environmental storytelling.
 
-Unlike `general.md` (multi-panel location sheet), this is a single atmospheric frame designed to establish the world's visual language in one image.
+This is a single atmospheric frame designed to establish the world's visual language in one image. No multi-panel layout — optimized for MJ's strengths in atmosphere and scale.
 
 ## Core Principles
 

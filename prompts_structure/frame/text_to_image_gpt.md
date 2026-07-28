@@ -6,6 +6,8 @@ A frame is NOT a concept sheet. It's a single image that should feel like a free
 
 **For Gemini** → use `text_to_image_gemini.md`. **For image-to-image with reference images** → use `image_to_image_gpt.md`.
 
+**Pre-requisite:** Read [`meta/prompt-hygiene.md`](meta/prompt-hygiene.md) before writing any prompt. The eight cross-cutting rules and the four-question self-check apply to all platforms including GPT image generation.
+
 ---
 
 ## Core Principles

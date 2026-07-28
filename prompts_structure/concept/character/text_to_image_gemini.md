@@ -55,4 +55,4 @@ Translation examples:
 2. **Prototype rule**: "Combat suit adapted from a wedding tuxedo" is always more memorable than "black tactical suit." What did they wear when they died?
 3. **Expression contrast**: Joy (eyes crinkle + smile) vs Anger (brows down + jaw tight) vs Sorrow (inner brows up + unfocused eyes) vs Happiness (wide relaxed smile + bright eyes). Don't use "same face, slightly different mouth."
 4. **Scan for hidden items**: Rings, scars, birthmarks, tattoos mentioned anywhere in the user's description must appear in the bottom row.
-5. **Layout reference**: For exact grid positions and full prompt composition, see `concept-sheet/character-sheet/general.md`.
+5. **Layout reference**: For exact grid positions and full prompt composition, see `layout_instruction.md` in this directory.

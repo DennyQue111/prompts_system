@@ -15,5 +15,5 @@ Records the concept design prompt structure for **non-humanoid sentient entities
 - If the user wants Gemini → use `gemini.md`
 - If the user wants GPT → use `gpt.md`
 - If the user specifically requests Midjourney → use `midjourney.md`
-- For image layout structure, see `concept-sheet/entity-sheet/`
+- For image layout structure, see `layout_instruction.md` in this directory
 - For GPT anti-noise methodology, see `../../meta/gpt-image-hygiene.md`

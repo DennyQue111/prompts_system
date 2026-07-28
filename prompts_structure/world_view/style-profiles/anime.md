@@ -1,4 +1,20 @@
-# Anime Cinematic Style Profile
+# ⛔ DEPRECATED — DO NOT USE
+
+**This file has been superseded by technical-breakdown style profiles at `prompts_system/style-profiles/`.**
+This file contains hardcoded anime titles (Gantz, Kimetsu no Yaiba / Demon Slayer) that will contaminate output with known character faces and design elements.
+
+**Use instead:**
+- `prompts_system/style-profiles/made-in-abyss-technical.md`
+- `prompts_system/style-profiles/gantz-kny-technical.md`
+- Or create a new profile following the 6-dimension technical decomposition method (see `midjourney_animation.md` § Style Decomposition Rule)
+
+**Why deprecated:** Writing "Gantz-inspired" or "Demon Slayer-inspired" in prompts causes Midjourney to reproduce character faces, scars, markings, hairstyles, and proportions from those works. Technical decomposition (linework / brush / shading / color / composition / character rendering) achieves the same visual style without character contamination.
+
+---
+
+# [DEPRECATED] Anime Cinematic Style Profile
+
+_Original content below preserved for reference only. Do not use directly in prompts._
 
 Overlay this profile when the user requests an anime animation, hand-drawn cinematic, or Gantz × Demon Slayer fusion aesthetic. Applies to all nine aspects.
 

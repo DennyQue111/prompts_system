@@ -5,7 +5,7 @@ The core problem this solves: MJ images have a distinct rendering aesthetic that
 
 **Input:** MJ reference image + user instruction (e.g., "用这个风格生成第一幕的场景", "取这个环境的光影和色调", "保持这个构图但换成城市边缘的高架路")
 
-**Output:** A location prompt in `text_to_image_general.md` format, but filled with observed (not imagined) content, plus style preservation keywords.
+**Output:** A location prompt in `text_to_image_gemini.md` format, but filled with observed (not imagined) content, plus style preservation keywords.
 
 ---
 
@@ -153,12 +153,12 @@ Mid-distance details (2-3 panels):
 
 ### Step 5: Gemini Output Prompt
 
-The final prompt, formatted for Gemini/GPT image generation. Follow the layout from `concept-sheet/location-sheet/general.md` but fill ALL content from Steps 1-4 observations and inferences.
+The final prompt, formatted for Gemini/GPT image generation. Follow the panel layout defined in `layout_instruction.md` in this directory, but fill ALL content from Steps 1-4 observations and inferences.
 
 ```
 [Style preservation keywords from Step 2.6] +
 
-[Layout instruction: 16:9 location concept design sheet, clean white background...] +
+[Layout instruction: reference layout_instruction.md in this directory for full grid spec — 16:9 location concept design sheet, MAIN VISUAL / REVERSE ANGLE / TOP-DOWN VIEW / MID-DISTANCE SHOTS / BOTTOM ROW] +
 
 TOP-LEFT — MAIN VISUAL (establishing shot):
 [Location type + narrative function] +
@@ -168,11 +168,11 @@ TOP-LEFT — MAIN VISUAL (establishing shot):
 [Lived-in details: from Step 1] +
 [Scale reference: from Step 1]
 
-UPPER-RIGHT LEFT — ALTERNATE ANGLE:
-[Step 4 alternate angle 1]
+UPPER-RIGHT LEFT — REVERSE ANGLE (180° opposite from main camera):
+[Step 4 alternate angle 1 — opposite side perspective]
 
-UPPER-RIGHT RIGHT — TOP-DOWN VIEW:
-[Step 4 alternate angle 2]
+UPPER-RIGHT RIGHT — TOP-DOWN VIEW (full spatial overview):
+[Step 4 alternate angle 2 — bird's-eye layout with all story locations marked]
 
 LOWER-RIGHT — MID-DISTANCE SHOTS (3 panels):
 [Step 4 mid-distance details — location storytelling through objects and wear]
@@ -214,8 +214,8 @@ Color Palette: [Step 2.3 primary + accent colors distilled to hex descriptions]
 ## Usage Notes
 
 - **When to use this**: User uploads a reference image (MJ or other) and asks to extract/reproduce a location environment from it, or apply its visual style to a project location.
-- **When to use `text_to_image_general.md` instead**: User describes a location from imagination/script — no reference image provided.
+- **When to use `text_to_image_gemini.md` instead**: User describes a location from imagination/script — no reference image provided.
 - **When to use `midjourney.md`**: User wants a single-shot atmospheric location image generated directly in Midjourney.
-- **Sheet layout**: Always pair with `concept-sheet/location-sheet/general.md` for the multi-panel grid specification.
+- **Sheet layout**: Always pair with `layout_instruction.md` in this directory for the multi-panel grid specification.
 - **Scale is critical in locations**: Always include at least one scale reference element (human figure, vehicle, doorway) in the output prompt. Environments without scale cues feel like miniature dioramas.
 - **For interior locations**: Add ceiling height, room dimensions, and contained/spacious feel to Step 4's spatial layer map.

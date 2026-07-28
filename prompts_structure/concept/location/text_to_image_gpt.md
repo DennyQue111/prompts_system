@@ -73,7 +73,7 @@ For other scene types, curate from `meta/gpt-image-hygiene.md`.
 3. Atmosphere > object inventory — same as Gemini.
 4. Include ceiling height / room scale for interiors — same as Gemini.
 5. Avoid list-like descriptions — same as Gemini.
-6. **Layout reference**: `concept-sheet/location-sheet/gpt.md`
+6. **Layout note**: text-to-image generates single shots for reference; multi-panel concept sheets use `layout_instruction.md` in i2i workflow
 7. **Anti-noise is in word choice, not appended block** — use the word choice table while writing. Negative prompt is short and scene-specific.
 8. **Background gradients must be explicitly "smooth"** — GPT defaults to noisy gradient transitions.
 9. **Dark scenes are highest risk** — use "smooth dark tones with readable shadow floor."

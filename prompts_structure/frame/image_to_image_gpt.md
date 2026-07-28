@@ -6,6 +6,8 @@ Unlike the text-to-image variant (`text_to_image_gpt.md`), this architecture ass
 
 **For text-to-image without reference images** → use `text_to_image_gpt.md`. **For Gemini** → use `image_to_image_gemini.md`.
 
+**Pre-requisite:** Read [`meta/prompt-hygiene.md`](meta/prompt-hygiene.md) before writing any prompt. The eight cross-cutting rules and the four-question self-check apply to all platforms including GPT image generation.
+
 ---
 
 ## When to Use i2i vs t2i

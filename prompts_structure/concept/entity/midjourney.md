@@ -1,7 +1,7 @@
 ## Description
 Use this architecture when generating a **single-image entity design prompt for Midjourney**. For sentient non-humanoid beings (AI manifestations, god-projections, alien consciousness, elemental beings), this produces one cinematic frame that captures the entity's form, material nature, and sentience — optimized for MJ's strength in textures, lighting, and atmosphere.
 
-Unlike `general.md` (multi-panel concept sheet), this is a single image. The challenge: convey consciousness, scale, and material nature in ONE frame.
+This is a single image — no multi-panel layout. The challenge: convey consciousness, scale, and material nature in ONE frame.
 
 ## Core Principles
 
@@ -46,4 +46,4 @@ For giant beings: `--ar 16:9` with telephoto lens language (100–135mm compress
 - **Material contrast is MJ's superpower.** Spend most of your descriptive budget on what the entity is MADE of and how those materials interact.
 - **Sentience needs verbs.** "It glows" → "Its surface pulses with a slow heartbeat rhythm, brightening every 3 seconds." Write behavior as time-unfolding.
 - **Scale reference is mandatory.** Without it, the entity could be fist-sized or city-sized. Use a human figure, architecture, or focal length.
-- **Entity personality-to-visual applies** (see `general.md` for translation table): ancient → geological layering; hungry → surfaces ripple toward viewer; broken → internal light flickers irregularly.
+- **Entity personality-to-visual applies** (see `gemini.md` or `gpt.md` for translation table): ancient → geological layering; hungry → surfaces ripple toward viewer; broken → internal light flickers irregularly.

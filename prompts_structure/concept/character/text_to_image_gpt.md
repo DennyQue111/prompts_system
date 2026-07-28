@@ -36,7 +36,7 @@ Same as Gemini: every personality trait must be translated into a visible physic
 [Outfit: outer → inner → bottom → shoes. Prototype rule: "combat-adapted [original garment]"] +
 [Accessories & body marks] +
 [Posture] +
-[Layout instruction: 16:9 concept design sheet, clean near-white background, subtle paper texture, thin dark panel dividers, exact grid positions from concept-sheet/character-sheet/gpt.md]
+[Layout instruction: 16:9 concept design sheet, clean near-white background, subtle paper texture, thin dark panel dividers, exact grid positions from layout_instruction.md in this directory]
 ```
 
 ## GPT Anti-Noise: Pre-Writing Checklist
@@ -81,7 +81,7 @@ Don't i2i repair a dirty image (amplifies noise). Regenerate with fresh prompt, 
 2. Prototype rule — same as Gemini.
 3. Expression contrast — same as Gemini.
 4. Scan for hidden items — same as Gemini.
-5. **Layout reference**: `concept-sheet/character-sheet/gpt.md`
+5. **Layout reference**: `layout_instruction.md` in this directory
 6. **Anti-noise is in word choice, not an appended block** — use the word choice table while writing. Negative prompt is short and scene-specific.
 7. **Never use "ultra detailed", "8K", "hyper detailed", "photorealistic skin texture"** — these trigger dirty rendering on GPT.
 8. **Material-light definition is NOT optional** — single-most important pre-writing step.

@@ -54,7 +54,7 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 
 ## Image Structure
 For the **layout grid, panel positions, and 16:9 composition**, see:
-→ **`concept-sheet/prop-sheet/`** — not yet created.
+→ **`layout_instruction.md`** in this directory — not yet created.
 
 Until the sheet template is available, the image follows a single-panel composition: one dominant shot filling the 16:9 frame with the prop as the sole subject. The formula above (subject → material → scale → condition → details → composition → environment → style) provides all content.
 

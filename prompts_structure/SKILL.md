@@ -22,13 +22,13 @@ Each type's `README.md` describes the type and lists available model variants. I
 1. **Personality-to-Visual Translation**: AI models don't understand abstract adjectives. Every personality trait must be translated into visible physical cues before entering the prompt. "He is loyal" → "he unconsciously positions his body half a step in front of his teammates."
 2. **Prototype Outfit Rule**: Write what the garment was BEFORE it became what it is now. "Combat suit adapted from a wedding tuxedo" is ten times more distinctive than "black tactical suit."
 3. **Lens Focal Length**: Include a specific focal length (e.g., `shot on a 50mm lens`) when the target model understands camera terminology. See `reference.md` Section 5 for the full focal length guide.
-4. **CG Anime Fallback**: For platforms with strict realism/person filters (即梦, 豆包), use 3D CG anime styles (Section 6 in `reference.md`) to route through different moderation paths.
+4. **CG Anime Fallback**: For platforms with strict realism/person filters (即梦 Jimeng, 豆包), use 2D/3D CG anime styles. 即梦 has its own dedicated i2i architecture at `frame/jimeng_image_to_image.md` — use that instead of generic CG anime fallback when the target platform is 即梦. See also Section 6 in `reference.md` for CG anime style snippets.
 
 ## Input
 - **Concept subtype** (e.g., `character`, `entity`, `location`, `prop`)
 - **User description / subject** — free text describing the desired content
 - (Optional) **Reference image** — if the user uploads an image (e.g., MJ output) and asks to extract/reproduce content from it, use the corresponding `image_to_image_*` variant
-- (Optional) **Model name** — if specified (e.g., `midjourney`), use the corresponding variant file
+- (Optional) **Model name** — if specified (e.g., `midjourney`, `jimeng`), use the corresponding variant file
 - (Optional) **Existing prompt** — when the user wants a score and revision advice
 
 ## Output
@@ -46,6 +46,7 @@ Each type's `README.md` describes the type and lists available model variants. I
    - Gemini → `gemini.md` (or `text_to_image_gemini.md` / `image_to_image_gemini.md` for character/location/frame)
    - GPT → `gpt.md` (or `text_to_image_gpt.md` / `image_to_image_gpt.md` for character/location/frame/keyFrames/vfx)
    - Midjourney → `midjourney.md` (or `text_to_image_midjourney.md` for character)
+   - Jimeng / 即梦 → `jimeng_image_to_image.md` (frame), or use CG anime fallback for concept generation
    - Seedance → `seedance.md` (for sequence video generation)
    - If user didn't specify → default to `gemini.md`
    - This file defines the **content formula** — WHAT the image must include
@@ -68,6 +69,7 @@ prompts_structure/
 ├── concept/                     ← Content architectures (WHAT to render)
 │   ├── character/
 │   │   ├── README.md
+│   │   ├── layout_instruction.md        ← Layout grid & panel definitions
 │   │   ├── text_to_image_gemini.md     ← Gemini: multi-panel concept sheet
 │   │   ├── text_to_image_gpt.md        ← GPT: multi-panel concept sheet (anti-noise)
 │   │   ├── image_to_image_gemini.md    ← MJ ref → Gemini: extract + reproduce
@@ -75,11 +77,13 @@ prompts_structure/
 │   │   └── text_to_image_midjourney.md ← MJ: single cinematic character still
 │   ├── entity/
 │   │   ├── README.md
+│   │   ├── layout_instruction.md        ← Layout grid & panel definitions
 │   │   ├── gemini.md                   ← Gemini: multi-panel concept sheet
 │   │   ├── gpt.md                      ← GPT: multi-panel concept sheet (anti-noise)
 │   │   └── midjourney.md               ← MJ: single cinematic entity still
 │   ├── location/
 │   │   ├── README.md
+│   │   ├── layout_instruction.md        ← Layout grid & panel definitions
 │   │   ├── text_to_image_gemini.md     ← Gemini: multi-panel concept sheet
 │   │   ├── text_to_image_gpt.md        ← GPT: multi-panel concept sheet (anti-noise)
 │   │   ├── image_to_image_gemini.md    ← MJ ref → Gemini: extract + reproduce
@@ -107,10 +111,15 @@ prompts_structure/
 │       └── gpt.md                     ← Layout grid + GPT style suffix (anti-noise)
 ├── frame/                       ← Single cinematic frame (frameRef / look reference)
 │   ├── README.md
-│   ├── text_to_image_gemini.md  ← Gemini t2i: one shot, one emotion, one composition
-│   ├── text_to_image_gpt.md     ← GPT t2i: one shot, one emotion, one composition (anti-noise)
+│   ├── gemini.md                ← Gemini t2i: one shot, one emotion, one composition
+│   ├── gpt.md                   ← GPT t2i: one shot, one emotion, one composition (anti-noise)
+│   ├── text_to_image_gemini.md  ← Gemini t2i: extended single frame
+│   ├── text_to_image_gpt.md     ← GPT t2i: extended single frame (anti-noise)
+│   ├── text_to_image_midjourney.md ← MJ t2i: single cinematic frame with --params
 │   ├── image_to_image_gemini.md ← Gemini i2i: ref → single cinematic frame
 │   ├── image_to_image_gpt.md    ← GPT i2i: ref → single cinematic frame (anti-noise)
+│   ├── image_to_image_midjourney.md ← MJ i2i: ref → single cinematic frame
+│   ├── jimeng_image_to_image.md ← 即梦 i2i: ref → single frame (Chinese prompt, similarity slider)
 │   ├── midjourney.md            ← MJ: one shot, one emotion, one composition (with --params)
 │   └── style_reference.md       ← Frame-level style reference architecture
 ├── keyFrames/                   ← Multi-image visual consistency lock (3x3 grid)
@@ -121,6 +130,8 @@ prompts_structure/
 │   └── examples.md              ← KeyFrames usage examples
 ├── world_view/                  ← World-building visual constitution (V11)
 │   ├── SKILL.md                 ← V11 orchestrator: 9 aspects + continuity bible + shot matrix
+│   ├── midjourney_animation.md  ← MJ animation-style world prompt
+│   ├── midjourney_realistic.md  ← MJ realistic-style world prompt
 │   ├── references/              ← On-demand references
 │   │   ├── world-aspects.md
 │   │   ├── continuity-and-shot-planning.md
@@ -131,6 +142,8 @@ prompts_structure/
 │   │   ├── realistic.md         ← Photographic cinematic: Arri 65mm, film stock, skin detail
 │   │   └── anime.md             ← Gantz × Demon Slayer fusion: hand-drawn, cel shading, no focal lengths
 │   └── _archive/                ← Old V9-based files (kept for reference, not active)
+├── shot/                        ← Single-shot video generation (single frame → video)
+│   └── seedance.md              ← Seedance single-shot video production blueprint
 ├── storyboard/                  ← Multi-frame narrative sequence
 │   ├── gemini.md                ← Gemini: visual script for scenes
 │   ├── gpt.md                   ← GPT: visual script for scenes (anti-noise)
@@ -160,11 +173,12 @@ prompts_structure/
 - **vfx** → `image_to_image_gpt.md` (GPT i2i, ref → VFX concept with anti-noise)
 
 ### New Types (outside concept/)
-- **frame** → `text_to_image_gemini.md` (Gemini t2i, single cinematic frame), `text_to_image_gpt.md` (GPT t2i, single cinematic frame with anti-noise), `image_to_image_gemini.md` (Gemini i2i, ref → single frame), `image_to_image_gpt.md` (GPT i2i, ref → single frame with anti-noise), `midjourney.md` (MJ, single cinematic frame with --params), `style_reference.md` (frame-level style reference architecture)
+- **frame** → `gemini.md` / `text_to_image_gemini.md` (Gemini t2i, single cinematic frame), `gpt.md` / `text_to_image_gpt.md` (GPT t2i, single cinematic frame with anti-noise), `image_to_image_gemini.md` (Gemini i2i, ref → single frame), `image_to_image_gpt.md` (GPT i2i, ref → single frame with anti-noise), `image_to_image_midjourney.md` (MJ i2i, ref → single frame), `jimeng_image_to_image.md` (即梦 i2i, ref → single frame, Chinese prompt), `midjourney.md` (MJ, single cinematic frame with --params), `text_to_image_midjourney.md` (MJ t2i), `style_reference.md` (frame-level style reference architecture)
 - **keyFrames** → `gemini.md` (Gemini, 3×3 grid single-image anchor), `text_to_image_gpt.md` (GPT t2i, 3×3 grid with anti-noise), `image_to_image_gpt.md` (GPT i2i, ref → 3×3 grid with anti-noise), `examples.md`
-- **world_view** → SKILL.md (V11 orchestrator), `style-profiles/realistic.md` (photographic cinematic), `style-profiles/anime.md` (Gantz × Demon Slayer fusion)
+- **world_view** → SKILL.md (V11 orchestrator), `midjourney_animation.md` (MJ animation world prompt), `midjourney_realistic.md` (MJ realistic world prompt), `style-profiles/realistic.md` (photographic cinematic), `style-profiles/anime.md` (Gantz × Demon Slayer fusion)
 - **storyboard** → `gemini.md` (Gemini, multi-frame narrative sequence), `gpt.md` (GPT, multi-frame with anti-noise), `action.md` (action-heavy scenes, model-agnostic), `dialogue.md` (dialogue-heavy scenes, model-agnostic), `vfx.md` (VFX-heavy scenes, model-agnostic)
-- **sequence** → `seedance.md` (Seedance video production blueprint), `examples.md`
+- **shot** → `seedance.md` (Seedance single-shot video production blueprint — single frame → video, unlike sequence which handles multi-shot pre-vis)
+- **sequence** → `seedance.md` (Seedance multi-shot pre-vis blueprint), `examples.md`
 
 ### Shared
 - **reference.md** — Cross-type style library (artistic medium, rendering, aesthetics, color palettes, lens focal lengths, CG anime styles)
@@ -172,7 +186,7 @@ prompts_structure/
 - **meta/prompt-hygiene.md** — Prompt hygiene checklist and best practices (apply before final delivery)
 - **meta/gpt-image-hygiene.md** — GPT anti-noise methodology (July 2026, mandatory read before writing any GPT prompt)
 
-(Future: DALL-E, Flux, Sora variants can be added as new files within each type directory)
+(Future: DALL-E, Flux, Sora variants can be added as new files within each type directory. Jimeng/即梦 i2i is already supported via `frame/jimeng_image_to_image.md`.)
 
 ## Example Sessions
 See `examples/` folder for detailed walkthroughs:

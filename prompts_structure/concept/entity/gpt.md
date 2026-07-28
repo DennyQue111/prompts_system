@@ -42,7 +42,7 @@ milky reflections, clipped highlights, crushed blacks.
 ## Key Rules
 
 1. **Entity panel structure**: same as gemini.md.
-2. **Layout reference**: `concept-sheet/entity-sheet/gpt.md`
+2. **Layout reference**: `layout_instruction.md` in this directory
 3. **Anti-noise is in word choice, not an appended block** — use the word choice table while writing. Negative prompt is short and scene-specific.
 4. **Abstract/energy-based entities**: "smooth gradients, clean light falloff" — these surfaces are most vulnerable to dirty noise on GPT.
 5. **Check for repetition before output.**

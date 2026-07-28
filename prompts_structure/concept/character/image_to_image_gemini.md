@@ -5,7 +5,7 @@ The core problem this solves: MJ images have a distinct rendering aesthetic that
 
 **Input:** MJ reference image + user instruction (e.g., "提取画面中心的人物", "取左边穿夹克的那个人", "要这个人带着她的护手和围巾")
 
-**Output:** A character prompt in `text_to_image_general.md` format, but filled with observed (not imagined) content, plus style preservation keywords.
+**Output:** A character prompt in `text_to_image_gemini.md` format, but filled with observed (not imagined) content, plus style preservation keywords.
 
 ---
 
@@ -148,12 +148,12 @@ Based on: [current camera angle — front/profile/3/4/back]
 
 ### Step 5: Gemini Output Prompt
 
-The final prompt, formatted for Gemini/GPT image generation. Follow the panel layout from `concept-sheet/character-sheet/general.md` but fill ALL content from Steps 1-4 observations and inferences.
+The final prompt, formatted for Gemini/GPT image generation. Follow the panel layout defined in `layout_instruction.md` in this directory, but fill ALL content from Steps 1-4 observations and inferences.
 
 ```
 [Style preservation keywords from Step 2.6] +
 
-[Layout instruction: 16:9 character concept design sheet, clean white background...] +
+[Layout instruction: reference layout_instruction.md in this directory for full grid spec — 16:9 character concept design sheet, MAIN VISUAL / VIEW VARIATIONS / EXPRESSIONS / BOTTOM ROW] +
 
 TOP-LEFT — MAIN VISUAL:
 [Character subject extracted from Step 1 observation + Step 3 user additions] +
@@ -176,7 +176,7 @@ LOWER-RIGHT — EXPRESSIONS (2×2 grid, shoulder-up):
 BOTTOM ROW:
 [All clothing items, accessories, body marks from Step 1 as individual panels]
 
-[Style suffix from concept-sheet/character-sheet/general.md, adapted with Step 2 keywords]
+[Style suffix adapted with Step 2 keywords]
 ```
 
 ---
@@ -199,7 +199,7 @@ BOTTOM ROW:
 | Style analysis skipped → Gemini output looks generic | Always complete Step 2 — the style keywords are what make the reproduction possible |
 | Three-view fully invented not inferred | Check each hidden-angle detail against what the visible angle provides as clues |
 | Clothing described as "a black tactical suit" | Break down to specific pieces with material and cut detail observed from the image |
-| Character floats — no background/environment context | The concept sheet uses a clean white background as specified in `concept-sheet/character-sheet/general.md` |
+| Character floats — no background/environment context | The concept sheet uses a clean white background as specified in `layout_instruction.md` in this directory |
 | User additions ignored | Step 3.3: always check for user extra requirements before generating the final prompt |
 
 ---
@@ -207,7 +207,7 @@ BOTTOM ROW:
 ## Usage Notes
 
 - **When to use this**: User uploads a reference image (MJ or other) and asks to extract/reproduce a character from it.
-- **When to use `text_to_image_general.md` instead**: User describes a character from imagination/script — no reference image provided.
+- **When to use `text_to_image_gemini.md` instead**: User describes a character from imagination/script — no reference image provided.
 - **Future extension**: `image_to_image_midjourney.md` for MJ→MJ style reference transfer (using `--sref` or image prompt mode).
-- **Sheet layout**: Always pair with `concept-sheet/character-sheet/general.md` for the panel grid specification.
+- **Sheet layout**: Always pair with `layout_instruction.md` in this directory for the panel grid specification.
 - **Image quality**: If the reference image is low resolution or heavily cropped, note visibility limits in Step 1 and prioritize what IS visible.

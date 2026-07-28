@@ -81,7 +81,7 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 
 ## Image Structure
 For the **layout grid, panel positions, and 16:9 composition**, see:
-→ **`concept-sheet/entity-sheet/general.md`**
+→ **`layout_instruction.md`** in this directory
 
 That file defines:
 - Exact panel positions (main visual top-left 1/3×4/5, view variations upper-right, details lower-right AI-flexible grid, bottom row full-width)
@@ -89,4 +89,4 @@ That file defines:
 - Detailed example generation
 - Sheet-specific scoring and common issues
 
-The agent workflow is: read this file for **what** content to generate → read the corresponding sheet file for **how** to compose the image → combine both into the final prompt.
+The agent workflow is: read this file for **what** content to generate → read `layout_instruction.md` for **how** to compose the image → combine both into the final prompt.

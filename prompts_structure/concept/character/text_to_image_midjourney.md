@@ -1,7 +1,5 @@
 ## Description
-Use this architecture when generating a **single-image character design prompt for Midjourney**. Unlike `general.md` (which produces multi-panel 16:9 concept sheets for Gemini/GPT), this file produces one cinematic still that captures the character's visual identity in a single frame — optimized for Midjourney's strengths in atmosphere, texture, and lighting.
-
-The key difference: `general.md` defines *what panels are needed*. This file defines *how to design the character from story and world-view DNA* so the single image carries maximum identity.
+Use this architecture when generating a **single-image character design prompt for Midjourney**. This file produces one cinematic still that captures the character's visual identity in a single frame — optimized for Midjourney's strengths in atmosphere, texture, and lighting. No multi-panel layout.
 
 ## Core Principles
 
@@ -31,7 +29,7 @@ The key difference: `general.md` defines *what panels are needed*. This file def
 | **Character subject** | Name, age, role, pre-death identity | The gap between "who they were" and "who they are now" IS the character. A 32-year-old programmer who died debugging at 3 AM reads very differently as a death-game survivor than a 28-year-old soldier. |
 | **World-view injection** | Light temperature, atmosphere, material logic from world DNA | Directly pull from the project's world-view document: "冷蓝光线清洗过的一切," "雨永远在下," "镜面永远在反射" → the character's skin should be washed in cold blue, their clothing should glisten with rain, their eyes should reflect like mirrors. |
 | **Face + hair + build** | Physical appearance shaped by story | Build contrast = memorability. A gentle office-worker face on a massive frame, or vice versa. Hair maintenance level reflects their mental state — character who's given up stops cutting their hair. |
-| **Personality-to-Visual** | Body language, hand state, signature gesture, contrast shot | This is where the translation table in `general.md` pays off. EVERY personality trait becomes a visible cue. A loyal character's body angles slightly forward like a shield. A gentle giant's fingers are half-curled and relaxed. |
+| **Personality-to-Visual** | Body language, hand state, signature gesture, contrast shot | This is where the translation table in `text_to_image_gemini.md` pays off. EVERY personality trait becomes a visible cue. A loyal character's body angles slightly forward like a shield. A gentle giant's fingers are half-curled and relaxed. |
 | **Outfit** | Prototype garment → death-game adaptation | The "prototype rule": what garment did they die in? A wedding tuxedo adapted for combat with torn sleeves and tactical straps. A hospital gown with armor plates bolted on. The original garment must be VISIBLE beneath the adaptation. |
 | **Accessories & story marks** | Scars, jewelry, death wound, tattoos | Every mark tells a piece of their story. The death wound is especially important — it should be visible somewhere on the body as a permanent reminder. A ring tan line on a ring-less finger suggests a marriage that ended before death. |
 | **Environment grounding** | Where they stand, what surrounds them | Don't float the character in void. Place them in a specific location from the world — a rain-slicked rooftop, a mirror-maze corridor, a white awakening chamber. The environment contextualizes the outfit and lighting. |
@@ -109,6 +107,4 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 - **Flat MJ output:** Style too weak → add `--style raw`, increase sensory language density, use material-words (slick, rusted, mirrored, torn).
 
 ## Image Structure
-Unlike `general.md`, this file does NOT produce multi-panel sheets. The output is a single cinematic image. For multi-panel character concept sheets, use `general.md`.
-
-For character sheet layout definitions, see: `concept-sheet/character-sheet/general.md`
+This file produces a single cinematic image — no multi-panel layout. For multi-panel character concept sheets, use the i2i workflow with `layout_instruction.md`.

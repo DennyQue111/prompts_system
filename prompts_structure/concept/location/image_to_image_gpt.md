@@ -28,10 +28,12 @@ Based on the attached reference image — [brief scene ID: "a night suburban rin
 
 Reference content: [key features observed in reference — what's in foreground/midground/background, light sources, signs with garbled text to fix].
 
-[Layout instruction] +
+Layout instruction: reference layout_instruction.md in this directory for full grid spec — 16:9 location concept design sheet, MAIN VISUAL / REVERSE ANGLE / TOP-DOWN VIEW / MID-DISTANCE SHOTS / BOTTOM ROW. Clean near-white background with subtle paper texture, thin dark panel dividers, labels in small clean typography.
 
 [Panel 1: MAIN VISUAL — "reproduce the reference image exactly" + text fixes + spatial markers] +
-[Panel 2-5: deduced from reference spatial logic] +
+[Panel 2: REVERSE ANGLE — 180° opposite perspective, deduced from reference spatial logic] +
+[Panel 3: TOP-DOWN VIEW — full spatial overview, deduced from reference spatial logic] +
+[Panel 4: MID-DISTANCE SHOTS — 3 panels, deduced from reference spatial logic] +
 [BOTTOM ROW: macro details + color palette extracted from reference] +
 
 Style: [keywords extracted from reference — model, lighting, atmosphere — 1 line only] +

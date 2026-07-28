@@ -2,7 +2,7 @@
 
 > **Purpose:** A palette of visual DNA templates for frame generation across any platform (Midjourney / ComfyUI / 即梦 / 豆包). This file is a **reference library** — consult it when you need to pick a style for a project, but do not treat any single palette as a universal default.
 >
-> **Always verify against the project's confirmed visual direction before selecting.** For 《复生协议》, the direction is GANTZ:O 3D CG anime → use Section 2 palettes.
+> **Always verify against the project's confirmed visual direction before selecting.** For 《复生协议》, the direction is polished 2D anime key visual illustration with traditional media texture (NOT 3D CG render, NOT sketch) → see the project's `style_profile.md` for the definitive Style Palette.
 
 ---
 

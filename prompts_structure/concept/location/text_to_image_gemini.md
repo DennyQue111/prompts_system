@@ -31,4 +31,4 @@ Use this architecture when generating an image focused on a location or environm
 5. **Avoid list-like descriptions**: Don't enumerate objects. Integrate them into the spatial narrative. "A church" → "a crumbling Gothic church, blackened stone, jagged spires silhouetted against a blood-red sunset."
 
 ## Layout Reference
-For the exact grid positions, panel composition, and 16:9 sheet structure, see **`concept-sheet/location-sheet/general.md`**.
+Location text-to-image prompts generate single atmospheric shots for reference and mood exploration. For multi-panel concept design sheets (used in i2i workflow), see `layout_instruction.md` in this directory.

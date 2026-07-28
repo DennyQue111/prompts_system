@@ -17,5 +17,5 @@ Records the concept design prompt structure for **human and humanoid characters*
 - If the user wants Gemini → use `text_to_image_gemini.md` or `image_to_image_gemini.md`
 - If the user wants GPT → use `text_to_image_gpt.md` or `image_to_image_gpt.md`
 - If the user specifically requests Midjourney → use `text_to_image_midjourney.md`
-- For image layout structure, see `concept-sheet/character-sheet/`
+- For image layout structure, see `layout_instruction.md` in this directory
 - For GPT anti-noise methodology, see `../../meta/gpt-image-hygiene.md`

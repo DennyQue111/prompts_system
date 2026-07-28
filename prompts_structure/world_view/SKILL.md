@@ -39,6 +39,8 @@ Resolve conflicts in this order:
 1. User's explicit content, format, platform, language, camera, and count requirements.
 2. Selected platform syntax.
 3. An explicitly selected cinematography or visual-style profile.
+   - **Style profiles live at `prompts_system/style-profiles/`** — pre-built technical decompositions. Load the matching profile; never write anime/movie/game titles directly in prompts.
+   - The deprecated title-based profile at `world_view/style-profiles/anime.md` exists for reference only and must NOT be used to generate prompts.
 4. The world's continuity bible.
 5. This skill's defaults.
 
@@ -104,6 +106,15 @@ Make the camera observe an event; never arrange a catalog display, character lin
 Choose camera language to serve the scene. Do not prepend a universal camera-brand string. Treat focal length together with camera position and subject distance; do not claim focal length alone determines perspective.
 
 Apply detailed human-skin language only when a clearly visible human face is near enough for that detail to matter.
+
+**Style decomposition rule (mandatory):**
+When the user requests a specific visual style (e.g., "来自深渊的风格", "Gantz and Demon Slayer fusion"):
+
+1. **NEVER write the work's title directly in prompts.** Doing so will contaminate output with known character faces, markings, hairstyles, and design language from that work.
+2. **Decompose the style into 6 pure technical dimensions** — linework, brush stroke/material, shading/lighting, color palette, composition, character rendering.
+3. **Load a pre-built profile from `prompts_system/style-profiles/` if one matches.** Otherwise decompose from scratch.
+4. **Build the backbone from technical vocabulary only.** Reference the pre-built profile's "Backbone Preset" section.
+5. **Always include in negatives:** `no known anime character faces, no character-specific markings or scars`
 
 ### 6. Render for the target platform
 

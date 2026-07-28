@@ -1,7 +1,7 @@
 ## Description
 Use this architecture when generating a **single-image prop prompt for Midjourney**. Produces one detailed frame of a narrative object (weapon, tool, artifact, vehicle, everyday item) — optimized for MJ's strength in material rendering, surface detail, and dramatic lighting.
 
-Unlike `general.md` (multi-panel prop sheet), this is a single hero shot of the object, often in context rather than on a neutral background.
+This is a single hero shot of the object — no multi-panel layout. Often shown in context rather than on a neutral background.
 
 ## Core Principles
 
