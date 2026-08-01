@@ -95,10 +95,10 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 ## MJ Parameters
 
 ```
---ar 16:9 --stylize 250 --v 8.1 --hd
+--ar 16:9 --stylize 250 --v 8.2
 ```
 
-**Note on Niji**: `--niji 6` produces purer anime/illustration output. For Gantz × Demon Slayer fusion, `--v 8.1` is recommended because it better handles the hybrid of hard realism (Gantz) and expressive anime (Demon Slayer). If results are too photographic, switch to `--niji 6`.
+**Note on Niji**: `--niji 6` produces purer anime/illustration output. For Gantz × Demon Slayer fusion, `--v 8.2` is recommended because it better handles the hybrid of hard realism (Gantz) and expressive anime (Demon Slayer). If results are too photographic, switch to `--niji 6`.
 
 ## Prompt Formulas Per Aspect
 

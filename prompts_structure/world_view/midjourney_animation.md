@@ -128,10 +128,10 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 ## MJ Parameters
 
 ```
---ar 16:9 --stylize 250 --v 8.1 --hd
+--ar 16:9 --stylize 250 --v 8.2
 ```
 
-**Note on Niji**: `--niji 6` produces purer anime/illustration output. For the example style (hard lighting + expressive linework hybrid), `--v 8.1` is recommended. If results are too photographic for your chosen style, switch to `--niji 6`.
+**Note on Niji**: `--niji 6` produces purer anime/illustration output. For the example style (hard lighting + expressive linework hybrid), `--v 8.2` is recommended. If results are too photographic for your chosen style, switch to `--niji 6`.
 
 ## Prompt Formulas Per Aspect
 

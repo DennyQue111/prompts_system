@@ -1,8 +1,6 @@
 
 ## Description
-This skill assists users in two tasks:
-1. **Generate prompts** — For a given concept type (character, entity, location, prop) and optionally a model, automatically construct a high-quality image generation prompt combining content specifications and layout structure.
-2. **Evaluate prompts** — Score a user-provided prompt on multiple dimensions and deliver concrete, actionable suggestions for improvement.
+This skill generates high-quality image and video generation prompts. For a given concept type (character, entity, location, prop) and optionally a model, it automatically constructs a prompt combining content specifications and layout structure.
 
 **Important**: Before determining which architecture to use, consult `concept-classification.md` to verify the correct subtype — especially for cases where a subject could be miscategorized (e.g., sentient non-humanoid beings should use `entity`, not `character` or `prop`).
 
@@ -29,13 +27,9 @@ Each type's `README.md` describes the type and lists available model variants. I
 - **User description / subject** — free text describing the desired content
 - (Optional) **Reference image** — if the user uploads an image (e.g., MJ output) and asks to extract/reproduce content from it, use the corresponding `image_to_image_*` variant
 - (Optional) **Model name** — if specified (e.g., `midjourney`, `jimeng`), use the corresponding variant file
-- (Optional) **Existing prompt** — when the user wants a score and revision advice
 
 ## Output
 - One complete prompt that matches the target architecture (content formula + sheet layout combined)
-- If evaluating an existing prompt:
-  - A numerical score (e.g., 8/10)
-  - A list of specific suggestions for improvement
 
 ## Workflow
 1. Parse the user input to extract concept subtype, model (if specified), and description.
@@ -57,8 +51,7 @@ Each type's `README.md` describes the type and lists available model variants. I
 9. Optionally consult `reference.md` for style snippets.
 10. **If GPT: read `meta/gpt-image-hygiene.md`** for anti-noise word choice and scene-specific negative terms. Do NOT copy methodology blocks — clean language lives in panel description word choice, not appended text.
 11. Combine the content formula and sheet layout into the final prompt.
-12. If the user supplied an existing prompt, evaluate it against the architecture's scoring rubric.
-13. Return the result to the user.
+12. Return the result to the user.
 
 ## Directory Structure
 ```
@@ -160,8 +153,7 @@ prompts_structure/
 └── examples/                    ← Detailed session walkthroughs
     ├── README.md
     ├── generate-character.md
-    ├── generate-entity.md
-    └── evaluate-prompt.md
+    └── generate-entity.md
 
 ## Currently Supported Types & Model Variants
 
@@ -192,4 +184,3 @@ prompts_structure/
 See `examples/` folder for detailed walkthroughs:
 - `examples/generate-character.md` — Full generation flow for a humanoid character
 - `examples/generate-entity.md` — Full generation flow for a non-humanoid sentient entity
-- `examples/evaluate-prompt.md` — Scoring an existing prompt against an architecture rubric

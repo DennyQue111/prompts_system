@@ -121,7 +121,7 @@ no CAD-perfect mechanical lines, no synthetic neon color scheme
 ## MJ Parameters
 
 ```
---ar 16:9 --stylize 250 --v 8.1
+--ar 16:9 --stylize 250 --v 8.2
 ```
 
 备选：偏写实则切 `--niji 6`

@@ -111,7 +111,7 @@ no known anime character faces, no character-specific markings or scars
 ## MJ Parameters
 
 ```
---ar 16:9 --stylize 250 --v 8.1
+--ar 9:16 --stylize 250 --v 8.2
 ```
 
 备选：偏写实则切 `--niji 6`
