@@ -25,7 +25,7 @@ The world-view is the upstream source of truth. Every character, location, and p
 - [ ] Zero character names or series references
 - [ ] Zero "X-inspired" or "X-style" phrases
 - [ ] Backbone contains only technical vocabulary (line, shading, color, composition terms)
-- [ ] Negative prompt includes: `no known anime character faces, no character-specific markings or scars`
+- [ ] For scenes with visible human faces, append `--no known anime character faces` as a parameter (NOT as description text)
 
 ---
 
@@ -113,25 +113,33 @@ Instead of describing light sources as photography (color temperature, Kelvin, p
 
 **Default lighting for the example world:** Hard cel shading with deep black shadows, cold blue overall color temperature, occasional warm amber emotional accents.
 
-## Negative Prompts (Anime-Specific)
+## `--no` Parameter (MJ-Specific)
 
-Replace MOKEAIGC V9's photorealism negatives:
-```
-no clean digital sharpness, no CGI look, no poster composition, no centered portrait, no black bars
+MJ has NO negative prompt field. Do NOT write negative blocks anywhere in or after the prompt body — MJ either ignores them or misreads them as positive descriptions.
+
+**The ONLY valid negation mechanism is the `--no` parameter**, which must be appended at the end of the parameter chain, AFTER `--v 8.2`.
+
+**When to use:** ONLY for scenes with visible human faces at risk of IP character contamination. Do NOT use for landscape-only, creature-only, object-only, or face-not-visible shots.
+
+```yaml
+有人物面部: --ar 16:9 --stylize 250 --v 8.2 --no known anime character faces
+无人面部/纯场景: --ar 16:9 --stylize 250 --v 8.2
 ```
 
-With anime-specific negatives:
-```
-no photorealism, no photographic film grain, no live-action, no 3DCG render, no realistic human skin texture, no photographic lens blur, no flat moe anime style, no generic isekai anime, no chibi proportions
-```
+**Quality control is achieved through backbone density**, not exclusion lists. `hand-drawn anime keyframe` + `watercolor-wash` + `fine etching-like linework` already removes photorealism, 3DCG, and flat moe. The `--no` only catches the one thing backbone can't: IP character face invasion.
+
+> Reference: `prompts_structure/meta/midjourney-image-hygiene.md` — full rationale and checklist.
 
 ## MJ Parameters
 
-```
---ar 16:9 --stylize 250 --v 8.2
+```yaml
+通用: --ar 16:9 --stylize 250 --v 8.2
+有人物面部: --ar 16:9 --stylize 250 --v 8.2 --no known anime character faces
 ```
 
 **Note on Niji**: `--niji 6` produces purer anime/illustration output. For the example style (hard lighting + expressive linework hybrid), `--v 8.2` is recommended. If results are too photographic for your chosen style, switch to `--niji 6`.
+
+**`--no` rule**: Only append `--no known anime character faces` when the scene contains clearly visible human faces. Landscape-only, creature-only, object-only, macro, and no-face-visible shots skip `--no` entirely. Quality control is handled by backbone density, not negation lists.
 
 ## Prompt Formulas Per Aspect
 
@@ -145,7 +153,6 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 [Individual variation: distinct silhouettes, different gear configurations] +
 [Composition: medium wide shot, eye-level, figures spread across depth] +
 [Anime character rendering: hand-drawn, cel shaded, Gantz-style anatomy, expressive faces] +
-[Anime negatives] +
 [MJ parameters]
 ```
 
@@ -159,7 +166,6 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 [Behavior: what it's doing in this moment] +
 [Composition: close-up or wide as appropriate to creature scale] +
 [Anime-specific creature rendering: hand-drawn, brush-stroke texture for organic forms, cel shading for hard surfaces] +
-[Anime negatives] +
 [MJ parameters]
 ```
 
@@ -173,7 +179,6 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 [Traces of use: worn surfaces, personal items, footprints] +
 [Composition: wide establishing, low angle for scale, deep focus] +
 [Anime-style painted background, architectural linework with atmospheric perspective] +
-[Anime negatives] +
 [MJ parameters]
 ```
 
@@ -187,7 +192,6 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 [Scale: vast, with tiny figure silhouettes for reference] +
 [Composition: extreme wide establishing shot, layered depth, painterly background art] +
 [Anime-style environmental painting with atmospheric haze and color grading] +
-[Anime negatives] +
 [MJ parameters]
 ```
 
@@ -202,7 +206,6 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 [Lived-in details: scuffed gear, repair tape, personal items, fatigue visible] +
 [Composition: medium close-up, intimate scale, naturalistic framing] +
 [Anime character rendering + hand-drawn detail on worn surfaces] +
-[Anime negatives] +
 [MJ parameters]
 ```
 
@@ -216,7 +219,6 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 [Motion quality: dynamic speed lines, motion blur brush strokes, anime action smears] +
 [Composition: dynamic diagonal framing, motion-appropriate angle] +
 [Anime-specific motion effects: hand-drawn speed lines, impact frames, energy trails] +
-[Anime negatives] +
 [MJ parameters]
 ```
 
@@ -230,7 +232,6 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 [Visual language: glitching holographic text, fragmented memory stills, crossed-out player IDs] +
 [Composition: wide shot from behind small figure, scale contrast dwarfing the human] +
 [Anime-style holographic rendering: hand-drawn glow effects, painterly light bloom, cel-shaded data streams] +
-[Anime negatives] +
 [MJ parameters]
 ```
 
@@ -244,7 +245,6 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 [World atmosphere: storm lighting, water spray, debris explosion, motion blur] +
 [Composition: dramatic low angle from ground, giant filling upper frame] +
 [Anime action rendering: hand-drawn water effects, impact frames, dynamic debris brush strokes, speed lines] +
-[Anime negatives] +
 [MJ parameters]
 ```
 
@@ -258,7 +258,6 @@ no photorealism, no photographic film grain, no live-action, no 3DCG render, no 
 [Emotional core: erased memory but surviving love — the ghost of feeling that outlived deletion] +
 [Composition: intimate close-up, slightly high angle, shallow focus] +
 [Anime emotional rendering: detailed facial expressions with subtle tear rendering, hand-drawn emotional lighting, realistic eye detail, warm/cold color contrast on the face] +
-[Anime negatives] +
 [MJ parameters]
 ```
 
@@ -285,7 +284,7 @@ The holographic UI it projects may appear as a luminous floating interface, but 
 - **Backbone must be rebuilt per world**: Every prompt starts with an anime backbone — never fall back to `A cinematic photograph, Arri 65mm camera...`. The backbone in this file is an example; rebuild it for each world using only technical vocabulary.
 - **No focal lengths**: Replace all `shot on a XXmm lens` with composition descriptions
 - **No photorealism skin string**: Replace with anime rendering notes or skip for non-human shots
-- **Anime negatives**: Use the anime-specific negative list, not the MOKEAIGC V9 negatives. Always include contamination negatives: `no known anime character faces, no character-specific markings or scars`
+- **`--no` parameter**: ONLY for scenes with visible human faces. Append `--no known anime character faces` after `--v 8.2`. For non-face scenes, skip entirely. See `meta/midjourney-image-hygiene.md` for the full rationale.
 - **Zero (Seven) = cube cluster**: Always. Verify every reference before output.
 - **The 9 aspects form a complete animated visual constitution.** They should feel like keyframes from the same anime film — same rendering style, same color grading, same shadow language throughout.
 - **Example style balance (Gantz × Demon Slayer)**: Hard shadows + expressive linework. Cold blue dominant + warm emotional accents. Realistic anatomy + painterly atmospheres. Neither too soft (no moe) nor too gritty (no live-action). The balance is the lesson, not the names.
