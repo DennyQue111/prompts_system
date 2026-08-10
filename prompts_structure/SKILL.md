@@ -8,8 +8,7 @@ This skill generates high-quality image and video generation prompts. For a give
 
 The directory hierarchy is organized by **concept type**, not by model:
 
-- **`concept/{type}/`** — defines **WHAT** content the image must include. Each type directory contains one or more model-specific variant files.
-- **`concept-sheet/{type}-sheet/`** — defines **HOW** the image is composed (layout grid, panel positions, 16:9 structure). Same structure: one or more model-specific variant files.
+- **`concept/{type}/`** — defines **WHAT** content the image must include AND **HOW** it is composed. Each type directory contains model-specific variant files plus a `general_layout_instruction.md` that defines the 16:9 panel grid shared across all models.
 
 **Gemini/GPT Split**: As of July 2026, Gemini and GPT have separate variant files (`gemini.md` / `gpt.md`). GPT image generation is prone to "dirty" images (uncontrolled micro-texture, muddy shadows, residual noise). GPT variants include anti-noise discipline. See `meta/gpt-image-hygiene.md` for the full methodology.
 
@@ -44,10 +43,13 @@ Each type's `README.md` describes the type and lists available model variants. I
    - Seedance → `seedance.md` (for sequence video generation)
    - If user didn't specify → default to `gemini.md`
    - This file defines the **content formula** — WHAT the image must include
-6. **Follow the "Image Structure" section** at the bottom — it references the corresponding sheet file.
-7. Read the sheet file at `concept-sheet/{type}-sheet/` matching the model (`gemini.md` or `gpt.md`):
-   - Obtain: layout grid, panel positions, model-specific style suffix
-8. If the sheet file does not yet exist (e.g., prop-sheet), use the content file's own structure directly.
+6. **Follow the "Image Structure" section** at the bottom — it references the corresponding sheet layout.
+7. Read the layout file at `concept/{type}/general_layout_instruction.md` (or `simple_layout_instruction.md` for video-reference layouts):
+   - **general_layout**: Full production design sheet with expressions, view variations, item inventory
+   - **simple_layout** (character only): 3-column video-reference layout — face close-up / front / back
+   - For i2i → video workflows, prefer `simple_layout_instruction.md`
+   - Style suffix is derived from the project's `style_profile.md`, not hardcoded in layout files
+8. If the layout file does not yet exist (e.g., prop), use the content file's own structure directly.
 9. Optionally consult `reference.md` for style snippets.
 10. **If GPT: read `meta/gpt-image-hygiene.md`** for anti-noise word choice and scene-specific negative terms. Do NOT copy methodology blocks — clean language lives in panel description word choice, not appended text.
 11. Combine the content formula and sheet layout into the final prompt.
@@ -62,21 +64,23 @@ prompts_structure/
 ├── concept/                     ← Content architectures (WHAT to render)
 │   ├── character/
 │   │   ├── README.md
-│   │   ├── layout_instruction.md        ← Layout grid & panel definitions
+│   │   ├── general_layout_instruction.md   ← Layout grid & panel definitions (full production sheet)
+│   │   ├── simple_layout_instruction.md    ← Simplified 3-column layout (video reference: face / front / back)
 │   │   ├── text_to_image_gemini.md     ← Gemini: multi-panel concept sheet
 │   │   ├── text_to_image_gpt.md        ← GPT: multi-panel concept sheet (anti-noise)
 │   │   ├── image_to_image_gemini.md    ← MJ ref → Gemini: extract + reproduce
 │   │   ├── image_to_image_gpt.md       ← MJ ref → GPT: extract + reproduce (anti-noise)
+│   │   ├── image_to_image_jimeng.md    ← 即梦 i2i: ref → character ref sheet (Chinese, simple_layout, video input)
 │   │   └── text_to_image_midjourney.md ← MJ: single cinematic character still
 │   ├── entity/
 │   │   ├── README.md
-│   │   ├── layout_instruction.md        ← Layout grid & panel definitions
+│   │   ├── general_layout_instruction.md   ← Layout grid & panel definitions
 │   │   ├── gemini.md                   ← Gemini: multi-panel concept sheet
 │   │   ├── gpt.md                      ← GPT: multi-panel concept sheet (anti-noise)
 │   │   └── midjourney.md               ← MJ: single cinematic entity still
 │   ├── location/
 │   │   ├── README.md
-│   │   ├── layout_instruction.md        ← Layout grid & panel definitions
+│   │   ├── general_layout_instruction.md   ← Layout grid & panel definitions
 │   │   ├── text_to_image_gemini.md     ← Gemini: multi-panel concept sheet
 │   │   ├── text_to_image_gpt.md        ← GPT: multi-panel concept sheet (anti-noise)
 │   │   ├── image_to_image_gemini.md    ← MJ ref → Gemini: extract + reproduce
@@ -89,19 +93,6 @@ prompts_structure/
 │   │   └── midjourney.md               ← MJ: prop still
 │   └── vfx/                      ← Visual effects concepts (portals, energy, FX)
 │       └── image_to_image_gpt.md       ← GPT i2i: ref → VFX concept (anti-noise)
-├── concept-sheet/               ← Layout architectures (HOW to compose)
-│   ├── character-sheet/
-│   │   ├── README.md
-│   │   ├── gemini.md                  ← Layout grid + Gemini style suffix
-│   │   └── gpt.md                     ← Layout grid + GPT style suffix (anti-noise)
-│   ├── entity-sheet/
-│   │   ├── README.md
-│   │   ├── gemini.md                  ← Layout grid + Gemini style suffix
-│   │   └── gpt.md                     ← Layout grid + GPT style suffix (anti-noise)
-│   └── location-sheet/
-│       ├── README.md
-│       ├── gemini.md                  ← Layout grid + Gemini style suffix
-│       └── gpt.md                     ← Layout grid + GPT style suffix (anti-noise)
 ├── frame/                       ← Single cinematic frame (frameRef / look reference)
 │   ├── README.md
 │   ├── gemini.md                ← Gemini t2i: one shot, one emotion, one composition
@@ -158,7 +149,7 @@ prompts_structure/
 ## Currently Supported Types & Model Variants
 
 ### Concept Types (content-driven)
-- **character** → `text_to_image_gemini.md` (Gemini, multi-panel sheet), `text_to_image_gpt.md` (GPT, multi-panel sheet with anti-noise), `image_to_image_gemini.md` (MJ ref → Gemini), `image_to_image_gpt.md` (MJ ref → GPT with anti-noise), `text_to_image_midjourney.md` (MJ)
+- **character** → `text_to_image_gemini.md` (Gemini, multi-panel sheet), `text_to_image_gpt.md` (GPT, multi-panel sheet with anti-noise), `image_to_image_gemini.md` (MJ ref → Gemini), `image_to_image_gpt.md` (MJ ref → GPT with anti-noise), `image_to_image_jimeng.md` (即梦 i2i, ref → character ref sheet with simple_layout, Chinese prompt), `text_to_image_midjourney.md` (MJ)
 - **location** → `text_to_image_gemini.md` (Gemini, multi-panel sheet), `text_to_image_gpt.md` (GPT, multi-panel sheet with anti-noise), `image_to_image_gemini.md` (MJ ref → Gemini), `image_to_image_gpt.md` (MJ ref → GPT with anti-noise), `midjourney.md` (MJ)
 - **entity** → `gemini.md` (Gemini, multi-panel sheet), `gpt.md` (GPT, multi-panel sheet with anti-noise), `midjourney.md` (MJ)
 - **prop** → `gemini.md` (Gemini), `gpt.md` (GPT with anti-noise), `midjourney.md` (MJ)
