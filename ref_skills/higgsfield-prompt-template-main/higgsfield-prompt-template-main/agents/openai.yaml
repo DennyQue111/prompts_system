@@ -1,0 +1,4 @@
+interface:
+  display_name: "Higgsfield 提示词模版"
+  short_description: "编译和审计Higgsfield风格的电影级视频提示词"
+  default_prompt: "Use $higgsfield-prompt-template to compile and audit this Higgsfield-style cinematic video prompt."

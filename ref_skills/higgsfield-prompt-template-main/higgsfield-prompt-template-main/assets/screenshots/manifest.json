@@ -1,0 +1,32 @@
+{
+  "schema_version": "higgsfield-showcase-assets.v1",
+  "assets": [
+    {
+      "file": "higgsfield-hell-grind-project-overview.png",
+      "width": 2946,
+      "height": 1708,
+      "sha256": "d23afd5a59cd2051203c2c219218d1660cbe25826da536ddc3951775f48115e5",
+      "description": "Higgsfield Hell Grind project overview and asset organization screenshot",
+      "source": "user-provided screenshot",
+      "usage": "workflow and project-organization reference only"
+    },
+    {
+      "file": "higgsfield-hell-grind-about-project.png",
+      "width": 2256,
+      "height": 1440,
+      "sha256": "f1eaefca3f86088c85ddad721db56c5018a6baea57b52029e072fd2eba08d642",
+      "description": "Higgsfield Hell Grind project presentation screenshot",
+      "source": "user-provided screenshot",
+      "usage": "visual presentation reference only"
+    },
+    {
+      "file": "higgsfield-character-reference-workflow.png",
+      "width": 2290,
+      "height": 1504,
+      "sha256": "11706884a8a5d0da3befc8f1a51aca3c306f5c7f438d778a64f87126e8a99d6a",
+      "description": "Higgsfield character front, back and facial close-up workflow screenshot",
+      "source": "user-provided screenshot",
+      "usage": "character-reference workflow only"
+    }
+  ]
+}

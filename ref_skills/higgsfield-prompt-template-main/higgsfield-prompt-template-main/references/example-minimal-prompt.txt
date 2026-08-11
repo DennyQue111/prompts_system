@@ -1,0 +1,31 @@
+Duration: 8 seconds. Aspect ratio: 16:9. Mode: R2V.
+
+REFERENCE AUTHORITY:
+Current text controls the original character, location, action, camera and lighting. No external reference assets.
+
+CHARACTERS:
+Mara, 24, short black hair, dark utility jacket. Identity and wardrobe remain unchanged.
+
+LOCATION:
+A dim stone workshop. One skylight is the only motivated light source.
+
+PROP LOCK:
+A heavy brass key remains in Mara's right hand.
+
+ACTION:
+SHOT 1 — close-up, locked camera. Mara hears one knock off-screen, looks toward the door, tightens her grip on the key, then settles into a guarded stance.
+
+POSITIVE LOCKS:
+Only Mara appears. The key stays in her right hand. The camera stays locked.
+
+CONTINUITY:
+Mara begins and ends beside the workbench; the door remains closed.
+
+FINAL FRAME:
+Close-up held on Mara looking off-screen toward the door, key visible at the lower-right edge, focus locked on her eyes.
+
+AUDIO:
+One wooden knock, a small inhale, cloth movement and quiet room tone. No music. No subtitles.
+
+NEGATIVES:
+No identity drift, no extra characters, no door opening, no digital jitter, no autofocus shift.
