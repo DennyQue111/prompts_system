@@ -1,7 +1,7 @@
 ## Description
-GPT variant of storyboard — multi-frame narrative sequence. Same structure as `gemini.md`. Storyboard frames are simpler/sketchier than concept art — but GPT still over-details them.
+GPT variant of storyboard — multi-frame narrative sequence. Same structure as `text_to_image_gemini.md`. Storyboard frames are simpler/sketchier than concept art — but GPT still over-details them.
 
-**For Gemini** → use `gemini.md`. Full storyboard architecture → see `storyboard/gemini.md`.
+**For Gemini** → use `text_to_image_gemini.md`. Full storyboard architecture → see `storyboard/text_to_image_gemini.md`.
 **Scene-type specializations**: `action.md`, `dialogue.md`, `vfx.md` are model-agnostic (apply to both Gemini and GPT).
 
 ## Storyboard Prompt Composition (GPT)
@@ -39,7 +39,7 @@ inconsistent frame rendering, typography artifacts.
 
 ## Key Rules
 
-1. **Storyboard structure**: same as gemini.md.
+1. **Storyboard structure**: same as text_to_image_gemini.md.
 2. **Anti-noise is in per-frame word choice, not an appended block** — "controlled line work, clean shading, smooth backdrop" in each frame description is sufficient.
 3. **All frames must share the same detail level** — inconsistent frame quality breaks storyboard readability.
 4. **Panel borders: "clean thin lines"** — GPT decorates storyboard panel borders aggressively.

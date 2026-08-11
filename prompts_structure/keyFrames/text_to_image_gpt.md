@@ -1,7 +1,7 @@
 ## Description
 GPT variant of KeyFrames — 3×3 grid single-image visual consistency anchor. Same structure as `gemini.md`. Anti-noise embedded in word choice and grid-level control.
 
-**For Gemini** → use `gemini.md`. Full keyFrames architecture → see `keyFrames/gemini.md`.
+**For Gemini** → use `text_to_image_gemini.md`. Full keyFrames architecture → see `keyFrames/text_to_image_gemini.md`.
 
 ## GPT-Specific Modifications
 

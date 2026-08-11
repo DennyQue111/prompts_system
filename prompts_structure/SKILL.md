@@ -2,17 +2,18 @@
 ## Description
 This skill generates high-quality image and video generation prompts. For a given concept type (character, entity, location, prop) and optionally a model, it automatically constructs a prompt combining content specifications and layout structure.
 
-**Important**: Before determining which architecture to use, consult `concept-classification.md` to verify the correct subtype — especially for cases where a subject could be miscategorized (e.g., sentient non-humanoid beings should use `entity`, not `character` or `prop`).
+**Important**: Before determining which architecture to use, consult `concept-classification.md` to verify the correct subtype — especially for cases where a subject could be miscategorized (e.g., sentient non-humanoid beings should use `entity`, not `character` or `prop`). For video sequences with character performance, consult `performance/` BEFORE writing shot-level descriptions — the acting profile drives what the camera captures.
 
 ## Architecture Philosophy: Type-First, Model-Second
 
 The directory hierarchy is organized by **concept type**, not by model:
 
 - **`concept/{type}/`** — defines **WHAT** content the image must include AND **HOW** it is composed. Each type directory contains model-specific variant files plus a `general_layout_instruction.md` that defines the 16:9 panel grid shared across all models.
+- **`performance/`** — defines **HOW characters behave**. Before any video sequence or shot is written, characters must have acting profiles (master profile, scene adaptation rules, eye life). This is an upstream layer that feeds into sequence/ and shot/ fields.
 
-**Gemini/GPT Split**: As of July 2026, Gemini and GPT have separate variant files (`gemini.md` / `gpt.md`). GPT image generation is prone to "dirty" images (uncontrolled micro-texture, muddy shadows, residual noise). GPT variants include anti-noise discipline. See `meta/gpt-image-hygiene.md` for the full methodology.
+**Gemini/GPT Split**: As of July 2026, Gemini and GPT have separate variant files (t2i: `text_to_image_gemini.md` / `text_to_image_gpt.md`, i2i: `image_to_image_gemini.md` / `image_to_image_gpt.md`). For simpler types with t2i only (entity, prop), the files are still `gemini.md` / `gpt.md`. GPT image generation is prone to "dirty" images (uncontrolled micro-texture, muddy shadows, residual noise). GPT variants include anti-noise discipline. See `meta/gpt-image-hygiene.md` for the full methodology.
 
-Each type's `README.md` describes the type and lists available model variants. If the user specifies a model, use that variant; otherwise default to `gemini.md`.
+Each type's `README.md` describes the type and lists available model variants. If the user specifies a model, use that variant; if unspecified, read the type's README.md first to find the correct default file — never assume `gemini.md` exists in every directory.
 
 ## Core Principles (applied across all types)
 
@@ -36,12 +37,14 @@ Each type's `README.md` describes the type and lists available model variants. I
 3. **If the subtype is ambiguous**, consult `concept-classification.md` to determine the correct architecture (character vs entity vs prop vs location).
 4. Read the type's README at `concept/{type}/README.md` to understand what this type is and to find the available model variants.
 5. Read the content architecture at the appropriate variant file identified in step 4:
-   - Gemini → `gemini.md` (or `text_to_image_gemini.md` / `image_to_image_gemini.md` for character/location/frame)
-   - GPT → `gpt.md` (or `text_to_image_gpt.md` / `image_to_image_gpt.md` for character/location/frame/keyFrames/vfx)
-   - Midjourney → `midjourney.md` (or `text_to_image_midjourney.md` for character)
-   - Jimeng / 即梦 → `jimeng_image_to_image.md` (frame), or use CG anime fallback for concept generation
-   - Seedance → `seedance.md` (for sequence video generation)
-   - If user didn't specify → default to `gemini.md`
+   - **Gemini t2i** → `text_to_image_gemini.md` (keyFrames, storyboard, frame, character, location) or `gemini.md` (entity, prop — t2i only)
+   - **Gemini i2i** → `image_to_image_gemini.md` (frame, character, location, vfx — where i2i variants exist)
+   - **GPT t2i** → `text_to_image_gpt.md` (keyFrames, storyboard, frame, character, location) or `gpt.md` (entity, prop — t2i only)
+   - **GPT i2i** → `image_to_image_gpt.md` (keyFrames, frame, character, location, vfx)
+   - **Midjourney** → `midjourney.md` (entity, prop, location) or `text_to_image_midjourney.md` (character, frame)
+   - **Jimeng / 即梦** → `jimeng_image_to_image.md` (frame i2i), `image_to_image_jimeng.md` (character i2i)
+   - **Seedance** → `seedance.md` (sequence, shot)
+   - If user didn't specify → read the type's README.md to find the default Gemini file
    - This file defines the **content formula** — WHAT the image must include
 6. **Follow the "Image Structure" section** at the bottom — it references the corresponding sheet layout.
 7. Read the layout file at `concept/{type}/general_layout_instruction.md` (or `simple_layout_instruction.md` for video-reference layouts):
@@ -108,10 +111,15 @@ prompts_structure/
 │   └── style_reference.md       ← Frame-level style reference architecture
 ├── keyFrames/                   ← Multi-image visual consistency lock (3x3 grid)
 │   ├── README.md
-│   ├── gemini.md                ← Gemini: 9-grid single-image anchor
+│   ├── text_to_image_gemini.md  ← Gemini: 9-grid single-image anchor
 │   ├── text_to_image_gpt.md     ← GPT t2i: 9-grid single-image anchor (anti-noise)
 │   ├── image_to_image_gpt.md    ← GPT i2i: ref → 9-grid (anti-noise)
 │   └── examples.md              ← KeyFrames usage examples
+├── performance/                 ← Character acting & behavior (upstream of video sequences)
+│   ├── README.md
+│   ├── acting_master_profile.md ← 150-220 word character acting profile template
+│   ├── scene_adaptation.md      ← Scene-level acting adaptation rules + Five Pillars
+│   └── eye_life.md              ← Mandatory eye behavior system for human faces
 ├── world_view/                  ← World-building visual constitution (V11)
 │   ├── SKILL.md                 ← V11 orchestrator: 9 aspects + continuity bible + shot matrix
 │   ├── midjourney_animation.md  ← MJ animation-style world prompt
@@ -129,8 +137,8 @@ prompts_structure/
 ├── shot/                        ← Single-shot video generation (single frame → video)
 │   └── seedance.md              ← Seedance single-shot video production blueprint
 ├── storyboard/                  ← Multi-frame narrative sequence
-│   ├── gemini.md                ← Gemini: visual script for scenes
-│   ├── gpt.md                   ← GPT: visual script for scenes (anti-noise)
+│   ├── text_to_image_gemini.md  ← Gemini: visual script for scenes
+│   ├── text_to_image_gpt.md     ← GPT: visual script for scenes (anti-noise)
 │   ├── action.md                ← Action-heavy scene spec (model-agnostic)
 │   ├── dialogue.md              ← Dialogue-heavy scene spec (model-agnostic)
 │   └── vfx.md                   ← VFX-heavy scene spec (model-agnostic)
@@ -157,11 +165,12 @@ prompts_structure/
 
 ### New Types (outside concept/)
 - **frame** → `gemini.md` / `text_to_image_gemini.md` (Gemini t2i, single cinematic frame), `gpt.md` / `text_to_image_gpt.md` (GPT t2i, single cinematic frame with anti-noise), `image_to_image_gemini.md` (Gemini i2i, ref → single frame), `image_to_image_gpt.md` (GPT i2i, ref → single frame with anti-noise), `image_to_image_midjourney.md` (MJ i2i, ref → single frame), `jimeng_image_to_image.md` (即梦 i2i, ref → single frame, Chinese prompt), `midjourney.md` (MJ, single cinematic frame with --params), `text_to_image_midjourney.md` (MJ t2i), `style_reference.md` (frame-level style reference architecture)
-- **keyFrames** → `gemini.md` (Gemini, 3×3 grid single-image anchor), `text_to_image_gpt.md` (GPT t2i, 3×3 grid with anti-noise), `image_to_image_gpt.md` (GPT i2i, ref → 3×3 grid with anti-noise), `examples.md`
+- **keyFrames** → `text_to_image_gemini.md` (Gemini t2i, 3×3 grid single-image anchor), `text_to_image_gpt.md` (GPT t2i, 3×3 grid with anti-noise), `image_to_image_gpt.md` (GPT i2i, ref → 3×3 grid with anti-noise), `examples.md`
+- **performance** → `acting_master_profile.md` (150-220 word character acting profile), `scene_adaptation.md` (scene-level acting adaptation + Five Pillars), `eye_life.md` (mandatory eye behavior for human faces) — upstream layer that feeds into sequence/shot fields
 - **world_view** → SKILL.md (V11 orchestrator), `midjourney_animation.md` (MJ animation world prompt), `midjourney_realistic.md` (MJ realistic world prompt), `style-profiles/realistic.md` (photographic cinematic), `style-profiles/anime.md` (Gantz × Demon Slayer fusion)
-- **storyboard** → `gemini.md` (Gemini, multi-frame narrative sequence), `gpt.md` (GPT, multi-frame with anti-noise), `action.md` (action-heavy scenes, model-agnostic), `dialogue.md` (dialogue-heavy scenes, model-agnostic), `vfx.md` (VFX-heavy scenes, model-agnostic)
-- **shot** → `seedance.md` (Seedance single-shot video production blueprint — single frame → video, unlike sequence which handles multi-shot pre-vis)
-- **sequence** → `seedance.md` (Seedance multi-shot pre-vis blueprint), `examples.md`
+- **storyboard** → `text_to_image_gemini.md` (Gemini, multi-frame narrative sequence), `text_to_image_gpt.md` (GPT, multi-frame with anti-noise), `action.md` (action-heavy scenes), `dialogue.md` (dialogue-heavy scenes), `vfx.md` (VFX-heavy scenes)
+- **shot** → `seedance.md` (Seedance single-shot video production blueprint)
+- **sequence** → `seedance.md` (Seedance multi-shot pre-vis with @TAG binding, first-frame rules, spatial landmarks, format modes), `examples.md`
 
 ### Shared
 - **reference.md** — Cross-type style library (artistic medium, rendering, aesthetics, color palettes, lens focal lengths, CG anime styles)

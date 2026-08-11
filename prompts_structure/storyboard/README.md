@@ -7,13 +7,13 @@ Records the prompt structure for generating **storyboards** — visual scripts s
 
 | File | What It Is |
 |------|-------------|
-| `gemini.md` | Storyboard architecture for Gemini 2.5 Flash Image (default) |
-| `gpt.md` | Storyboard architecture for GPT image models (with anti-noise adaptations) |
+| `text_to_image_gemini.md` | Storyboard architecture for Gemini 2.5 Flash Image (default) |
+| `text_to_image_gpt.md` | Storyboard architecture for GPT image models (with anti-noise adaptations) |
 | `action.md` | Action sequence storyboard structure |
 | `dialogue.md` | Dialogue-heavy scene storyboard structure |
 | `vfx.md` | VFX-heavy beat storyboard structure |
 
 ## Usage
 - Pick the sub-type file (`action.md` / `dialogue.md` / `vfx.md`) based on scene content first
-- Then load the model variant (`gemini.md` or `gpt.md`) for the output architecture
+- Then load the model variant (`text_to_image_gemini.md` or `text_to_image_gpt.md`) for the output architecture
 - For GPT image generation, also read `../meta/gpt-image-hygiene.md` before writing the prompt
