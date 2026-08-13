@@ -61,7 +61,8 @@ Tailor ~10-15 terms to actual scene. Example for night/rain:
 ```
 Avoid: ghost texture, repetitive micro-pattern noise, dirty texture buildup,
 muddy shadows, clipped highlights, crushed blacks, dark-band noise,
-sky gradient artifacts, fog noise patterns, milky reflections.
+sky gradient artifacts, fog noise patterns, milky reflections,
+characters, human figures, people.
 ```
 
 For other scene types, curate from `meta/gpt-image-hygiene.md`.
@@ -78,7 +79,8 @@ For other scene types, curate from `meta/gpt-image-hygiene.md`.
 8. **Background gradients must be explicitly "smooth"** — GPT defaults to noisy gradient transitions.
 9. **Dark scenes are highest risk** — use "smooth dark tones with readable shadow floor."
 10. **Check for repetition before output** — delete anything that says the same thing twice.
-11. Read `meta/gpt-image-hygiene.md` for full methodology.
+11. **No characters**: Scene concept images are environment-only — no human figures, no creatures, no character silhouettes. Use architectural elements (doorways, vehicles, streetlights) for scale reference instead. Add "characters, human figures, people" to the negative prompt.
+12. Read `meta/gpt-image-hygiene.md` for full methodology.
 
 ## Scoring Rubric
 

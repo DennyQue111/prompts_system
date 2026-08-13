@@ -26,15 +26,14 @@ Reference-anchored structure (NOT pure text-to-image from scratch):
 ```
 Based on the attached reference image — [brief scene ID: "a night suburban ring road in heavy rain"] — generate a [project]. EXTEND this location from the reference, not create from scratch.
 
-Reference content: [key features observed in reference — what's in foreground/midground/background, light sources, signs with garbled text to fix].
+Reference content: [key features observed in reference — what's in foreground/midground/background, light sources, signs with garbled text to fix]. **Exclude all characters from the reference image — environment only, no human figures.**
 
-Layout instruction: reference layout_instruction.md in this directory for full grid spec — 16:9 location concept design sheet, MAIN VISUAL / REVERSE ANGLE / TOP-DOWN VIEW / MID-DISTANCE SHOTS / BOTTOM ROW. Clean near-white background with subtle paper texture, thin dark panel dividers, labels in small clean typography.
+Layout instruction: reference hdr_layout_instruction.md in this directory for full grid spec — 16:9 HDR 4-panel layout, 2×2 grid, equal panels, 28mm wide-angle, 90° rotation per panel. Clean near-white background with subtle paper texture, thin dark panel dividers, labels in small clean typography.
 
-[Panel 1: MAIN VISUAL — "reproduce the reference image exactly" + text fixes + spatial markers] +
-[Panel 2: REVERSE ANGLE — 180° opposite perspective, deduced from reference spatial logic] +
-[Panel 3: TOP-DOWN VIEW — full spatial overview, deduced from reference spatial logic] +
-[Panel 4: MID-DISTANCE SHOTS — 3 panels, deduced from reference spatial logic] +
-[BOTTOM ROW: macro details + color palette extracted from reference] +
+[Panel 1 (TOP-LEFT — 正面 0°): main establishing view — reproduce the reference image spatial logic + text fixes] +
+[Panel 2 (TOP-RIGHT — 右侧 90°): right side view from same position, deduced from reference spatial logic] +
+[Panel 3 (BOTTOM-LEFT — 背面 180°): opposite direction from same position, deduced from reference spatial logic] +
+[Panel 4 (BOTTOM-RIGHT — 左侧 270°): left side view from same position, deduced from reference spatial logic] +
 
 Style: [keywords extracted from reference — model, lighting, atmosphere — 1 line only] +
 
@@ -61,7 +60,8 @@ Tailored to scene content — never copy the full generic list. For a rainy nigh
 Avoid: garbled text, pseudo-characters, compression grain, dark-band noise,
 muddy shadows, clipped highlights, crushed blacks, ghost texture,
 dirty texture buildup, over-detailed distant facades,
-neon glow overdrive, mirror-like reflections.
+neon glow overdrive, mirror-like reflections,
+characters, human figures, people.
 ```
 
 For other scene types, curate relevant terms from `meta/gpt-image-hygiene.md`.
@@ -76,4 +76,5 @@ For other scene types, curate relevant terms from `meta/gpt-image-hygiene.md`.
 6. **Reference background texture ≠ style** — extract only color palette, light ratio, and atmosphere from the reference background, not its noise profile.
 7. **Wet/dark scenes are highest risk** — use "smooth dark tones, subtle reflections with clean boundaries" in descriptions.
 8. **Check for repetition before output** — every sentence should carry new information.
-9. Read `meta/gpt-image-hygiene.md` for full methodology.
+9. **No characters**: Scene concept images are environment-only. If the reference image contains human figures, explicitly state "exclude all characters from the reference image, environment only." Add "characters, human figures, people" to the negative prompt. Use architectural elements for scale reference.
+10. Read `meta/gpt-image-hygiene.md` for full methodology.

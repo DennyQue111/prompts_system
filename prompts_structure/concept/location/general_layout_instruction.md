@@ -56,3 +56,4 @@ All panels on a unified clean white or near-white background with thin dark divi
 5. **Mid-distance = hero buildings/zones**: Each panel highlights one key structure. Don't repeat the same building.
 6. **Detail panels = world-building proof**: Signs, materials, joints — the difference between a generic place and a lived-in world.
 7. **Color palette is a production tool**: Swatch labels must include material context. "Dark teal" → "Dark teal — oxidized copper dome."
+8. **No characters**: Scene concept design sheets are environment-only — no human figures, no creatures, no character silhouettes in any panel. Use architectural elements (doorways, vehicles, streetlights, furniture) for scale reference instead. A person in any panel locks the model's attention onto the character, diluting environmental detail.

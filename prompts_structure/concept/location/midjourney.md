@@ -18,7 +18,7 @@ This is a single atmospheric frame designed to establish the world's visual lang
 [Spatial composition: foreground → midground → background] +
 [Architecture & materials: what it's built from, textured by world DNA] +
 [Lived-in details: wear, debris, traces of past events] +
-[Scale reference: human figure or doorway for size read] +
+[Scale reference: doorway, vehicle, or streetlight for size read — NO human figures] +
 [Camera & composition: lens, angle, framing] +
 [MJ style parameters]
 ```
@@ -32,7 +32,7 @@ This is a single atmospheric frame designed to establish the world's visual lang
 | **Spatial composition** | Foreground → midground → background layers | Guide MJ's depth: foreground element (ruined pillar, rain-streaked window) → midground subject → background vanishing point |
 | **Architecture & materials** | Building/terrain materials, construction style | World materials: if the world is "mirror surfaces everywhere," describe mirror-fragment architecture |
 | **Lived-in details** | Wear, rust, debris, traces of use | Implies passage of time and survivors — bloodstains on arena walls, scratched tally marks, abandoned gear |
-| **Scale reference** | Human figure or known object | A single survivor's silhouette provides instant scale read |
+| **Scale reference** | Architectural element for size read | A doorway, vehicle, or streetlight provides instant scale read — **no human figures**. Scene concept images are environment-only. |
 | **Camera & composition** | Lens, angle, framing | Default: 24mm wide for scale, 50mm for intimate spaces. Low angle for awe, high angle for vulnerability |
 
 ## MJ-Specific Parameters

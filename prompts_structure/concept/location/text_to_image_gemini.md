@@ -29,6 +29,7 @@ Use this architecture when generating an image focused on a location or environm
 3. **Atmosphere > object inventory**: Lighting and mood drive location quality more than listing every object. Use "detail accents" to sprinkle narrative flavor, not catalog everything in the scene.
 4. **For interiors**: Include ceiling height and room scale to avoid cramped AI compositions.
 5. **Avoid list-like descriptions**: Don't enumerate objects. Integrate them into the spatial narrative. "A church" → "a crumbling Gothic church, blackened stone, jagged spires silhouetted against a blood-red sunset."
+6. **No characters**: Scene concept images are environment-only — no human figures, no creatures, no character silhouettes. Use architectural elements (doorways, vehicles, streetlights, furniture) for scale reference instead. A person in a scene concept image locks the model's attention onto the character, diluting environmental detail.
 
 ## Layout Reference
 Location text-to-image prompts generate single atmospheric shots for reference and mood exploration. For multi-panel concept design sheets (used in i2i workflow), see `layout_instruction.md` in this directory.

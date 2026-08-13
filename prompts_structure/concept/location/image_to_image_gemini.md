@@ -107,17 +107,17 @@ This string will be prepended to the final Gemini prompt to anchor the style.
 Define exactly WHAT environment is being extracted from the image:
 
 1. **Target specification**: Which location? (full establishing shot / specific building / street level / interior / etc.)
-2. **Exclusions**: What is NOT the location? (characters/creatures, narrative action, UI overlays, specific props that belong to a character rather than the environment)
+2. **Exclusions**: What is NOT the location? (characters/creatures, narrative action, UI overlays, specific props that belong to a character rather than the environment). **Scene concept images must contain no human figures — exclude all characters from the reference image and do not add any to the output.**
 3. **User content override**: If the user wants the reference's style but a DIFFERENT location content ("用这个风格画废弃的游乐场"), separate style (from reference) from content (from user instruction)
 4. **Contradiction resolution**: If the user asks for something that conflicts with the reference's physical logic (e.g., "keep the neon cyberpunk lighting but make it a medieval village"), flag the tension but proceed with user's content + reference's color/light logic where possible
 
 ---
 
-### Step 4: Spatial Deconstruction — Separating Geography from Style
+### Step 4: Spatial Deconstruction — 4-Direction HDR Views
 
-Unlike characters, locations don't have "front/side/back views" — they have **spatial layers** and **alternate angles**. Deconstruct the reference's space and plan reconstruction for the target location.
+The HDR layout requires 4 directional views from the same standing position, each rotated 90°. Deconstruct the reference's space into a 360° understanding.
 
-#### Spatial Layer Map
+#### Spatial Layer Map (for Panel 1 — 正面 0°)
 ```
 Foreground (closest to camera):
 - Observed elements: [list directly visible foreground objects/textures]
@@ -135,32 +135,32 @@ Background (depth / vanishing point):
 - Dominant material & light quality: [...]
 ```
 
-#### Alternate Angles (if generating a multi-panel sheet)
+#### Directional Views (Panels 2–4)
 ```
-Alternate angle 1 — Low angle from [position]:
-[How the location reads from a different vantage — what changes?]
+Panel 2 (右侧 90°) — right side view from same position:
+[What's visible 90° to the right — side walls, passages, lateral light sources, different building faces]
 
-Alternate angle 2 — Top-down overview:
-[Bird's-eye spatial relationships — layout, zoning, traffic flow]
+Panel 3 (背面 180°) — opposite direction from same position:
+[What's behind — the approach path, rear of structures, reverse depth. Together with Panel 1, establishes the "entry/exit" spatial relationship]
 
-Mid-distance details (2-3 panels):
-[Key location features that tell environmental story — a broken sign, an empty bus stop, a streetlight with one LED dead]
+Panel 4 (左侧 270°) — left side view from same position:
+[What's visible 90° to the left — mirrors Panel 2's coverage but from the other side]
 ```
 
-**Rule for spatial deduction:** If the user wants the reference's STYLE but a DIFFERENT location's CONTENT, replace the geography/architecture with the target location while preserving the spatial composition logic (foreground→midground→background depth structure, camera angle, focal length feel) from the reference.
+**Rule for spatial deduction:** If the user wants the reference's STYLE but a DIFFERENT location's CONTENT, replace the geography/architecture with the target location while preserving the spatial composition logic (foreground→midground→background depth structure, camera angle, focal length feel) from the reference. Apply the same style treatment consistently across all 4 directional panels.
 
 ---
 
 ### Step 5: Gemini Output Prompt
 
-The final prompt, formatted for Gemini/GPT image generation. Follow the panel layout defined in `layout_instruction.md` in this directory, but fill ALL content from Steps 1-4 observations and inferences.
+The final prompt, formatted for Gemini/GPT image generation. Follow the panel layout defined in `hdr_layout_instruction.md` in this directory, but fill ALL content from Steps 1-4 observations and inferences.
 
 ```
 [Style preservation keywords from Step 2.6] +
 
-[Layout instruction: reference layout_instruction.md in this directory for full grid spec — 16:9 location concept design sheet, MAIN VISUAL / REVERSE ANGLE / TOP-DOWN VIEW / MID-DISTANCE SHOTS / BOTTOM ROW] +
+[Layout instruction: reference hdr_layout_instruction.md — 16:9 HDR 4-panel layout, 2×2 grid, equal panels, 28mm wide-angle, 90° rotation per panel] +
 
-TOP-LEFT — MAIN VISUAL (establishing shot):
+TOP-LEFT — 正面 0° (main establishing view):
 [Location type + narrative function] +
 [Atmosphere injection: from Step 1 atmosphere + Step 2.6 atmospheric FX] +
 [Spatial composition: from Step 4 spatial layer map — foreground → midground → background] +
@@ -168,18 +168,14 @@ TOP-LEFT — MAIN VISUAL (establishing shot):
 [Lived-in details: from Step 1] +
 [Scale reference: from Step 1]
 
-UPPER-RIGHT LEFT — REVERSE ANGLE (180° opposite from main camera):
-[Step 4 alternate angle 1 — opposite side perspective]
+TOP-RIGHT — 右侧 90° (right side view from same position):
+[Step 4 Panel 2 — side walls, passages, lateral light sources, different building faces visible 90° to the right]
 
-UPPER-RIGHT RIGHT — TOP-DOWN VIEW (full spatial overview):
-[Step 4 alternate angle 2 — bird's-eye layout with all story locations marked]
+BOTTOM-LEFT — 背面 180° (opposite direction from same position):
+[Step 4 Panel 3 — approach path, rear of structures, reverse depth. Entry/exit spatial relationship]
 
-LOWER-RIGHT — MID-DISTANCE SHOTS (3 panels):
-[Step 4 mid-distance details — location storytelling through objects and wear]
-
-BOTTOM ROW — DETAILS + COLOR PALETTE (full width, ~1/5 height):
-[Step 1 lived-in details as macro close-ups] +
-Color Palette: [Step 2.3 primary + accent colors distilled to hex descriptions]
+BOTTOM-RIGHT — 左侧 270° (left side view from same position):
+[Step 4 Panel 4 — left side environment, mirrors Panel 2's coverage from the other side]
 
 [Style suffix with Step 2 keywords]
 ```
@@ -195,6 +191,7 @@ Color Palette: [Step 2.3 primary + accent colors distilled to hex descriptions]
 5. **Light source logic must transfer.** If the reference is lit by neon signs from below, the generated location must also derive its lighting logic from in-scene sources, not generic ambient fill. The language of light is the strongest style signal.
 6. **Weather and atmosphere are style, not content.** Rain, fog, time of day, particulate — these are transferable style elements. A user asking "this style but my location" almost always means "keep the weather and atmosphere too."
 7. **No artistic reinterpretation.** The purpose is reproduction, not improvement. If the MJ image has fog that's a bit too thick, describe the fog — don't "fix" it.
+8. **No characters in output.** Scene concept images are environment-only. If the reference image contains human figures, explicitly exclude them in the prompt: "exclude all characters from the reference image, environment only." Use architectural elements (doorways, vehicles, streetlights) for scale reference instead of human figures.
 
 ---
 
@@ -216,6 +213,6 @@ Color Palette: [Step 2.3 primary + accent colors distilled to hex descriptions]
 - **When to use this**: User uploads a reference image (MJ or other) and asks to extract/reproduce a location environment from it, or apply its visual style to a project location.
 - **When to use `text_to_image_gemini.md` instead**: User describes a location from imagination/script — no reference image provided.
 - **When to use `midjourney.md`**: User wants a single-shot atmospheric location image generated directly in Midjourney.
-- **Sheet layout**: Always pair with `layout_instruction.md` in this directory for the multi-panel grid specification.
-- **Scale is critical in locations**: Always include at least one scale reference element (human figure, vehicle, doorway) in the output prompt. Environments without scale cues feel like miniature dioramas.
+- **HDR layout**: Always pair with `hdr_layout_instruction.md` in this directory for the 4-panel HDR grid specification.
+- **Scale is critical in locations**: Always include at least one scale reference element (doorway, vehicle, streetlight) in the output prompt. Environments without scale cues feel like miniature dioramas.
 - **For interior locations**: Add ceiling height, room dimensions, and contained/spacious feel to Step 4's spatial layer map.

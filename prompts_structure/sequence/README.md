@@ -7,12 +7,18 @@ Records the prompt structure for generating a **sequence** — a scene-level pro
 
 | File | What It Is |
 |------|-------------|
-| `gemini.md` | Sequence architecture for Gemini 2.5 Flash (default) |
-| `gpt.md` | Sequence architecture for GPT models (with anti-noise adaptations) |
+| `seedance.md` | Sequence architecture for Seedance / 即梦 (shot-based, structured fields, negative constraints) |
+| `minimax.md` | Sequence architecture for MiniMax H3 (time-segment-based, inline image refs, positive-only, sound design) |
 | `examples.md` | Worked examples of sequence prompts |
 
 ## Usage
-- If the user wants Gemini → use `gemini.md`
-- If the user wants GPT → use `gpt.md`
-- For GPT image generation, also read `../meta/gpt-image-hygiene.md` before writing the prompt
-- Individual shots within a sequence should reference the frame architecture in `../frame/`
+- If the user wants Seedance / 即梦 → use `seedance.md`
+- If the user wants MiniMax H3 → use `minimax.md`
+- Individual shots within a sequence should reference the shot architecture in `../shot/`
+
+## Model Selection Guide
+
+| Model | Sequence File | Shot File | Key Differences |
+|-------|--------------|-----------|-----------------|
+| Seedance / 即梦 | `seedance.md` | `../shot/seedance.md` | Shot-based, negative constraints, @image block, no sound |
+| MiniMax H3 | `minimax.md` | `../shot/minimax.md` | Time-segment-based, positive-only, inline @图片N, sound design, strict punctuation |
