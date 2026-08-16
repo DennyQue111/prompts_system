@@ -43,7 +43,7 @@ This is a community-validated best practice observed in advanced Seedance / Klin
 
 - **MIDDLE — FRONT VIEW (HEADLESS)**, 1/3 width × full height. Full body from the **neck down**, front-facing, neutral standing pose. The head is intentionally cropped out — the frame cuts cleanly at the neckline. This panel provides body type, proportions, posture, outfit front, and accessories. By removing the face, it eliminates the low-resolution facial signal that would otherwise compete with the dedicated close-up panel. Pose should be relaxed and natural (arms at sides or slightly relaxed), not an action pose.
 
-- **RIGHT — BACK VIEW**, 1/3 width × full height. Full body, rear-facing. Shows back of head and hairstyle from behind (the only source of rear head data), back of outfit, back of accessories, any markings on the back. The head is NOT cropped here — the back of the head provides unique information (hairstyle rear, back profile) not available in the face close-up panel. Pose mirrors the front view for consistency.
+- **RIGHT — BACK VIEW**, 1/3 width × full height. Full body, rear-facing. Shows back of head and hairstyle from behind (the only source of rear head data), back of outfit, back of accessories, any markings on the back. The head is NOT cropped here — the back of the head provides unique information (hairstyle rear, back profile) not available in the face close-up panel. Pose mirrors the front view for consistency. **Must extend head-to-toe including the shoes/feet** — describe footwear (heel, sole, shoe shape) explicitly, otherwise the generator will crop the back view at the legs or trouser hem.
 
 ## Background & Dividers
 
@@ -56,7 +56,7 @@ All three panels share a unified clean white or near-white background. Thin dark
 [Character identity: name + age + role] +
 [Panel 1: FACE CLOSE-UP — upper body / shoulder-up, highest fidelity, neutral expression, even lighting, face fills most of panel height. THIS IS THE ONLY FACIAL DATA IN THE ENTIRE IMAGE.] +
 [Panel 2: FRONT VIEW (HEADLESS) — full body from neck down only, head intentionally cropped out, front-facing, neutral standing pose, full outfit visible, relaxed posture. NO FACE, NO HEAD, neck cut is clean and obvious.] +
-[Panel 3: BACK VIEW — full body including back of head, rear-facing, back of hairstyle, back of outfit, any back markings] +
+[Panel 3: BACK VIEW — full body head-to-toe including back of head and shoes/feet, rear-facing, back of hairstyle, back of outfit, any back markings] +
 [Style suffix]
 ```
 
@@ -70,6 +70,7 @@ All three panels share a unified clean white or near-white background. Thin dark
 6. **No items/clothing laid flat**: This is body-focused. Wardrobe inventory belongs in the general layout.
 7. **Three equal columns**: The visual weight should feel balanced. Don't let the close-up panel dominate or shrink.
 8. **Prompt must explicitly state the crop**: "head intentionally cropped out / no face / no head" — this prevents the image generator from accidentally including a tiny face in the body panel.
+9. **Back view must reach the feet**: The back view is a full-body panel — describe it top-to-bottom through the shoes (heel, sole, shoe shape). Stopping the description at the trousers/hem causes the generator to crop at the legs, producing a missing full body. This is the most common back-view failure mode.
 
 ## Why This Works Better Than a Standard 3-View
 
