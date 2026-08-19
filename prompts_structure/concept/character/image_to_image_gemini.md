@@ -148,33 +148,36 @@ Based on: [current camera angle — front/profile/3/4/back]
 
 ### Step 5: Gemini Output Prompt
 
-The final prompt, formatted for Gemini/GPT image generation. Follow the panel layout defined in `layout_instruction.md` in this directory, but fill ALL content from Steps 1-4 observations and inferences.
+The final prompt, formatted for Gemini/GPT image generation. Follow the panel layout defined in `simple_layout_instruction.md` in this directory (default), but fill ALL content from Steps 1-4 observations and inferences.
+
+> **Layout 默认为 simple（三列等分）。** 如果用户明确要求 general 布局（主视觉/视角变化/表情/底排），改用 `general_layout_instruction.md`。
 
 ```
 [Style preservation keywords from Step 2.6] +
 
-[Layout instruction: reference layout_instruction.md in this directory for full grid spec — 16:9 character concept design sheet, MAIN VISUAL / VIEW VARIATIONS / EXPRESSIONS / BOTTOM ROW] +
+[Layout instruction: reference simple_layout_instruction.md in this directory for simple three-column spec — 16:9 character concept design sheet, LEFT FACIAL CLOSE-UP / CENTER FRONT FULL BODY (headless) / RIGHT BACK FULL BODY. Clean near-white background, thin dark vertical panel dividers.] +
 
-TOP-LEFT — MAIN VISUAL:
-[Character subject extracted from Step 1 observation + Step 3 user additions] +
+LEFT COLUMN — FACIAL CLOSE-UP (shoulder-up, neutral expression):
 [Face: from Step 1 face observation] +
-[Hair: from Step 1 hair observation] +
+[Hair: from Step 1 hair observation, as visible from front] +
+[Facial marks: scars/freckles/tattoos from Step 1, if any] +
+[Expression: neutral, reference pose]
+
+CENTER COLUMN — FRONT FULL BODY (headless, from neck down, head cropped):
+⚠️ Head deliberately cropped — no head, no face in this column. Only body and clothing.
 [Build: from Step 1 body build observation] +
-[Personality-to-Visual (if body language/hand state/signature gesture visible in reference)] +
 [Outfit: from Step 1 clothing observation, layered outside→in, top→bottom] +
 [Accessories & body marks: from Step 1] +
-[Posture: from Step 1 pose observation]
+[Posture: from Step 1 pose observation] +
+[Front view details: from Step 4 front view] +
+[Body proportions: head-to-body ratio, shoulder width, leg length from Step 1]
 
-UPPER-RIGHT — VIEW VARIATIONS:
-[Front view: from Step 4 front view] +
-[Back view: from Step 4 back view] +
-[Side profile: from Step 4 side profile]
-
-LOWER-RIGHT — EXPRESSIONS (2×2 grid, shoulder-up):
-[Joy / Anger / Sorrow / Happiness, based on the character's face structure from Step 1]
-
-BOTTOM ROW:
-[All clothing items, accessories, body marks from Step 1 as individual panels]
+RIGHT COLUMN — BACK FULL BODY (head to toe, including back of head):
+[Hair back: from Step 4 back view — length, layering, how it falls] +
+[Clothing back: from Step 4 back view — back collar, seams, decals, structural details] +
+[Back accessories & marks: from Step 4 back view] +
+[Shoes back/side: from Step 4 back view — heel, sole, shoe type] +
+[Body back: from Step 4 back view — shoulder blade definition, back width]
 
 [Style suffix adapted with Step 2 keywords]
 ```
@@ -199,7 +202,7 @@ BOTTOM ROW:
 | Style analysis skipped → Gemini output looks generic | Always complete Step 2 — the style keywords are what make the reproduction possible |
 | Three-view fully invented not inferred | Check each hidden-angle detail against what the visible angle provides as clues |
 | Clothing described as "a black tactical suit" | Break down to specific pieces with material and cut detail observed from the image |
-| Character floats — no background/environment context | The concept sheet uses a clean white background as specified in `layout_instruction.md` in this directory |
+| Character floats — no background/environment context | The concept sheet uses a clean white background as specified in `simple_layout_instruction.md` in this directory |
 | User additions ignored | Step 3.3: always check for user extra requirements before generating the final prompt |
 
 ---
@@ -209,5 +212,5 @@ BOTTOM ROW:
 - **When to use this**: User uploads a reference image (MJ or other) and asks to extract/reproduce a character from it.
 - **When to use `text_to_image_gemini.md` instead**: User describes a character from imagination/script — no reference image provided.
 - **Future extension**: `image_to_image_midjourney.md` for MJ→MJ style reference transfer (using `--sref` or image prompt mode).
-- **Sheet layout**: Always pair with `layout_instruction.md` in this directory for the panel grid specification.
+- **Sheet layout**: Default pair with `simple_layout_instruction.md` (three-column). If user requests general layout, pair with `general_layout_instruction.md` instead.
 - **Image quality**: If the reference image is low resolution or heavily cropped, note visibility limits in Step 1 and prioritize what IS visible.

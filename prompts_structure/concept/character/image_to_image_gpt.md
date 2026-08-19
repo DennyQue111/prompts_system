@@ -26,12 +26,13 @@ Reference-anchored structure:
 ```
 Based on the attached reference image — [brief subject ID] — generate a full character concept design sheet. EXTEND from the reference, not create from scratch.
 
-Layout instruction: reference layout_instruction.md in this directory for full grid spec — 16:9 character concept design sheet, MAIN VISUAL / VIEW VARIATIONS / EXPRESSIONS / BOTTOM ROW. Clean near-white background with subtle paper texture, thin dark panel dividers, labels in small clean typography.
+Layout instruction: reference simple_layout_instruction.md in this directory for simple three-column spec — 16:9 character concept design sheet, LEFT FACIAL CLOSE-UP / CENTER FRONT FULL BODY (headless) / RIGHT BACK FULL BODY. Clean near-white background with subtle paper texture, thin dark vertical panel dividers.
 
-MAIN VISUAL — reproduce the reference image exactly + text/label fixes + costume detail corrections +
-VIEW VARIATIONS — deduced from reference: back view, profile, etc. +
-EXPRESSIONS — 4 expressions in 2×2 grid +
-BOTTOM ROW — clothing, accessories, body marks laid flat +
+> Default layout is simple (three-column). If user requests general layout (main visual / view variations / expressions / bottom row), use general_layout_instruction.md instead.
+
+LEFT COLUMN — FACIAL CLOSE-UP: reproduce the reference face exactly + hair as visible from front + facial marks + neutral expression +
+CENTER COLUMN — FRONT FULL BODY (headless, head cropped, no face): build + outfit layered outside→in + accessories & body marks + posture + front view deduced from reference +
+RIGHT COLUMN — BACK FULL BODY (head to toe, including back of head): hair back + clothing back structure + back accessories & marks + shoes back/side, must cover to feet +
 
 Style: [keywords extracted from reference — 1 line only] +
 
