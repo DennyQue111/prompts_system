@@ -49,6 +49,7 @@ description: Universal file structure & naming conventions for Denny's AI short-
 │   └── poster/                 ← 海报概念
 ├── scenes/
 │   └── {N}_{缩写}/             ← 每场一个文件夹（N=全局序号跨剧本递增，缩写=英文主题）
+│       ├── storyboard/         ← ★ 分镜（镜头确认 + 视频生成参考，见「Storyboard 定位」）
 │       ├── keyFrames/          ← ★ 3×3 九宫格关键帧：prompts/ + image/（+ camera_ref/）
 │       ├── layout/             ← Blender 白模 .blend + 空间位置参考
 │       ├── frameRef/           ← 全彩单帧 look reference（prompt/）【可选】
@@ -82,6 +83,7 @@ description: Universal file structure & naming conventions for Denny's AI short-
 world_view/（世界观视觉宪法）
   → concept/（角色/实体/场景/道具/VFX 概念设计）
   → scenes/{N}/layout/（Blender 白模，纯空间参考）
+  → scenes/{N}/storyboard/（分镜：生成视频前确认每个镜头；可直接作视频参考）【可选】
   → scenes/{N}/keyFrames/（九宫格关键帧，t2i + i2i 多轮迭代）
   → scenes/{N}/sequence/（Seedance 视频生成）
   → export/（剪辑成片）
@@ -96,7 +98,17 @@ world_view/（世界观视觉宪法）
 | Midjourney | t2i 概念/世界观（9 景成套产出） |
 | Seedance | 序列视频生成 |
 
-**⛔ 已废弃流程**：Storyboard（B&W 线稿会污染视频模型对角色外观的判断）。Blender 白模才是安全的 spatial reference。
+## Storyboard 定位
+
+**Storyboard 是保留流程，两个核心用途：**
+
+1. **视频生成前的镜头确认**：在生成视频前确认每个镜头的情况（构图/内容/衔接），是镜头规划的预览工具
+2. **直接作为参考生成视频**：storyboard 图可以直接作为 reference 输入视频模型生成视频
+
+**注意（历史教训）**：B&W 线稿对视频模型有「角色外观污染」风险——线稿画得越好，模型越容易把线稿特征当成角色外观。因此：
+- 作为镜头确认/规划工具 → 无碍，放心用
+- 直接作为视频生成参考 → 注意角色外观漂移风险，必要时叠加 `concept/` 全彩角色图约束
+- 空间关系参考仍以 Blender 白模（`layout/`）为准，storyboard 与白模互补不冲突
 
 ## 使用方式
 
