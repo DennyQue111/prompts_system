@@ -20,23 +20,28 @@ This file covers what GPT does differently from Gemini:
 [number of frames] storyboard, [row layout],
 clean near-white background, clean thin panel borders,
 minimal clean typography for labels.
+PURE BLACK-AND-WHITE INK: every uninked area is solid white;
+use black contour lines and sparse black hatching only;
+no grayscale fills, gray wash, tonal blocks, or gradients.
 
 [FRAME 1:]
 [shot type + angle + focal length] — [description]
-(controlled line work, clean shading, smooth backdrop)
+(pure black ink linework, white unfilled surfaces, sparse black hatching only)
 
 [FRAME 2:]
 [shot type + angle + focal length] — [description]
-(controlled line work, clean shading, smooth backdrop)
+(pure black ink linework, white unfilled surfaces, sparse black hatching only)
 
 [...]
 
-All frames: consistent detail level,
-clean panel separators, no background texture bleed.
+All frames: consistent line density, solid white uninked surfaces,
+clean panel separators, no background texture bleed,
+no grayscale or tonal rendering anywhere.
 
 [Exclusion list for this storyboard:
 No timestamps. No dialogue text. No singing. No extra characters.
-No enemies. No logos. No watermarks. No color. No 3D rendering.]
+No enemies. No logos. No watermarks. No color. No grayscale fills.
+No gray wash. No tonal blocks. No gradients. No 3D rendering.]
 ```
 
 ### Frame Count vs Video Duration
@@ -61,9 +66,11 @@ GPT over-details storyboard frames. Use controlled vocabulary in **each frame de
 
 | ❌ Avoid | ✅ Use in description |
 |---|---|
-| ultra detailed sketch | controlled line work, clean shading |
+| ultra detailed sketch | pure black ink linework, white unfilled surfaces, sparse black hatching only |
 | highly textured rendering | balanced detail, smooth backdrop |
 | photorealistic storyboard | clean panel composition |
+
+Do not use the standalone words `shading`, `tonal`, or `shadow fill` in clean-ink storyboard frame descriptions. GPT often interprets them as permission to paint gray areas. When form separation is needed, specify the visible mark-making directly: `variable black line weight`, `sparse black cross-hatching`, or `small isolated solid-black accents`.
 
 ---
 
@@ -84,7 +91,7 @@ clean thin panel borders, solid white background
 | Clean ink (default) | Production-ready storyboard, dialogue scenes, VFX planning | Precise, readable, professional |
 | Rough pencil / gesture | Action choreography preview, early blocking draft, movement-focused | Dynamic, energetic, unfinished |
 
-**Anti-noise for rough pencil style:** GPT may still over-detail. Reinforce with "minimal detail, simple anatomy, fast gesture energy" in each frame description. Do NOT add "controlled line work, clean shading" — that contradicts the rough aesthetic.
+**Anti-noise for rough pencil style:** GPT may still over-detail. Reinforce with "minimal detail, simple anatomy, fast gesture energy" in each frame description. Do NOT add the clean-ink phrase "pure black ink linework, white unfilled surfaces, sparse black hatching only" — that contradicts the rough aesthetic. Still keep the output monochrome and free of gray fills unless the user explicitly requests tonal pencil shading.
 
 ---
 
@@ -95,8 +102,11 @@ GPT models respond well to explicit "no" lists at the end of a prompt. Always ap
 ```
 [Exclusion list for this storyboard:
 No timestamps. No dialogue text. No singing. No extra characters.
-No enemies. No logos. No watermarks. No color. No 3D rendering.]
+No enemies. No logos. No watermarks. No color. No grayscale fills.
+No gray wash. No tonal blocks. No gradients. No 3D rendering.]
 ```
+
+For clean-ink storyboards, the exclusions above are mandatory even when a scene-type exclusion list from `gemini.md` is also used. Merge the lists; do not replace the grayscale exclusions with the shorter `No color` wording. `No color` alone is insufficient because GPT may still produce monochrome gray rendering.
 
 Customize per scene type (scene-type rules are in `gemini.md`):
 - **Action**: add "No static poses. No frozen standoffs."
@@ -109,7 +119,7 @@ Customize per scene type (scene-type rules are in `gemini.md`):
 ## GPT Key Rules
 
 1. **Storyboard structure**: same as `gemini.md`.
-2. **Anti-noise is in per-frame word choice, not an appended block** — "controlled line work, clean shading, smooth backdrop" in each frame description is sufficient.
+2. **Anti-noise and pure-line enforcement are in per-frame word choice** — use "pure black ink linework, white unfilled surfaces, sparse black hatching only" in each clean-ink frame description. Do not use `clean shading`.
 3. **All frames must share the same detail level** — inconsistent frame quality breaks storyboard readability.
 4. **Panel borders: "clean thin lines"** — GPT decorates storyboard panel borders aggressively.
 5. **Scene-type specializations** (action/dialogue/vfx/mixed): all rules are in `gemini.md` → Scene-Type Specializations. Apply them per-frame as needed.
@@ -118,3 +128,5 @@ Customize per scene type (scene-type rules are in `gemini.md`):
 8. **Rough pencil style for action preview**: use "rough pencil, gesture drawing energy" style suffix instead of "clean ink" for early-stage action choreography storyboards.
 9. **Always append exclusion list**: GPT models respond well to explicit "no" lists. Customize per scene type.
 10. **No dialogue text on panels**: Never write spoken lines as text on storyboard panels. Dialogue is conveyed through facial expression, body language, and lip movement only. Black text is limited to panel labels and 2–3 word action notes. See `gemini.md` → Key Rule 11.
+11. **Pure black-and-white must be enforced three times for clean-ink storyboards**: once immediately after the layout header, once in each frame's rendering phrase, and once in the final exclusion list. This repetition is intentional because layout compliance is fragile, not decorative prompt duplication.
+12. **Preflight visual test**: before submitting the prompt, verify that it describes every non-line region as solid white and limits dark rendering to black contours, sparse hatching, and isolated solid-black accents. If the prompt permits `shading`, `gray`, `wash`, `tone`, `gradient`, or soft filled shadows anywhere outside the exclusion list, rewrite that phrase.
