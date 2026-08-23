@@ -14,17 +14,33 @@ description: Universal file structure & naming conventions for Denny's AI short-
 - `scenes/` 放生产（镜头怎么拍）→ 下游
 - 世界观看全局，script 定剧情，export 收成片
 
+## 世界观与剧本的关系
+
+**世界观是容器，剧本是容器里的故事。**
+
+- **世界观（world_view/）** = 一个大世界的整体设定：地理、科技、种族、历史、视觉宪法。属于整个世界，全局共享
+- **剧本（script/）** = 这个大世界中某个/某些人或生物的一段故事。**一个世界观可以承载多个剧本**（如主线 + 外传/番外）
+
+**对结构的影响（很小，刻意为之）：**
+1. `world_view/` 和 `concept/` 是**世界级资产**：同一世界内的多个剧本共享同一套世界观设定和角色/场景/道具设计，不按剧本复制
+2. `script/` 下可放多个剧本文件：`Script.md`（主线）+ `Script_{外传名}.md`，或按 `script/{剧本名}/` 分子目录
+3. **分场分镜头不因剧本而变**：不同剧本 = 不同场次组，统一按 `scenes/{N}_{缩写}/` 全局连续编号（N 跨剧本递增，不按剧本重置）。每个剧本引用自己的场次区间即可
+4. 生产资产（keyFrames/sequence/export）按场次存放，天然归属对应剧本
+
+**现有实例**：《孢子纪元》= 单世界观多剧本（主线 + `side_stories/` 铁笼兔灵/机械怪人/烬夜）；《复生协议》= 单世界观单剧本（见 `references/复生协议_案例.md`）。
+
 ## 通用目录结构
 
 ```
 {项目名}/
 ├── PROJECT.md                  ← ★ 权威结构 + 进度（项目唯一真相源）
 ├── script/
-│   └── Script.md               ← ★ 剧本（每镜头含 Camera/Movement/Lighting）
-├── world_view/                 ← 世界观视觉宪法
+│   ├── Script.md               ← ★ 剧本（每镜头含 Camera/Movement/Lighting）
+│   └── Script_{外传名}.md      ← 同一世界观下的其他剧本（可选，见「世界观与剧本的关系」）
+├── world_view/                 ← 世界观视觉宪法（世界级资产，多剧本共享）
 │   ├── prompts/                ← ★ 主目录（世界观/MJ 提示词，中英双语）
 │   └── images/                 ← 世界观参考图（按幕或主题分子目录）
-├── concept/                    ← 概念设计（每项 = 一个文件夹）
+├── concept/                    ← 概念设计（世界级资产，多剧本共享；每项 = 一个文件夹）
 │   ├── character/{名字}/       ← SOUL.md（灵魂定义）+ image/ + prompt/
 │   ├── entity/{name}/          ← 非人实体：image/ + prompt/ + reference/
 │   ├── location/{Name}/        ← 场景：image/ + prompt/ + ref/
@@ -32,7 +48,7 @@ description: Universal file structure & naming conventions for Denny's AI short-
 │   ├── vfx/{name}/             ← 特效：image/ + prompt/ + reference/
 │   └── poster/                 ← 海报概念
 ├── scenes/
-│   └── {N}_{缩写}/             ← 每场一个文件夹（N=序号，缩写=英文主题）
+│   └── {N}_{缩写}/             ← 每场一个文件夹（N=全局序号跨剧本递增，缩写=英文主题）
 │       ├── keyFrames/          ← ★ 3×3 九宫格关键帧：prompts/ + image/（+ camera_ref/）
 │       ├── layout/             ← Blender 白模 .blend + 空间位置参考
 │       ├── frameRef/           ← 全彩单帧 look reference（prompt/）【可选】
@@ -84,7 +100,7 @@ world_view/（世界观视觉宪法）
 
 ## 使用方式
 
-1. **新项目**：按「通用目录结构」初始化空目录 + 写 `PROJECT.md`
+1. **新项目**：按「通用目录结构」初始化空目录 + 写 `PROJECT.md`；若世界观已有其他剧本，`world_view/` + `concept/` 直接复用，只新增 `script/` 剧本文件和自己的场次
 2. **命名**：所有新文件按「命名规范」生成
 3. **找文件/放文件**：按目录结构定位；不确定时读项目自己的 `PROJECT.md`
 4. **参考实现**：`references/复生协议_案例.md` 是完整落地案例（真实项目，含命名细节和踩坑记录）
