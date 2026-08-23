@@ -32,6 +32,18 @@ Current profiles: made-in-abyss-technical, gantz-kny-technical, chinese-material
 
 ---
 
+## project-structure
+
+Universal file structure & naming conventions for AI short-film projects. **Generic by design** — any new script project (复生协议, 孢子纪元, or future) initializes its directories per this skill. Contains:
+- `SKILL.md` — generic directory skeleton, naming conventions (`{Name}_{type}_{model}_v{N}`), workflow pipeline, model routing
+- `references/复生协议_案例.md` — ★ concrete reference implementation (real project with naming details & pitfalls)
+- `references/复生协议_full-tree.md` — auto-generated full file tree (332 entries)
+- `scripts/generate_tree.py` — regenerate the full-tree for any project
+
+Usage: tell an agent "按 project-structure skill 的结构来" when starting a new project.
+
+---
+
 ## ref_skills
 
 External reference skill files from third-party workflows. **These are for study and reference only — not part of the active prompts_structure.** They provide alternative methodologies (Cinedance Higgsfield director system, Lira image prompt optimization, acting performance systems) that can inform improvements to the main prompt pipeline.
@@ -48,4 +60,4 @@ prompts_structure/       →  "How do I build the prompt?"
 Final Prompt             →  Ready for image/video generation
 ```
 
-`ref_skills/` sits outside this pipeline — browse for ideas, not as production tools.
+`project-structure/` is orthogonal — it answers "where does the file go?" and applies to the whole pipeline. `ref_skills/` sits outside this pipeline — browse for ideas, not as production tools.
