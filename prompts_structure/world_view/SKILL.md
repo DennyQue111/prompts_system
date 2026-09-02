@@ -138,7 +138,29 @@ Before answering, repair any failure:
 - Concrete visible action and spatial depth in every prompt.
 - No contradictory camera or capture-medium claims.
 - No human-skin detail when faces are absent, distant, hidden, or non-human.
+- Shared backbone / negative / parameter blocks written once at the top; every scene executable still standalone-runnable (backbone + scene + negative + params inline).
 - Correct platform syntax with no empty or invented parameters.
 - User instructions override every default.
 
 Do not print the validation checklist unless the user asks for an audit.
+
+## Nine-frame set document layout — 公用 backbone 先行（mandatory）
+
+Denny's standing rule (confirmed 2026-09-01): every 世界观/九景-class deliverable — file or chat paste — MUST use this layout. Never silently fall back to a "nine fully self-contained scenes with no shared section" layout, and never drop the shared sections.
+
+**File layout (headings in this exact order):**
+
+1. Title + metadata block (worldview, platform, date, style backbone source, positioning).
+2. 世界观概念（本篇细化）.
+3. Continuity Bible（本篇专用）YAML — geography, architecture_grammar, material grammar, inhabitant archetypes, clothing, tools, climate, lighting_logic, color_palette, surface_texture, forbidden_drift, etc.
+4. 连续性锚点 table (recurring anchors; every scene must hit at least 3).
+5. `## Backbone（全 N 景共用）` — shared style backbone paragraph, written ONCE here, before any scene.
+6. Optional `## Character Rendering（人物段）` — a reusable character-rendering paragraph; state which scenes require it (character scenes embed it; pure architecture/wide scenes skip it).
+7. `## Negative Prompt（全 N 景共用）` — shared negative, written ONCE here.
+8. `## MJ Parameters（全 N 景共用）` — e.g. `--ar 9:16 --stylize 250 --v 8.2`.
+9. Scenes 1–N. Each scene block = Chinese title + 叙事功能/视觉意图 (Chinese, never inside the executable) + a full standalone Executable Prompt that repeats backbone + (character rendering if needed) + scene description + negative + parameters inline — so any single scene can be copied and run alone without the shared sections.
+10. 更新日志.
+
+**Chat-delivery variant (when the user says "直接发我"):** paste the shared blocks once at the front, then each scene's independent scene-description paragraph only. Keep the executable English pure; put Chinese intent on its own line.
+
+**Canon templates:** `projects/孢子纪元/world_view/孢子纪元_9景_v16_人类建筑篇.md` and `孢子纪元_9景_v17_人类底层篇.md` (identical layout). New nine-frame sets must mirror them.
