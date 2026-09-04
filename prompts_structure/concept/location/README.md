@@ -17,6 +17,7 @@ Records the concept design prompt structure for **story locations and environmen
 | `general_layout_instruction.md` | Archived | Old 6-panel design sheet layout — superseded by `hdr_layout_instruction.md` |
 
 ## Usage
+- If no model is specified → default to the applicable GPT file
 - If the user wants Gemini → use `text_to_image_gemini.md` or `image_to_image_gemini.md`
 - If the user wants GPT → use `text_to_image_gpt.md` or `image_to_image_gpt.md`
 - If the user wants 即梦 (Jimeng) → use `image_to_image_jimeng.md` (i2i only)

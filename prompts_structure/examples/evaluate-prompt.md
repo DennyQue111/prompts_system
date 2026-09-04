@@ -2,13 +2,13 @@
 
 ## User Input
 
-> Evaluate this prompt against general (Gemini 2.5 Flash / GPT) concept character:
+> Evaluate this concept-character prompt for GPT image generation:
 > "a pirate"
 
 ## Skill Behavior
 
-1. Parse: model=`general`, category=`concept`, subtype=`character`, evaluate existing prompt=`a pirate`
-2. Locate and read `concept/character/general.md`
+1. Parse: model=`GPT`, category=`concept`, subtype=`character`, output mode=`evaluation only`, evaluate existing prompt=`a pirate`
+2. Locate and read `concept/character/text_to_image_gpt.md` and both meta hygiene files
 3. Load the character scoring rubric (5 weighted dimensions)
 4. Score each dimension:
 

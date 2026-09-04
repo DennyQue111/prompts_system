@@ -107,4 +107,4 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 - **Flat MJ output:** Style too weak → add `--style raw`, increase sensory language density, use material-words (slick, rusted, mirrored, torn).
 
 ## Image Structure
-This file produces a single cinematic image — no multi-panel layout. For multi-panel character concept sheets, use the i2i workflow with `layout_instruction.md`.
+This file produces a single cinematic image — no multi-panel layout. For multi-panel character concept sheets, use the i2i workflow with `simple_layout_instruction.md` by default or `general_layout_instruction.md` for a full production sheet.

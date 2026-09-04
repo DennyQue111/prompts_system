@@ -1,9 +1,9 @@
 ## Description
-Use this architecture when the user uploads a Midjourney-generated reference image and wants to **extract a character** from it, then generate a Gemini/GPT-compatible concept-character prompt that reproduces the character — preserving face, hairstyle, body type, and most critically, the original art style.
+Use this architecture when the user uploads any reference image and wants to **extract a character** from it, then generate a Gemini-compatible concept-character prompt that reproduces the character — preserving face, hairstyle, body type, and the source's intentional art direction.
 
-The core problem this solves: MJ images have a distinct rendering aesthetic that pure text-to-image prompts struggle to reproduce in other models. This structure bridges that gap by systematically deconstructing the visual DNA of the MJ reference and translating it into a prompt language that Gemini/GPT can interpret.
+The core problem this solves: reference images contain visual identity and rendering evidence that pure text-to-image prompts struggle to reproduce. This structure bridges that gap by systematically deconstructing the source's visual DNA and translating it into prompt language Gemini can interpret.
 
-**Input:** MJ reference image + user instruction (e.g., "提取画面中心的人物", "取左边穿夹克的那个人", "要这个人带着她的护手和围巾")
+**Input:** Reference image + user instruction (e.g., "提取画面中心的人物", "取左边穿夹克的那个人", "要这个人带着她的护手和围巾")
 
 **Output:** A character prompt in `text_to_image_gemini.md` format, but filled with observed (not imagined) content, plus style preservation keywords.
 
@@ -33,9 +33,9 @@ Describe ONLY what is objectively visible. Do not invent, do not embellish.
 
 ---
 
-### Step 2: Style Analysis — Deconstructing the MJ Rendering Aesthetic
+### Step 2: Style Analysis — Deconstructing the Source Rendering Aesthetic
 
-This is the most critical section. The MJ image has a specific rendering style that Gemini needs to approximate. Break it down into the following dimensions:
+This is the most critical section. The source image has a specific rendering style that Gemini needs to approximate. Break it down into the following dimensions:
 
 #### 2.1 Line Quality
 | Aspect | Options / Examples |

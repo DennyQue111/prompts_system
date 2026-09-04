@@ -6,7 +6,7 @@ Image & video generation prompts knowledge base. Three modules: `style-profiles`
 
 ## prompts_structure
 
-The prompt engineering engine. Type-first architecture: organize by *what* you're generating, then pick the model variant.
+The prompt engineering engine. It first infers *what* the user wants from natural language and attached references, then selects the matching type, source mode, and model variant. Image generation defaults to GPT; video generation defaults to Seedance. Explicit model choices always override these defaults.
 
 Key directories:
 - **concept/** — Content architectures for concept design sheets (character / entity / location / prop / vfx), with Gemini/GPT/Jimeng/Midjourney variants
@@ -20,7 +20,7 @@ Key directories:
 - **meta/** — Cross-cutting quality standards (GPT anti-noise hygiene)
 - **examples/** — Session walkthroughs
 
-Entry point: `SKILL.md`.
+Entry point: `SKILL.md`. The skill is execution-oriented: when the user asks to generate media, the agent should assemble the prompt internally and call an available compatible renderer instead of requiring the user to name a template.
 
 ---
 

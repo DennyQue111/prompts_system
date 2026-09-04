@@ -2,13 +2,13 @@
 
 ## User Input
 
-> Model: general (Gemini 2.5 Flash / GPT), concept – character, a detective in a steampunk trench coat
+> Concept – character, a detective in a steampunk trench coat
 
 ## Skill Behavior
 
-1. Parse input: model=`general`, category=`concept`, subtype=`character`, description=`a detective in a steampunk trench coat`
+1. Parse input: model unspecified → default `GPT`; category=`concept`; subtype=`character`; source mode=`t2i`; description=`a detective in a steampunk trench coat`
 2. Subtype is `character` — no ambiguity, no need to check `concept-classification.md`
-3. Locate and read `concept/character/general.md`
+3. Locate and read `concept/character/text_to_image_gpt.md`, `concept/character/general_layout_instruction.md`, and both meta hygiene files
 4. Obtain the character prompt structure formula:
 
    ```
@@ -22,7 +22,7 @@
 
    > "A steampunk detective, mid-40s, sharp gray eyes, graying sideburns, lean build, worn brass-framed goggles pushed up on the forehead, heavy brown leather trench coat with brass buttons and gear-shaped cufflinks, utility belt with glass vials of colored liquid, calm but piercing gaze, standing with one hand resting on a brass-tipped cane, rain-slicked cobblestone alley at night, gas lamps casting warm amber pools of light, oil painting, cinematic lighting."
 
-7. Return the composed prompt to the user.
+7. If the user asked to generate the concept image, call GPT image generation with the composed prompt; if the user asked only for a prompt, return the prompt.
 
 ## If User Also Asks for Evaluation
 

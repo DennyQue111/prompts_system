@@ -32,4 +32,4 @@ Use this architecture when generating an image focused on a location or environm
 6. **No characters**: Scene concept images are environment-only — no human figures, no creatures, no character silhouettes. Use architectural elements (doorways, vehicles, streetlights, furniture) for scale reference instead. A person in a scene concept image locks the model's attention onto the character, diluting environmental detail.
 
 ## Layout Reference
-Location text-to-image prompts generate single atmospheric shots for reference and mood exploration. For multi-panel concept design sheets (used in i2i workflow), see `layout_instruction.md` in this directory.
+Location text-to-image prompts generate single atmospheric shots for reference and mood exploration. For the multi-panel HDR concept sheet used in i2i workflow, see `hdr_layout_instruction.md` in this directory.

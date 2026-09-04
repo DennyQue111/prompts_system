@@ -12,6 +12,7 @@ Records the concept design prompt structure for **props and objects** — items 
 | `midjourney.md` | Midjourney | Single prop still directly in MJ |
 
 ## Usage
+- If no model is specified → default to `gpt.md`
 - If the user wants Gemini → use `gemini.md`
 - If the user wants GPT → use `gpt.md`
 - If the user specifically requests Midjourney → use `midjourney.md`

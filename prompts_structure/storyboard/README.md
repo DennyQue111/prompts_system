@@ -7,13 +7,13 @@ Records the prompt structure for generating **storyboards** — visual scripts s
 
 | File | What It Is |
 |------|-------------|
-| `gemini.md` | Full storyboard architecture for Gemini (default) — includes inline scene-type specializations: Action, Dialogue, VFX, Mixed |
+| `gemini.md` | Full base storyboard architecture — includes inline scene-type specializations: Action, Dialogue, VFX, Mixed |
 | `gpt.md` | GPT-specific overlay — anti-noise, rough pencil style, exclusion list. Load after `gemini.md` |
 | `jimeng.md` | 即梦（Jimeng）专用覆盖层 — 中文模块化提示词、2000字限制取舍、相似度滑块参考图控制、黑白线稿三重锚定。Load after `gemini.md` |
 | `_archive/` | Archived standalone scene-type files (action/dialogue/vfx) — content has been merged into `gemini.md` |
 
 ## Usage
-1. **Determine the model** — Gemini, GPT, or 即梦（Jimeng）
+1. **Determine the model** — default to GPT when unspecified; otherwise honor Gemini, GPT, or 即梦（Jimeng）
 2. **Load `gemini.md`** for the full architecture + scene-type specializations
 3. **If GPT**: also load `gpt.md` for model-specific overlay
 4. **If GPT**: read `../meta/gpt-image-hygiene.md` before writing the prompt

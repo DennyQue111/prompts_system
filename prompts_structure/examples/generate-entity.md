@@ -2,16 +2,16 @@
 
 ## User Input
 
-> Model: general (Gemini 2.5 Flash / GPT), concept – entity, a sentient black sphere with an eye, game-master
+> Concept – entity, a sentient black sphere with an eye, game-master
 
 ## Skill Behavior
 
-1. Parse input: model=`general`, category=`concept`, subtype=`entity`, description=`a sentient black sphere with an eye, game-master`
+1. Parse input: model unspecified → default `GPT`; category=`concept`; subtype=`entity`; source mode=`t2i`; description=`a sentient black sphere with an eye, game-master`
 2. Subtype is `entity` — check `concept-classification.md` to confirm:
    - Not a location (it's a being, not a space)
    - No humanoid body plan (no head, torso, limbs, face)
    - Has consciousness and narrative role (sentient, game-master) → **entity** ✓
-3. Locate and read `concept/entity/general.md`
+3. Locate and read `concept/entity/gpt.md`, `concept/entity/general_layout_instruction.md`, and both meta hygiene files
 4. Obtain the entity prompt structure formula:
 
    ```

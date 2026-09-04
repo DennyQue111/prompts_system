@@ -129,7 +129,7 @@ Appended as the final block after all per-frame descriptions. Unlike storyboard'
 
 ## References
 
-- Camera specs quick reference → `frame/general.md` "Shot Type Quick Reference" + "Lens + Emotion Mapping"
+- Camera specs quick reference → `frame/text_to_image_gemini.md` “Shot Type Quick Reference” + “Lens + Emotion Mapping”
 - Style palette library → `frame/style_reference.md`
-- Visual-only description rules → `storyboard/general.md` "Rule 2"
+- Visual-only description rules → `storyboard/gemini.md` “Rule 2”
 - Full example → `keyFrames/examples.md`

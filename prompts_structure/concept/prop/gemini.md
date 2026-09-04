@@ -53,8 +53,7 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 - **Flat lighting implication**: If no environment is given, the model may render flat studio lighting → add "dramatic rim light" or "warm candlelit glow".
 
 ## Image Structure
-For the **layout grid, panel positions, and 16:9 composition**, see:
-→ **`layout_instruction.md`** in this directory — not yet created.
+This prop architecture produces a single hero image and has no separate layout file. Use the composition and perspective fields in this document directly.
 
 Until the sheet template is available, the image follows a single-panel composition: one dominant shot filling the 16:9 frame with the prop as the sole subject. The formula above (subject → material → scale → condition → details → composition → environment → style) provides all content.
 

@@ -1,186 +1,89 @@
+---
+name: prompts-structure
+description: Route natural-language image and video creation requests to the correct local prompt architecture, bind attached references, and execute generation when a compatible renderer is available. Use for concept sheets, cinematic frames, keyframes, storyboards, single-shot image-to-video, or multi-shot sequence generation. Defaults to GPT for images and Seedance for video unless the user names another model.
+---
 
-## Description
-This skill generates high-quality image and video generation prompts. For a given concept type (character, entity, location, prop) and optionally a model, it automatically constructs a prompt combining content specifications and layout structure.
+# Prompts Structure
 
-**Important**: Before determining which architecture to use, consult `concept-classification.md` to verify the correct subtype — especially for cases where a subject could be miscategorized (e.g., sentient non-humanoid beings should use `entity`, not `character` or `prop`). For video sequences with character performance, consult `performance/` BEFORE writing shot-level descriptions — the acting profile drives what the camera captures.
+Turn the user's intended deliverable into a finished image/video or a production-ready prompt. The user does not need to name a template, route, or model.
 
-## Architecture Philosophy: Type-First, Model-Second
+## Non-negotiable defaults
 
-The directory hierarchy is organized by **concept type**, not by model:
+- Image request with no model named: use **GPT image generation** and the GPT variant of the selected architecture.
+- Video request with no model named: use **Seedance** and the Seedance shot or sequence architecture.
+- An explicit model choice overrides these defaults. Never silently render with a different model.
+- If the user asks to create, generate, render, extract into, or make media, build the prompt internally and invoke the compatible generation tool when one is available. Do not stop at showing the prompt.
+- If the user explicitly asks for a prompt, template, rewrite, evaluation, or analysis, return text only unless they also ask to generate.
+- If the requested renderer is unavailable, do not claim generation succeeded. Return the ready-to-run prompt and state which renderer/tool is missing.
 
-- **`concept/{type}/`** — defines **WHAT** content the image must include AND **HOW** it is composed. Each type directory contains model-specific variant files plus a `general_layout_instruction.md` that defines the 16:9 panel grid shared across all models.
-- **`performance/`** — defines **HOW characters behave**. Before any video sequence or shot is written, characters must have acting profiles (master profile, scene adaptation rules, eye life). This is an upstream layer that feeds into sequence/ and shot/ fields.
+## Route before writing
 
-**Gemini/GPT Split**: As of July 2026, Gemini and GPT have separate variant files (t2i: `text_to_image_gemini.md` / `text_to_image_gpt.md`, i2i: `image_to_image_gemini.md` / `image_to_image_gpt.md`). For simpler types with t2i only (entity, prop), the files are still `gemini.md` / `gpt.md`. GPT image generation is prone to "dirty" images (uncontrolled micro-texture, muddy shadows, residual noise). GPT variants include anti-noise discipline. See `meta/gpt-image-hygiene.md` for the full methodology.
+Read [references/routing.md](references/routing.md) and choose exactly one primary route for each deliverable. Its four high-priority routes are:
 
-Each type's `README.md` describes the type and lists available model variants. If the user specifies a model, use that variant; if unspecified, read the type's README.md first to find the correct default file — never assume `gemini.md` exists in every directory.
+| Natural-language intent | Canonical route | Template |
+|---|---|---|
+| Extract the person/character from an attached image into a character concept sheet | `concept-character-i2i-gpt` | `concept/character/image_to_image_gpt.md` |
+| Extract the background/environment from an attached image into a location concept sheet | `concept-location-i2i-gpt` | `concept/location/image_to_image_gpt.md` |
+| Animate an attached image as one continuous shot | `shot-seedance` | `shot/seedance.md` |
+| Generate a passage from character/location concepts plus a shot list or script | `sequence-seedance` | `sequence/seedance.md` |
 
-## Core Principles (applied across all types)
+These defaults apply even when the user never mentions `concept-character-i2i`, `concept-location-i2i`, `shot`, `sequence`, GPT, or Seedance.
 
-1. **Personality-to-Visual Translation**: AI models don't understand abstract adjectives. Every personality trait must be translated into visible physical cues before entering the prompt. "He is loyal" → "he unconsciously positions his body half a step in front of his teammates."
-2. **Prototype Outfit Rule**: Write what the garment was BEFORE it became what it is now. "Combat suit adapted from a wedding tuxedo" is ten times more distinctive than "black tactical suit."
-3. **Lens Focal Length**: Include a specific focal length (e.g., `shot on a 50mm lens`) when the target model understands camera terminology. See `reference.md` Section 5 for the full focal length guide.
-4. **CG Anime Fallback**: For platforms with strict realism/person filters (即梦 Jimeng, 豆包), use 2D/3D CG anime styles. 即梦 has its own dedicated i2i architecture at `frame/jimeng_image_to_image.md` — use that instead of generic CG anime fallback when the target platform is 即梦. See also Section 6 in `reference.md` for CG anime style snippets.
+## Routing precedence
 
-## Input
-- **Concept subtype** (e.g., `character`, `entity`, `location`, `prop`)
-- **User description / subject** — free text describing the desired content
-- (Optional) **Reference image** — if the user uploads an image (e.g., MJ output) and asks to extract/reproduce content from it, use the corresponding `image_to_image_*` variant
-- (Optional) **Model name** — if specified (e.g., `midjourney`, `jimeng`), use the corresponding variant file
+Resolve conflicts in this order:
 
-## Output
-- One complete prompt that matches the target architecture (content formula + sheet layout combined)
+1. **Final deliverable:** video beats image; an image deliverable beats prompt-only work; an explicit prompt-only request prevents rendering.
+2. **Explicit model:** the user's named model beats the modality default.
+3. **Video scope:** a supplied shot list/script, multiple shots, edits/cuts, or several story beats means `sequence`; one image animated as one continuous camera take means `shot`.
+4. **Image form:** a design/reference sheet means `concept`; one finished cinematic still means `frame`; sequential planning panels mean `storyboard`; full-color continuity anchors mean `keyFrames`.
+5. **Concept subtype:** use `concept-classification.md` to choose character, entity, prop, location, or vfx.
+6. **Source mode:** a reference that supplies subject identity, appearance, composition, or environment means i2i; a reference used only as loose inspiration does not automatically force i2i.
 
-## Workflow
-1. Parse the user input to extract concept subtype, model (if specified), and description.
-2. **Detect i2i vs t2i**: If the user uploaded a reference image and wants to extract/reproduce content from it, route to `image_to_image_{type}.md` instead of the text-to-image variant. Skip to step 4 with the i2i file.
-3. **If the subtype is ambiguous**, consult `concept-classification.md` to determine the correct architecture (character vs entity vs prop vs location).
-4. Read the type's README at `concept/{type}/README.md` to understand what this type is and to find the available model variants.
-5. Read the content architecture at the appropriate variant file identified in step 4:
-   - **Gemini t2i** → `text_to_image_gemini.md` (keyFrames, storyboard, frame, character, location) or `gemini.md` (entity, prop — t2i only)
-   - **Gemini i2i** → `image_to_image_gemini.md` (frame, character, location, vfx — where i2i variants exist)
-   - **GPT t2i** → `text_to_image_gpt.md` (keyFrames, storyboard, frame, character, location) or `gpt.md` (entity, prop — t2i only)
-   - **GPT i2i** → `image_to_image_gpt.md` (keyFrames, frame, character, location, vfx)
-   - **Midjourney** → `midjourney.md` (entity, prop, location) or `text_to_image_midjourney.md` (character, frame)
-   - **Jimeng / 即梦** → `jimeng_image_to_image.md` (frame i2i), `image_to_image_jimeng.md` (character i2i)
-   - **Seedance** → `seedance.md` (sequence, shot)
-   - If user didn't specify → read the type's README.md to find the default Gemini file
-   - This file defines the **content formula** — WHAT the image must include
-6. **Follow the "Image Structure" section** at the bottom — it references the corresponding sheet layout.
-7. Read the layout file at `concept/{type}/general_layout_instruction.md` (or `simple_layout_instruction.md` for video-reference layouts):
-   - **general_layout**: Full production design sheet with expressions, view variations, item inventory
-   - **simple_layout** (character only): 3-column video-reference layout — face close-up / front / back
-   - For i2i → video workflows, prefer `simple_layout_instruction.md`
-   - Style suffix is derived from the project's `style_profile.md`, not hardcoded in layout files
-8. If the layout file does not yet exist (e.g., prop), use the content file's own structure directly.
-9. Optionally consult `reference.md` for style snippets.
-10. **If GPT: read `meta/gpt-image-hygiene.md`** for anti-noise word choice and scene-specific negative terms. Do NOT copy methodology blocks — clean language lives in panel description word choice, not appended text.
-11. Combine the content formula and sheet layout into the final prompt.
-12. Return the result to the user.
+The final action verb is decisive. For example, “基于这份镜头表生成视频” routes to `sequence`, even though “镜头表” could otherwise describe a storyboard input.
 
-## Directory Structure
-```
-prompts_structure/
-├── SKILL.md
-├── concept-classification.md    ← Boundary guide: which type to use
-├── reference.md                 ← Cross-type style reference library
-├── concept/                     ← Content architectures (WHAT to render)
-│   ├── character/
-│   │   ├── README.md
-│   │   ├── general_layout_instruction.md   ← Layout grid & panel definitions (full production sheet)
-│   │   ├── simple_layout_instruction.md    ← Simplified 3-column layout (video reference: face / front / back)
-│   │   ├── text_to_image_gemini.md     ← Gemini: multi-panel concept sheet
-│   │   ├── text_to_image_gpt.md        ← GPT: multi-panel concept sheet (anti-noise)
-│   │   ├── image_to_image_gemini.md    ← MJ ref → Gemini: extract + reproduce
-│   │   ├── image_to_image_gpt.md       ← MJ ref → GPT: extract + reproduce (anti-noise)
-│   │   ├── image_to_image_jimeng.md    ← 即梦 i2i: ref → character ref sheet (Chinese, simple_layout, video input)
-│   │   └── text_to_image_midjourney.md ← MJ: single cinematic character still
-│   ├── entity/
-│   │   ├── README.md
-│   │   ├── general_layout_instruction.md   ← Layout grid & panel definitions
-│   │   ├── gemini.md                   ← Gemini: multi-panel concept sheet
-│   │   ├── gpt.md                      ← GPT: multi-panel concept sheet (anti-noise)
-│   │   └── midjourney.md               ← MJ: single cinematic entity still
-│   ├── location/
-│   │   ├── README.md
-│   │   ├── general_layout_instruction.md   ← Layout grid & panel definitions
-│   │   ├── text_to_image_gemini.md     ← Gemini: multi-panel concept sheet
-│   │   ├── text_to_image_gpt.md        ← GPT: multi-panel concept sheet (anti-noise)
-│   │   ├── image_to_image_gemini.md    ← MJ ref → Gemini: extract + reproduce
-│   │   ├── image_to_image_gpt.md       ← MJ ref → GPT: extract + reproduce (anti-noise)
-│   │   └── midjourney.md               ← MJ: single atmospheric establishing shot
-│   ├── prop/
-│   │   ├── README.md
-│   │   ├── gemini.md                   ← Gemini: prop still
-│   │   ├── gpt.md                      ← GPT: prop still (anti-noise)
-│   │   └── midjourney.md               ← MJ: prop still
-│   └── vfx/                      ← Visual effects concepts (portals, energy, FX)
-│       └── image_to_image_gpt.md       ← GPT i2i: ref → VFX concept (anti-noise)
-├── frame/                       ← Single cinematic frame (frameRef / look reference)
-│   ├── README.md
-│   ├── gemini.md                ← Gemini t2i: one shot, one emotion, one composition
-│   ├── gpt.md                   ← GPT t2i: one shot, one emotion, one composition (anti-noise)
-│   ├── text_to_image_gemini.md  ← Gemini t2i: extended single frame
-│   ├── text_to_image_gpt.md     ← GPT t2i: extended single frame (anti-noise)
-│   ├── text_to_image_midjourney.md ← MJ t2i: single cinematic frame with --params
-│   ├── image_to_image_gemini.md ← Gemini i2i: ref → single cinematic frame
-│   ├── image_to_image_gpt.md    ← GPT i2i: ref → single cinematic frame (anti-noise)
-│   ├── image_to_image_midjourney.md ← MJ i2i: ref → single cinematic frame
-│   ├── jimeng_image_to_image.md ← 即梦 i2i: ref → single frame (Chinese prompt, similarity slider)
-│   ├── midjourney.md            ← MJ: one shot, one emotion, one composition (with --params)
-│   └── style_reference.md       ← Frame-level style reference architecture
-├── keyFrames/                   ← Multi-image visual consistency lock (3x3 grid)
-│   ├── README.md
-│   ├── text_to_image_gemini.md  ← Gemini: 9-grid single-image anchor
-│   ├── text_to_image_gpt.md     ← GPT t2i: 9-grid single-image anchor (anti-noise)
-│   ├── image_to_image_gpt.md    ← GPT i2i: ref → 9-grid (anti-noise)
-│   └── examples.md              ← KeyFrames usage examples
-├── performance/                 ← Character acting & behavior (upstream of video sequences)
-│   ├── README.md
-│   ├── acting_master_profile.md ← 150-220 word character acting profile template
-│   ├── scene_adaptation.md      ← Scene-level acting adaptation rules + Five Pillars
-│   └── eye_life.md              ← Mandatory eye behavior system for human faces
-├── world_view/                  ← World-building visual constitution (V11)
-│   ├── SKILL.md                 ← V11 orchestrator: 9 aspects + continuity bible + shot matrix
-│   ├── midjourney_animation.md  ← MJ animation-style world prompt
-│   ├── midjourney_realistic.md  ← MJ realistic-style world prompt
-│   ├── references/              ← On-demand references
-│   │   ├── world-aspects.md
-│   │   ├── continuity-and-shot-planning.md
-│   │   ├── camera-and-style-adaptation.md
-│   │   ├── platform-renderers.md
-│   │   └── output-formats.md
-│   ├── style-profiles/          ← Optional: drop-in style presets
-│   │   ├── realistic.md         ← Photographic cinematic: Arri 65mm, film stock, skin detail
-│   │   └── anime.md             ← Gantz × Demon Slayer fusion: hand-drawn, cel shading, no focal lengths
-│   └── _archive/                ← Old V9-based files (kept for reference, not active)
-├── shot/                        ← Single-shot video generation (single frame → video)
-│   └── seedance.md              ← Seedance single-shot video production blueprint
-├── storyboard/                  ← Multi-frame narrative sequence
-│   ├── text_to_image_gemini.md  ← Gemini: visual script for scenes
-│   ├── text_to_image_gpt.md     ← GPT: visual script for scenes (anti-noise)
-│   ├── action.md                ← Action-heavy scene spec (model-agnostic)
-│   ├── dialogue.md              ← Dialogue-heavy scene spec (model-agnostic)
-│   └── vfx.md                   ← VFX-heavy scene spec (model-agnostic)
-├── sequence/                    ← Timed multi-shot pre-vis (video generation)
-│   ├── README.md
-│   ├── seedance.md              ← Seedance video production blueprint
-│   └── examples.md              ← Sequence usage examples
-├── meta/                        ← Cross-cutting prompt quality standards
-│   ├── prompt-hygiene.md        ← Prompt hygiene checklist and best practices
-│   └── gpt-image-hygiene.md     ← GPT anti-noise methodology (July 2026)
-└── examples/                    ← Detailed session walkthroughs
-    ├── README.md
-    ├── generate-character.md
-    └── generate-entity.md
+## Execution workflow
 
-## Currently Supported Types & Model Variants
+1. Inspect the user's text and all attached images/files. Assign each input a role: character identity, entity, location, prop, style/look, keyframe, shot list, or script.
+2. Select the primary route and model using the precedence above. Do not ask the user to name an internal architecture.
+3. Read only the files listed for that route in `references/routing.md`, including required base/layout/hygiene files.
+4. Convert narrative or abstract language into visible action, body mechanics, spatial relationships, materials, lighting, and camera behavior. Preserve explicit identity, composition, duration, aspect ratio, and model choices.
+5. Build one clean prompt in the selected architecture. Do not expose internal chain-of-thought or template assembly unless requested.
+6. If media was requested, invoke the selected renderer with the attached references and composed prompt. Return the generated artifact. If only a prompt was requested, return the prompt.
+7. For a multi-stage request, run dependencies in order and reuse outputs: concept assets first, then keyframes/frame if requested, then shot/sequence video.
 
-### Concept Types (content-driven)
-- **character** → `text_to_image_gemini.md` (Gemini, multi-panel sheet), `text_to_image_gpt.md` (GPT, multi-panel sheet with anti-noise), `image_to_image_gemini.md` (MJ ref → Gemini), `image_to_image_gpt.md` (MJ ref → GPT with anti-noise), `image_to_image_jimeng.md` (即梦 i2i, ref → character ref sheet with simple_layout, Chinese prompt), `text_to_image_midjourney.md` (MJ)
-- **location** → `text_to_image_gemini.md` (Gemini, multi-panel sheet), `text_to_image_gpt.md` (GPT, multi-panel sheet with anti-noise), `image_to_image_gemini.md` (MJ ref → Gemini), `image_to_image_gpt.md` (MJ ref → GPT with anti-noise), `midjourney.md` (MJ)
-- **entity** → `gemini.md` (Gemini, multi-panel sheet), `gpt.md` (GPT, multi-panel sheet with anti-noise), `midjourney.md` (MJ)
-- **prop** → `gemini.md` (Gemini), `gpt.md` (GPT with anti-noise), `midjourney.md` (MJ)
-- **vfx** → `image_to_image_gpt.md` (GPT i2i, ref → VFX concept with anti-noise)
+## Input binding
 
-### New Types (outside concept/)
-- **frame** → `gemini.md` / `text_to_image_gemini.md` (Gemini t2i, single cinematic frame), `gpt.md` / `text_to_image_gpt.md` (GPT t2i, single cinematic frame with anti-noise), `image_to_image_gemini.md` (Gemini i2i, ref → single frame), `image_to_image_gpt.md` (GPT i2i, ref → single frame with anti-noise), `image_to_image_midjourney.md` (MJ i2i, ref → single frame), `jimeng_image_to_image.md` (即梦 i2i, ref → single frame, Chinese prompt), `midjourney.md` (MJ, single cinematic frame with --params), `text_to_image_midjourney.md` (MJ t2i), `style_reference.md` (frame-level style reference architecture)
-- **keyFrames** → `text_to_image_gemini.md` (Gemini t2i, 3×3 grid single-image anchor), `text_to_image_gpt.md` (GPT t2i, 3×3 grid with anti-noise), `image_to_image_gpt.md` (GPT i2i, ref → 3×3 grid with anti-noise), `examples.md`
-- **performance** → `acting_master_profile.md` (150-220 word character acting profile), `scene_adaptation.md` (scene-level acting adaptation + Five Pillars), `eye_life.md` (mandatory eye behavior for human faces) — upstream layer that feeds into sequence/shot fields
-- **world_view** → SKILL.md (V11 orchestrator), `midjourney_animation.md` (MJ animation world prompt), `midjourney_realistic.md` (MJ realistic world prompt), `style-profiles/realistic.md` (photographic cinematic), `style-profiles/anime.md` (Gantz × Demon Slayer fusion)
-- **storyboard** → `text_to_image_gemini.md` (Gemini, multi-frame narrative sequence), `text_to_image_gpt.md` (GPT, multi-frame with anti-noise), `action.md` (action-heavy scenes), `dialogue.md` (dialogue-heavy scenes), `vfx.md` (VFX-heavy scenes)
-- **shot** → `seedance.md` (Seedance single-shot video production blueprint)
-- **sequence** → `seedance.md` (Seedance multi-shot pre-vis with @TAG binding, first-frame rules, spatial landmarks, format modes), `examples.md`
+- One attachment plus “这张图/这个人物/这个背景” binds to that attachment.
+- For several attachments, infer roles from visible content, filenames, and the user's nearby wording; preserve a stable name-to-file map in the prompt.
+- “中间的人物/左边的人/后面的建筑” is a region selector. Isolate that region semantically; do not treat unrelated image content as part of the subject.
+- Character extraction preserves identity, face, body, clothing, accessories, and distinctive marks while removing unrelated people and scenery from the concept-sheet content.
+- Location extraction preserves spatial logic, architecture, palette, lighting, and atmosphere while excluding characters and reconstructing occluded environment where necessary.
+- In Seedance prompts, bind every reference with the exact filename or host-supported reference token and a unique character/location name. Do not invent filenames.
+- Ask one concise question only when a missing attachment or genuinely ambiguous identity would change the result. Infer ordinary creative details from the request and references.
 
-### Shared
-- **reference.md** — Cross-type style library (artistic medium, rendering, aesthetics, color palettes, lens focal lengths, CG anime styles)
-- **concept-classification.md** — Decision guide for type boundaries
-- **meta/prompt-hygiene.md** — Prompt hygiene checklist and best practices (apply before final delivery)
-- **meta/gpt-image-hygiene.md** — GPT anti-noise methodology (July 2026, mandatory read before writing any GPT prompt)
+## Model resolution
 
-(Future: DALL-E, Flux, Sora variants can be added as new files within each type directory. Jimeng/即梦 i2i is already supported via `frame/jimeng_image_to_image.md`.)
+Normalize common names before selecting files:
 
-## Example Sessions
-See `examples/` folder for detailed walkthroughs:
-- `examples/generate-character.md` — Full generation flow for a humanoid character
-- `examples/generate-entity.md` — Full generation flow for a non-humanoid sentient entity
+- `GPT`, `ChatGPT 生图`, `OpenAI image`, `gpt-image`, `ImageGen` → GPT image.
+- `Gemini`, `Nano Banana` → Gemini image.
+- `Midjourney`, `MJ` → Midjourney image.
+- `即梦生图`, `Jimeng image` → Jimeng image.
+- `Seedance`, `即梦视频` → Seedance video.
+- `MiniMax`, `海螺`, `Hailuo` → MiniMax video.
+
+If the explicit model lacks a native variant for the chosen route, keep the route semantics but do not pretend an unsupported template exists. Use a documented compatible base only when the route reference says to; otherwise deliver the closest model-neutral prompt and clearly identify the limitation.
+
+## Shared quality rules
+
+- Read `meta/prompt-hygiene.md` before any prompt.
+- For every GPT image route, also read `meta/gpt-image-hygiene.md`.
+- Use `concept-classification.md` when the concept subtype is not explicit or could be confused with another subtype.
+- For character performance in shot/sequence video, read the applicable files under `performance/` before writing actions; a simple environment-only move does not need a character acting profile.
+- Respect the selected template's layout, duration, character limit, reference syntax, and negative-prompt policy.
+- Do not add project names, scene IDs, lore, or other narrative metadata to model prompts unless they are functional labels required by a multi-panel layout.
+
+## Completion check
+
+Before responding, verify: correct route, correct model, correct reference binding, correct output mode (media vs prompt), no silent model fallback, and no invented input filenames. When generation was requested and a compatible tool exists, a prompt without the generated artifact is incomplete.

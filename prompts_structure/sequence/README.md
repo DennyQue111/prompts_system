@@ -12,6 +12,7 @@ Records the prompt structure for generating a **sequence** — a scene-level pro
 | `examples.md` | Worked examples of sequence prompts |
 
 ## Usage
+- If no video model is specified → use `seedance.md`
 - If the user wants Seedance / 即梦 → use `seedance.md`
 - If the user wants MiniMax H3 → use `minimax.md`
 - Individual shots within a sequence should reference the shot architecture in `../shot/`

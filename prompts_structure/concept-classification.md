@@ -40,7 +40,7 @@ Does the subject have CONSCIOUSNESS, AGENCY, or narrative personhood?
 - Can strike poses, perform actions with limbs
 - Age, hair, skin tone, build are relevant descriptors
 
-**Architecture directory**: `concept/character/` → read `README.md` for available model variants, then `general.md` (default).
+**Architecture directory**: `concept/character/` → read `README.md`, then use the GPT variant by default (`text_to_image_gpt.md` or `image_to_image_gpt.md` according to source mode).
 
 ---
 
@@ -75,7 +75,7 @@ Does the subject have CONSCIOUSNESS, AGENCY, or narrative personhood?
 | A ghost that is a shifting cloud of light | **entity** | No humanoid form |
 | A talking sword | **entity** | Consciousness + no body |
 
-**Architecture directory**: `concept/entity/` → read `README.md` for available model variants, then `general.md` (default).
+**Architecture directory**: `concept/entity/` → read `README.md`, then use `gpt.md` by default.
 
 ---
 
@@ -95,7 +95,7 @@ Does the subject have CONSCIOUSNESS, AGENCY, or narrative personhood?
 - Story loses an object → **prop**
 - Story loses a character → **entity** or **character**
 
-**Architecture directory**: `concept/prop/` → read `README.md` for available model variants, then `general.md` (default).
+**Architecture directory**: `concept/prop/` → read `README.md`, then use `gpt.md` by default.
 
 ---
 
@@ -110,7 +110,7 @@ Does the subject have CONSCIOUSNESS, AGENCY, or narrative personhood?
 - Fantasy/sci-fi environments
 - Abstract or dream spaces
 
-**Architecture directory**: `concept/location/` → read `README.md` for available model variants, then `general.md` (default).
+**Architecture directory**: `concept/location/` → read `README.md`, then use the GPT variant by default (`text_to_image_gpt.md` or `image_to_image_gpt.md` according to source mode).
 
 ---
 

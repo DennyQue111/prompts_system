@@ -1,5 +1,5 @@
 ## Description
-Use this architecture when extracting + reproducing a location/environment from a **Midjourney reference image** for **GPT**.
+Use this architecture when extracting + reproducing a location/environment from an attached **reference image** for **GPT**. The source may come from Midjourney, another generator, a render, an illustration, or a photograph; preserve spatial and visual evidence rather than source-specific artifacts.
 
 GPT i2i amplifies reference image noise — compression artifacts, dark-band mud, micro-pattern noise all get aggressively rendered in the output. This architecture filters reference pollution while preserving style DNA.
 
@@ -68,7 +68,7 @@ For other scene types, curate relevant terms from `meta/gpt-image-hygiene.md`.
 
 ## Key Rules
 
-1. Use gemini.md for Steps 1-4 — identical workflow.
+1. Use `image_to_image_gemini.md` for Steps 1-4 — identical workflow.
 2. **Prompts must reference the image**: start with "Based on the attached reference image..."
 3. **Clean language is in the word choice, not an appended block** — use the word choice table above while writing each panel description. The proof is in the writing, not the disclaimer.
 4. **Negative prompt is scene-specific and short**: ~10-15 terms relevant to actual scene content. Never dump the full generic methodology.

@@ -1,5 +1,5 @@
 ## Description
-Use this architecture when extracting + reproducing a character from a **Midjourney reference image** for **GPT**.
+Use this architecture when extracting + reproducing a character from an attached **reference image** for **GPT**. The source may come from Midjourney, another generator, a render, an illustration, or a photograph; preserve the requested subject rather than source-specific artifacts.
 
 GPT amplifies micro-texture noise in i2i mode — the reference image's texture artifacts can "seed" aggressive detail in the output. This architecture includes anti-noise controls specific to the i2i pipeline.
 
@@ -61,7 +61,7 @@ reference artifact bleed, compression grain transfer.
 
 ## Key Rules
 
-1. Use gemini.md for Steps 1-4 (observation, analysis, extraction, deduction).
+1. Use `image_to_image_gemini.md` for Steps 1-4 (observation, analysis, extraction, deduction).
 2. **Prompts must reference the image**: start with "Based on the attached reference image..."
 3. **Anti-noise is in word choice, not an appended block** — use the word choice table while writing.
 4. **Negative prompt is short and scene-specific** — never dump the full generic methodology.

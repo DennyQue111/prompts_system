@@ -11,13 +11,14 @@ Two distinct architectures:
 
 | File | What It Is |
 |------|-------------|
-| `gemini.md` | KeyFrame architecture for Gemini 2.5 Flash Image (default) — 3×3 grid |
+| `text_to_image_gemini.md` | KeyFrame architecture for Gemini 2.5 Flash Image — 3×3 grid |
 | `text_to_image_gpt.md` | KeyFrame architecture for GPT image models — 3×3 grid with anti-noise |
 | `image_to_image_gpt.md` | GPT i2i composite design sheet with variable layout, reference zones, and 16:9 keyframe frames |
 | `examples.md` | Full worked example of a complete 9-grid keyframe prompt |
 
 ## Usage
-- If the user wants Gemini → use `gemini.md`
+- If no model is specified → use the applicable GPT file
+- If the user wants Gemini → use `text_to_image_gemini.md`
 - If the user wants GPT text-to-image 3×3 grid → use `text_to_image_gpt.md`
 - If the user wants GPT image-to-image with reference images and flexible frame count → use `image_to_image_gpt.md`
 - For GPT image generation, also read `../meta/gpt-image-hygiene.md` before writing the prompt

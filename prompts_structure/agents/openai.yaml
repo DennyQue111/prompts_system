@@ -1,0 +1,6 @@
+interface:
+  display_name: "Image & Video Prompt Router"
+  short_description: "Auto-route references into GPT images or Seedance video"
+  default_prompt: "Use $prompts-structure to infer the right image or video workflow from my request and attached references, then generate the requested result."
+policy:
+  allow_implicit_invocation: true
