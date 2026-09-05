@@ -21,5 +21,5 @@ Records the prompt structure for generating a **sequence** — a scene-level pro
 
 | Model | Sequence File | Shot File | Key Differences |
 |-------|--------------|-----------|-----------------|
-| Seedance / 即梦 | `seedance.md` | `../shot/seedance.md` | Shot-based, negative constraints, @image block, no sound |
+| Seedance / 即梦 | `seedance.md` | `../shot/seedance.md` | Shot-based, negative constraints, @image block; audio follows the template and actual provider capabilities |
 | MiniMax H3 | `minimax.md` | `../shot/minimax.md` | Time-segment-based, positive-only, inline @图片N, sound design, strict punctuation |

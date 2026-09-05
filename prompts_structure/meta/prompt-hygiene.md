@@ -6,7 +6,7 @@ _横切规则：撰写 concept / storyboard / frame / shot 四种产出类型时
 
 ---
 
-## 规则 1：否定词是最高风险污染源
+## 规则 1：优先用正向描述，负面约束按模型使用
 
 ❌ `no photorealistic rendering, not live-action, avoid 3D CGI look`
 → 模型听到了 photorealistic、live-action、3D CGI，联想已被激活。
@@ -14,7 +14,7 @@ _横切规则：撰写 concept / storyboard / frame / shot 四种产出类型时
 ✅ `cel-shaded, 2-3 flat tone levels, uniform outline weight, no gradient blending in shadows`
 → 模型只听到正向目标。
 
-> **铁律：如果某个词不是当前画面必须存在的东西，就别让它出现在 prompt 里。** 包括 "not" "no" "avoid" "unlike" "instead of"。
+> 优先描述要生成的画面，避免复述旧失败。选定模型模板允许时，可以保留简短的必要负面约束，例如 GPT 的反脏图、场景提取的“无人物”、Seedance 的防身份漂移；MiniMax 全正向模板则转换为正向约束。不要把本规则理解成禁止所有 `no/avoid`。
 
 ---
 
@@ -95,17 +95,17 @@ _横切规则：撰写 concept / storyboard / frame / shot 四种产出类型时
 ✅ 直接描述画面内容，不加场号、项目名、剧本背景、角色隶属关系等元数据：
 `A wide four-lane elevated ring road at midnight, cutting through the outer edge of a Chinese city...`
 
-> **例外**：多面板合成图的面板位置标签保留（`TOP-LEFT — MAIN VISUAL`、`BOTTOM ROW — COLOR PALETTE` 等），因为这是模型渲染布局所需的功能性指令，不是叙事元数据。
+> **例外**：保留多面板位置标签、镜头编号和时间范围，以及真实附件名、角色名和 `@image` / `@TAG` 身份绑定；它们用于布局、时序或引用对应。去掉的是无关项目背景，不是生成所需的功能标识。
 
 ---
 
-## 通用负面限制（唯一允许的 forbid list）
+## 通用负面限制（按需选择）
 
 以下为**所有项目通用**的失败类型——不涉及任何具体角色/场景/道具，可以放入 forbid list：
 
 `identity drift, character face mismatch between frames, outfit color shift, prop deformation, extra limbs or digits, random camera rotation, style drift from cel-shaded to photorealistic, subject blur, spatial jump, floating objects defying scene gravity`
 
-**禁止放入 forbid list 的内容：** 本项目的角色名、道具名、场景名、具体颜色、具体动作。这些是对当前画面"应该出现什么"的描述，不应该出现在负面列表里。
+通常将角色、道具、场景、颜色和动作写入正向描述。用户明确排除的内容或选定模板必要的空间/身份约束可以例外；不要无差别粘贴整个列表。
 
 ---
 
@@ -140,7 +140,7 @@ _横切规则：撰写 concept / storyboard / frame / shot 四种产出类型时
 
 写完一个 prompt 后，快速扫一遍：
 
-1. **有否定词吗？** → 转成正向画面描述
+1. **有否定词吗？** → 能用正向目标表达的就转换；仅保留选定模型允许且必要的排除项
 2. **有抽象词吗？** → 拆成可见的身体/空间/光影证据
 3. **有关键词堆叠吗？** → 每个标签词后面都跟一个"这意味着镜头里看到什么"
 4. **有重复描述吗？** → 同一动作/风格/材质是否在两个模块里各写了一遍？正向与反向是否在说同一件事？

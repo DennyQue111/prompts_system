@@ -4,7 +4,7 @@ Use this architecture when generating **VFX (visual effects) concept design shee
 
 This file covers **image-to-image** generation where the user provides reference images (spatial layout, style reference, or existing concept art) and GPT produces a VFX concept design sheet.
 
-**For text-to-image without reference images** → use `text_to_image_gpt.md` (if created). **For Gemini** → use `image_to_image_gemini.md`.
+No separate t2i or Gemini file currently exists here. For t2i, reuse this content/lifecycle structure and omit reference-only instructions. For another explicit model, follow the adaptation rules in `references/routing.md` at the skill root.
 
 ---
 

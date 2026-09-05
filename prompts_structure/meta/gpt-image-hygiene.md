@@ -45,7 +45,9 @@ low-contrast residual textures, dirty texture buildup
 ❌ 不要写：no dirty face marks / no strange weapon / no blue-purple shadow glow
 → 这些具体失败物仍会进入模型注意力
 
-## GPT 提示词尾部（追加以防脏图）
+## GPT 清洁描述词库（按需融入，不整段追加）
+
+将适用措辞融入材质、光影和面板描述；已经写过的控制词不再重复。以下是候选词库，服从具体 GPT 模板的简洁要求。
 
 ```
 clean rendering, balanced detail, realistic detail only,
@@ -90,4 +92,4 @@ Avoid: muddy shadows, crushed blacks, background artifacts, dirty AO halos.
 4. 接触阴影只在真实接缝吗
 5. 背景低纹理/干净吗
 6. 负面词短而准、只放失败类型吗
-7. 末尾贴了 clean rendering 块吗
+7. 清洁控制是否已体现在具体描述中，且没有重复追加整段词库

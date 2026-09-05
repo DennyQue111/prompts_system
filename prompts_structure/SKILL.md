@@ -1,6 +1,6 @@
 ---
 name: prompts-structure
-description: Route natural-language image and video creation requests to the correct local prompt architecture, bind attached references, and execute generation when a compatible renderer is available. Use for concept sheets, cinematic frames, keyframes, storyboards, single-shot image-to-video, or multi-shot sequence generation. Defaults to GPT for images and Seedance for video unless the user names another model.
+description: 根据自然语言、图片和剧本自动选择提示词结构并调用可用生成工具。适用于提取人物或背景成概念图、电影静帧、分镜图、关键帧、图片生成单镜头视频，以及人物图加场景图和镜头表或剧本生成视频；也支持只写或评估提示词。Defaults to GPT images and Seedance video; explicit model choices override defaults.
 ---
 
 # Prompts Structure
@@ -33,9 +33,9 @@ These defaults apply even when the user never mentions `concept-character-i2i`, 
 
 Resolve conflicts in this order:
 
-1. **Final deliverable:** video beats image; an image deliverable beats prompt-only work; an explicit prompt-only request prevents rendering.
+1. **Deliverable and action per stage:** identify what the user wants produced, then whether that stage calls for media, a prompt, or analysis. Input images/scripts and quoted examples are not additional deliverables. In “先生成人物概念图，再只写视频提示词”, render the image and return video text; in “只写人物生图提示词，然后生成视频”, return image text and render the video if its inputs are available.
 2. **Explicit model:** the user's named model beats the modality default.
-3. **Video scope:** a supplied shot list/script, multiple shots, edits/cuts, or several story beats means `sequence`; one image animated as one continuous camera take means `shot`.
+3. **Video scope:** a supplied shot list/script or multiple cuts defaults to `sequence`; “把这张图生成视频” defaults to `shot`. An explicit single-shot selection or “一镜到底/全程不切镜” overrides the script default and uses `shot`. Several actions can happen within one continuous shot.
 4. **Image form:** a design/reference sheet means `concept`; one finished cinematic still means `frame`; sequential planning panels mean `storyboard`; full-color continuity anchors mean `keyFrames`.
 5. **Concept subtype:** use `concept-classification.md` to choose character, entity, prop, location, or vfx.
 6. **Source mode:** a reference that supplies subject identity, appearance, composition, or environment means i2i; a reference used only as loose inspiration does not automatically force i2i.
@@ -48,8 +48,8 @@ The final action verb is decisive. For example, “基于这份镜头表生成�
 2. Select the primary route and model using the precedence above. Do not ask the user to name an internal architecture.
 3. Read only the files listed for that route in `references/routing.md`, including required base/layout/hygiene files.
 4. Convert narrative or abstract language into visible action, body mechanics, spatial relationships, materials, lighting, and camera behavior. Preserve explicit identity, composition, duration, aspect ratio, and model choices.
-5. Build one clean prompt in the selected architecture. Do not expose internal chain-of-thought or template assembly unless requested.
-6. If media was requested, invoke the selected renderer with the attached references and composed prompt. Return the generated artifact. If only a prompt was requested, return the prompt.
+5. Build one clean prompt in the selected architecture. Expand layout instructions into actual panel descriptions; the image model cannot read this skill's Markdown files. Give a short route/model notice when useful; keep internal reasoning private.
+6. For a media stage, read [references/execution.md](references/execution.md), discover the matching generation capability in the host, pass actual references, and return the artifact or precise job status. For a prompt-only stage, return the prompt without rendering.
 7. For a multi-stage request, run dependencies in order and reuse outputs: concept assets first, then keyframes/frame if requested, then shot/sequence video.
 
 ## Input binding
@@ -58,13 +58,13 @@ The final action verb is decisive. For example, “基于这份镜头表生成�
 - For several attachments, infer roles from visible content, filenames, and the user's nearby wording; preserve a stable name-to-file map in the prompt.
 - “中间的人物/左边的人/后面的建筑” is a region selector. Isolate that region semantically; do not treat unrelated image content as part of the subject.
 - Character extraction preserves identity, face, body, clothing, accessories, and distinctive marks while removing unrelated people and scenery from the concept-sheet content.
-- Location extraction preserves spatial logic, architecture, palette, lighting, and atmosphere while excluding characters and reconstructing occluded environment where necessary.
+- Location extraction preserves spatial logic, architecture, palette, lighting, and atmosphere while excluding characters and reconstructing occluded environment where necessary. Unseen back views and spaces are consistent design inferences, not recovered facts; preserve observed features and avoid inventing prominent identity marks or unrelated structures.
 - In Seedance prompts, bind every reference with the exact filename or host-supported reference token and a unique character/location name. Do not invent filenames.
 - Ask one concise question only when a missing attachment or genuinely ambiguous identity would change the result. Infer ordinary creative details from the request and references.
 
 ## Model resolution
 
-Normalize common names before selecting files:
+Normalize common names only to select a template family; retain any exact version, provider, and stage-specific model choice for execution:
 
 - `GPT`, `ChatGPT 生图`, `OpenAI image`, `gpt-image`, `ImageGen` → GPT image.
 - `Gemini`, `Nano Banana` → Gemini image.
@@ -73,7 +73,9 @@ Normalize common names before selecting files:
 - `Seedance`, `即梦视频` → Seedance video.
 - `MiniMax`, `海螺`, `Hailuo` → MiniMax video.
 
-If the explicit model lacks a native variant for the chosen route, keep the route semantics but do not pretend an unsupported template exists. Use a documented compatible base only when the route reference says to; otherwise deliver the closest model-neutral prompt and clearly identify the limitation.
+Bare “即梦/Jimeng” means Jimeng image for an image stage and Seedance for a video stage. A model mentioned as the source (“这张 MJ 图”) or writer (“用 GPT 写 Seedance 提示词”) is not the target renderer. Within a revision such as “改成竖版，再来一张”, inherit the active stage's model and references; start unrelated new work with the modality defaults unless the user set a continuing preference.
+
+If the requested model has no native variant, follow the adaptation rules in `references/routing.md` and still execute when a compatible tool exists. Missing template and missing renderer are different conditions. If a model cannot produce the requested modality or exact requested version cannot be selected, report the mismatch; do not substitute another model.
 
 ## Shared quality rules
 
@@ -82,7 +84,15 @@ If the explicit model lacks a native variant for the chosen route, keep the rout
 - Use `concept-classification.md` when the concept subtype is not explicit or could be confused with another subtype.
 - For character performance in shot/sequence video, read the applicable files under `performance/` before writing actions; a simple environment-only move does not need a character acting profile.
 - Respect the selected template's layout, duration, character limit, reference syntax, and negative-prompt policy.
-- Do not add project names, scene IDs, lore, or other narrative metadata to model prompts unless they are functional labels required by a multi-panel layout.
+- User instructions override template defaults, including layout, one-take direction, style, and output count. Within this library, this entrypoint resolves routing and execution; the selected model variant overrides its base for model-specific syntax; shared hygiene is applied within those constraints.
+- Keep functional reference names, `@TAG` bindings, shot timing, and panel labels. Omit unrelated lore or project-management metadata.
+- Preserve the user's/project's supplied style profile; otherwise infer style from the reference. Optional style snippets live in `reference.md`. Sibling `../style-profiles/` is optional and must not block a copied standalone skill.
+
+## Other local workflows
+
+For world expansion/世界观九景, read `world_view/SKILL.md` and its required references. Treat that module as the worldbuilding prompt planner; for actual images requested through this router, retain GPT as the unspecified renderer and apply `references/execution.md`. A nine-view study of one locked scene remains `keyFrames`, not world expansion. For an explicit acting-profile request, read `performance/README.md` and return the requested acting material; do not render media merely because performance is used upstream of video.
+
+Pass the whole skill directory to another agent, including its references and templates. Route names such as `concept-character-i2i-gpt` are local workflow identifiers, not separately installed skills. Host-specific generation skills are discovered at runtime; this folder itself supplies no model credentials or video backend.
 
 ## Completion check
 

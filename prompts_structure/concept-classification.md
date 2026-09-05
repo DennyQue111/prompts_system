@@ -1,6 +1,6 @@
 
 ## Description
-This guide defines the boundary lines between the four concept subtypes — **character**, **entity**, **prop**, and **location**. When the user describes a subject, consult this file to determine which architecture should be used. The goal is to prevent miscategorization (e.g., scoring a sentient sphere as if it should have clothing, or scoring a prop as if it should have emotion).
+This guide defines the boundary lines between **character**, **entity**, **prop**, **location**, and **vfx**. Classify only after the requested deliverable is a concept asset; a video containing a character is still a shot/sequence task.
 
 ---
 
@@ -9,6 +9,9 @@ This guide defines the boundary lines between the four concept subtypes — **ch
 ```
 Is the subject a PLACE / SETTING / SPACE?
   └─ YES → location
+
+Is the subject an EFFECT / PHENOMENON with formation, active, or dissolution states?
+  └─ YES, with no sentient identity → vfx
 
 Does the subject have a recognizable HUMAN or HUMANOID body plan?
   (head, torso, limbs — even if stylized or partial)
@@ -115,6 +118,10 @@ Does the subject have CONSCIOUSNESS, AGENCY, or narrative personhood?
 ---
 
 ## Edge Cases & Tiebreakers
+
+### VFX — 特效现象
+
+Portals, energy bursts, dissolution, and transformation effects use `concept/vfx/image_to_image_gpt.md` by default with references. For other models or no references, use the adaptation rules in `references/routing.md`. A conscious living flame is an entity; a flame effect lifecycle is vfx; a physical flame projector is a prop. Ordinary non-humanoid animals/creatures use entity, not prop, without requiring a debate about philosophical consciousness.
 
 ### When it could be entity OR prop
 | Scenario | Entity if... | Prop if... |
