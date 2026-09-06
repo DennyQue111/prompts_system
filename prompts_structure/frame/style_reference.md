@@ -89,7 +89,7 @@ For platforms with strict realism/person filters (即梦, 豆包), using a clear
 **Studio Orange Style:**
 `Studio Orange 3D anime style, dynamic camera, expressive lighting, cel-shaded characters with detailed facial animation, atmospheric depth, modern CG anime cinematography`
 
-### Anime Style Keyword Reference (from reference.md Section 6)
+### Anime Style Keyword Reference (from style-profiles/style-library.md Section 6)
 
 | Style Keyword | Effect | Best For |
 |--------------|--------|----------|
@@ -124,3 +124,4 @@ For platforms with strict realism/person filters (即梦, 豆包), using a clear
 - **Never default to a film stock palette** just because the platform is Midjourney — match the palette to the creative intent
 - **Check the project's confirmed visual style** before every frameRef generation
 - **One palette per project** for visual consistency — don't mix Documentary Realism and GANTZ:O in the same film
+

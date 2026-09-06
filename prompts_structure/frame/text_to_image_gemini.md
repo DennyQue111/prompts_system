@@ -60,7 +60,7 @@ A frame is NOT a concept sheet. It's a single image that should feel like a free
 | **Lighting** | Source, temperature, quality | Hard single-source (dramatic shadows, interrogation), soft diffused (dream, memory), rim/backlight (silhouette, mystery), practical lights in-frame (world authenticity) |
 | **Depth layers** | Foreground → midground → background | Foreground: out-of-focus element near camera (rain on glass, shoulder, debris). Midground: the subject. Background: depth vanishing point |
 | **Environment** | Location context from world DNA | Pull from the project's location designs. If the world has "mirror surfaces," the frame's environment should contain them |
-| **Camera** | Lens, angle, distance | See `reference.md` Section 5 for focal length guide. High angle = small/vulnerable. Low angle = powerful/threatening. Dutch = unease. Eye-level = human connection |
+| **Camera** | Lens, angle, distance | See `style-profiles/style-library.md` Section 5 for focal length guide. High angle = small/vulnerable. Low angle = powerful/threatening. Dutch = unease. Eye-level = human connection |
 | **Composition** | Framing rule, subject placement | Rule of thirds (default), center-frame (confrontation, symmetry), negative space left/right (looking room, movement room), leading lines to subject |
 | **Atmosphere** | Weather, particles, haze, time of day | Rain (melancholy, cleansing), fog (mystery, isolation), dust motes in light (stillness, memory), smoke/haze (danger, aftermath) |
 
@@ -120,3 +120,4 @@ The Style Palette is appended as the final block of the content prompt. Unlike M
 - **Style Palette is a first-class section.** Gemini/GPT's strength is understanding natural language descriptions of film texture and color — lean into this.
 - **No CG anime workaround needed.** Gemini/GPT image models have different moderation paths than Chinese platforms (即梦/豆包).
 - **Same content formula, same lens tables.** The *what* doesn't change between models — only the *how*.
+

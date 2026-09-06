@@ -15,7 +15,7 @@ The phrase need not match word-for-word. Infer by deliverable and input structur
 
 “调取背景成概念图” and “提取背景成概念图” have the same route. Correct obvious typos from context, such as “根据剧本生活这段视频” meaning “生成这段视频”; do not reinterpret them when multiple meanings remain plausible.
 
-Character i2i defaults to the existing simple layout: facial close-up / front body cropped at the neck / full back view. An explicit “正面、侧面、背面三视图” requires those three full-body views instead, with the heads preserved. “三视图” alone conventionally means front/side/back; it is not a synonym for this library's special simple layout. Explicit panel counts/views override defaults. Location i2i defaults to the HDR four-view sheet; a requested single environment view overrides that layout.
+Character i2i defaults to the existing simple layout: one 16:9 three-column sheet with facial close-up / front body cropped at the neck / full back view. An explicit “正面、侧面、背面三视图” requires those three full-body views instead, with the heads preserved. “三视图” alone conventionally means front/side/back; it is not a synonym for this library's special simple layout. Explicit panel counts/views override defaults. Location i2i defaults to the HDR four-view sheet; a requested single environment view overrides that layout. A generic request such as “把图中人物提取出来生成这个人物的概念图” still means the default character concept sheet, not a single portrait or cinematic character illustration.
 
 ## Boundaries that prevent common misroutes
 

@@ -34,7 +34,7 @@ A frame is NOT a concept sheet. It's a single image that should feel like a free
 | **Lighting** | Source, temperature, quality | Hard single-source (dramatic shadows, interrogation), soft diffused (dream, memory), rim/backlight (silhouette, mystery), practical lights in-frame (world authenticity) |
 | **Depth layers** | Foreground → midground → background | Foreground: out-of-focus element near camera (rain on glass, shoulder, debris). Midground: the subject. Background: depth vanishing point |
 | **Environment** | Location context from world DNA | Pull from the project's location designs. If the world has "mirror surfaces," the frame's environment should contain them |
-| **Camera** | Lens, angle, distance | See `reference.md` Section 5 for focal length guide. High angle = small/vulnerable. Low angle = powerful/threatening. Dutch = unease. Eye-level = human connection |
+| **Camera** | Lens, angle, distance | See `style-profiles/style-library.md` Section 5 for focal length guide. High angle = small/vulnerable. Low angle = powerful/threatening. Dutch = unease. Eye-level = human connection |
 | **Composition** | Framing rule, subject placement | Rule of thirds (default), center-frame (confrontation, symmetry), negative space left/right (looking room, movement room), leading lines to subject |
 | **Atmosphere** | Weather, particles, haze, time of day | Rain (melancholy, cleansing), fog (mystery, isolation), dust motes in light (stillness, memory), smoke/haze (danger, aftermath) |
 
@@ -86,3 +86,4 @@ Default: `--ar 16:9 --style raw --s 150 --q 2 --v 6.1`
 - **Depth is non-negotiable.** Foreground → subject → background. Always three planes.
 - **One frame, one subject, one emotion.** Don't try to fit multiple story beats in a single frame. That's what sequences and storyboards are for.
 - **Movement implication:** MJ can't render motion blur perfectly, but descriptive language like "mid-stride," "hair caught in wind," "rain frozen mid-fall" implies motion in a still frame.
+

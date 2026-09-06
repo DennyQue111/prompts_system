@@ -33,7 +33,7 @@ Use this architecture when generating a **single-image character design prompt f
 | **Outfit** | Prototype garment → death-game adaptation | The "prototype rule": what garment did they die in? A wedding tuxedo adapted for combat with torn sleeves and tactical straps. A hospital gown with armor plates bolted on. The original garment must be VISIBLE beneath the adaptation. |
 | **Accessories & story marks** | Scars, jewelry, death wound, tattoos | Every mark tells a piece of their story. The death wound is especially important — it should be visible somewhere on the body as a permanent reminder. A ring tan line on a ring-less finger suggests a marriage that ended before death. |
 | **Environment grounding** | Where they stand, what surrounds them | Don't float the character in void. Place them in a specific location from the world — a rain-slicked rooftop, a mirror-maze corridor, a white awakening chamber. The environment contextualizes the outfit and lighting. |
-| **Camera & composition** | Lens, angle, framing, camera movement | From `reference.md` Section 5. Default: 50mm for natural presence or 85mm for intimate character shot. Full-body for outfit read, 3/4 for personality focus. Slightly low angle for quiet strength, eye-level for vulnerability. |
+| **Camera & composition** | Lens, angle, framing, camera movement | From `style-profiles/style-library.md` Section 5. Default: 50mm for natural presence or 85mm for intimate character shot. Full-body for outfit read, 3/4 for personality focus. Slightly low angle for quiet strength, eye-level for vulnerability. |
 | **MJ style parameters** | Midjourney-specific flags | See Parameters section below. |
 
 ## World-View to Character Injection Flow
@@ -83,7 +83,7 @@ For character design: `--ar 16:9 --style raw --s 150 --q 2 --v 6.1`
 - **Prototype garment > generic tactical:** "Combat suit adapted from a blood-stained wedding dress" will always produce a more memorable image than "black tactical bodysuit."
 - **Single image means maximum density:** Without expression panels or wardrobe rows, every square inch of the single frame must carry visual information.
 - **MJ responds to sensory language:** Words like "rain-slicked," "cold blue," "mirror-bright," "blood-rusted" produce stronger results than "blue light" or "shiny."
-- **Avoid photorealistic for Chinese platforms:** If targeting 即梦/豆包, replace photorealism cues with the CG anime style from `reference.md` Section 6 — otherwise the human realism filter will block it.
+- **Avoid photorealistic for Chinese platforms:** If targeting 即梦/豆包, replace photorealism cues with the CG anime style from `style-profiles/style-library.md` Section 6 — otherwise the human realism filter will block it.
 
 ## Scoring Rubric (for evaluating MJ character prompts)
 
@@ -108,3 +108,4 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 
 ## Image Structure
 This file produces a single cinematic image — no multi-panel layout. For multi-panel character concept sheets, use the i2i workflow with `simple_layout_instruction.md` by default or `general_layout_instruction.md` for a full production sheet.
+

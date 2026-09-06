@@ -17,7 +17,7 @@
    + [Environment / background] + [Style suffix]
    ```
 
-5. Optionally pull "steampunk" style snippet from `reference.md` (Section 3: `steampunk, Victorian industrial`)
+5. Optionally pull "steampunk" style snippet from `style-profiles/style-library.md` (Section 3: `steampunk, Victorian industrial`)
 6. Fill in the formula and compose the full prompt:
 
    > "A steampunk detective, mid-40s, sharp gray eyes, graying sideburns, lean build, worn brass-framed goggles pushed up on the forehead, heavy brown leather trench coat with brass buttons and gear-shaped cufflinks, utility belt with glass vials of colored liquid, calm but piercing gaze, standing with one hand resting on a brass-tipped cane, rain-slicked cobblestone alley at night, gas lamps casting warm amber pools of light, oil painting, cinematic lighting."
@@ -40,3 +40,4 @@
 
 2. Weighted total = (5×1.0 + 3×1.0 + 4×1.2 + 1×0.8 + 3×0.8) / 5.0 = ~3.3/10
 3. Suggestions: Add clothing details, emotion, environment, and a style suffix.
+

@@ -20,6 +20,7 @@ Model-family aliases select the prompt architecture, not an exact engine version
 - Convert logical `@image`/`@TAG` references to the provider's supported syntax when required, preserving the role mapping. Bind character sheets to appearance, location sheets to space, and keyframes to shot composition. A character sheet's white background does not become the scene; its separate views do not become separate people.
 - Never submit a whole multi-panel concept sheet as the literal first frame unless the user wants that grid animated. Use reference mode; if only a first-frame tool is available, prepare a suitable single frame when consistent with the requested workflow, disclosing the added step.
 - Keep model-input prompts free of route notices, methodology, review tables, and unrelated project metadata. Retain functional reference labels, timing, and panel instructions.
+- **Preflight layout check for concept sheets:** Before calling an image generator, verify that a character concept-sheet prompt contains the exact requested layout instructions. The default character i2i sheet is not a single character portrait: it is one 16:9 image with three equal vertical panels—left facial close-up, center front full body with the head intentionally cropped at the neck, right back full body including the back of the head and feet. If the compiled prompt instead asks for a centered three-quarter pose, cinematic still, studio portrait, or isolated full-body illustration, treat that as a prompt-construction error and fix it before generation.
 
 ## Execute and deliver
 

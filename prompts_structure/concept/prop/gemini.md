@@ -16,7 +16,7 @@ Use this architecture when the user wants to generate an image focused on **a si
 | **Key details & features**        | Distinctive markings, engravings, moving parts, light sources | "engraved with celestial maps", "a cracked ruby in the pommel", "flickering holographic display", "seven interlocking rings" |
 | **Composition & perspective**     | How the object is framed in the shot                         | "close-up shot, shallow depth of field", "bird's-eye view on a wooden table", "dynamic 3/4 angle", "laying flat on dark velvet" |
 | **Environment / context**         | Surrounding hints that tell a story                          | "resting on an alchemist's workbench", "half-buried in desert sand", "mounted on a gallery pedestal", "floating in a void with soft rim light" |
-| **Style suffix**                  | Artistic style, rendering quality                            | See `reference.md` for options (e.g., "photorealistic product photography", "concept art, key shot", "cinematic macro photography") |
+| **Style suffix**                  | Artistic style, rendering quality                            | See `style-profiles/style-library.md` for options (e.g., "photorealistic product photography", "concept art, key shot", "cinematic macro photography") |
 
 ## Usage Notes
 - Props work best with a clear focal point; avoid cluttering the scene with multiple competing objects.
@@ -58,3 +58,4 @@ This prop architecture produces a single hero image and has no separate layout f
 Until the sheet template is available, the image follows a single-panel composition: one dominant shot filling the 16:9 frame with the prop as the sole subject. The formula above (subject → material → scale → condition → details → composition → environment → style) provides all content.
 
 The agent workflow is: read this file for **what** content to generate → use the single-panel structure defined here → combine into the final prompt.
+

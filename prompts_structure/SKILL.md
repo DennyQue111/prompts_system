@@ -49,6 +49,8 @@ The final action verb is decisive. For example, “基于这份镜头表生成�
 3. Read only the files listed for that route in `references/routing.md`, including required base/layout/hygiene files.
 4. Convert narrative or abstract language into visible action, body mechanics, spatial relationships, materials, lighting, and camera behavior. Preserve explicit identity, composition, duration, aspect ratio, and model choices.
 5. Build one clean prompt in the selected architecture. Expand layout instructions into actual panel descriptions; the image model cannot read this skill's Markdown files. Give a short route/model notice when useful; keep internal reasoning private.
+   - **Concept-sheet hard gate:** For `concept-character-*` routes, the compiled image prompt MUST explicitly contain the selected layout's aspect ratio, panel count, panel order, and per-panel view instructions. Never replace a character concept sheet with a single portrait, single full-body illustration, cinematic still, or three-quarter character shot unless the user explicitly requests that alternate output.
+   - For the default character i2i route, the prompt MUST state: `16:9`, `three equal vertical columns`, `LEFT facial close-up`, `CENTER front full body head intentionally cropped at the neck`, and `RIGHT back full body head-to-toe`. If any of these are missing, do not execute the image tool; repair the prompt first.
 6. For a media stage, read [references/execution.md](references/execution.md), discover the matching generation capability in the host, pass actual references, and return the artifact or precise job status. For a prompt-only stage, return the prompt without rendering.
 7. For a multi-stage request, run dependencies in order and reuse outputs: concept assets first, then keyframes/frame if requested, then shot/sequence video.
 
@@ -86,7 +88,7 @@ If the requested model has no native variant, follow the adaptation rules in `re
 - Respect the selected template's layout, duration, character limit, reference syntax, and negative-prompt policy.
 - User instructions override template defaults, including layout, one-take direction, style, and output count. Within this library, this entrypoint resolves routing and execution; the selected model variant overrides its base for model-specific syntax; shared hygiene is applied within those constraints.
 - Keep functional reference names, `@TAG` bindings, shot timing, and panel labels. Omit unrelated lore or project-management metadata.
-- Preserve the user's/project's supplied style profile; otherwise infer style from the reference. Optional style snippets live in `reference.md`. Sibling `../style-profiles/` is optional and must not block a copied standalone skill.
+- Preserve the user's/project's supplied style profile; otherwise infer style from the reference. Optional style snippets live in `style-profiles/style-library.md`. Sibling `../style-profiles/` is optional and must not block a copied standalone skill.
 
 ## Other local workflows
 
@@ -97,3 +99,4 @@ Pass the whole skill directory to another agent, including its references and te
 ## Completion check
 
 Before responding, verify: correct route, correct model, correct reference binding, correct output mode (media vs prompt), no silent model fallback, and no invented input filenames. When generation was requested and a compatible tool exists, a prompt without the generated artifact is incomplete.
+

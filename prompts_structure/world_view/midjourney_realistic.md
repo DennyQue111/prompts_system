@@ -164,4 +164,5 @@ Higher stylization for atmosphere, lower for clean reference.
 - **Aspects 1–5 are mandatory.** Aspects 6–9 can be adjusted or skipped depending on the project's needs, but the first 5 establish the fundamental visual DNA.
 - **Consistency is the goal.** After generating, compare all 9 images. They should feel like stills from the SAME film. If one aspect drifts in color temperature or material language, regenerate.
 - **The world-view document IS your prompt source.** If the project has a written world-view (like `零渊挽歌_世界观_MJ.md`), pull atmosphere keywords, color temperatures, and material descriptions directly from it.
-- **CG anime fallback:** If the project targets Chinese platforms, use Section 6 CG anime styles from `reference.md` across all 9 aspects for consistency.
+- **CG anime fallback:** If the project targets Chinese platforms, use Section 6 CG anime styles from `style-profiles/style-library.md` across all 9 aspects for consistency.
+

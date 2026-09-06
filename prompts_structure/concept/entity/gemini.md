@@ -33,7 +33,7 @@ For the main visual description, structure the text as:
 | **Sentience indicators** | Visual cues of awareness/aliveness | Eyes (embedded, blinking), glow rhythms, reactive surfaces, any non-facial signal that says "this thing is alive" |
 | **Behavior / agency** | What the entity is doing or capable of doing | Static behavior (staring, hovering, pulsing) or dynamic (rotating, blinking, form-shifting). Pick one clear primary behavior |
 | **Environment / context** | Surrounding space | Void, altar, rift, chamber — minimal backgrounds preferred when the entity's form is the primary subject |
-| **Style suffix** | Artistic style | From `../../reference.md` |
+| **Style suffix** | Artistic style | From `../../style-profiles/style-library.md` |
 
 ## Usage Notes
 - Entities thrive on **material contrast** — interior vs exterior tension (magma inside obsidian, light inside shadow).
@@ -90,3 +90,4 @@ That file defines:
 - Sheet-specific scoring and common issues
 
 The agent workflow is: read this file for **what** content to generate → read `general_layout_instruction.md` for **how** to compose the image → combine both into the final prompt.
+

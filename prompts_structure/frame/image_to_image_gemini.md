@@ -127,7 +127,7 @@ When reference images are provided, the prompt is structured in two layers: the 
 | **Lighting** | Source, temperature, quality | Hard single-source (dramatic shadows, interrogation), soft diffused (dream, memory), rim/backlight (silhouette, mystery), practical lights in-frame (world authenticity) |
 | **Depth layers** | Foreground → midground → background | Foreground: out-of-focus element near camera (rain on glass, shoulder, debris). Midground: the subject. Background: depth vanishing point |
 | **Environment** | Location context from world DNA | Pull from the project's location designs. If the world has "mirror surfaces," the frame's environment should contain them |
-| **Camera** | Lens, angle, distance | See `reference.md` Section 5 for focal length guide. High angle = small/vulnerable. Low angle = powerful/threatening. Dutch = unease. Eye-level = human connection |
+| **Camera** | Lens, angle, distance | See `style-profiles/style-library.md` Section 5 for focal length guide. High angle = small/vulnerable. Low angle = powerful/threatening. Dutch = unease. Eye-level = human connection |
 | **Composition** | Framing rule, subject placement | Rule of thirds (default), center-frame (confrontation, symmetry), negative space left/right (looking room, movement room), leading lines to subject |
 | **Atmosphere** | Weather, particles, haze, time of day | Rain (melancholy, cleansing), fog (mystery, isolation), dust motes in light (stillness, memory), smoke/haze (danger, aftermath) |
 
@@ -273,3 +273,4 @@ Do NOT copy any character or figure that may appear in this reference.
 | Prompt opening | Content formula directly | Reference anchoring layer + content formula |
 | Style Palette | Project-locked only | Reference-derived OR project-locked |
 | Risk | Inconsistent character face | Reference noise transfer (avoid via explicit exclusion) |
+
