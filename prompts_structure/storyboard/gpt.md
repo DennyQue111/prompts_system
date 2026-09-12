@@ -9,9 +9,15 @@ This file covers what GPT does differently from Gemini:
 2. Alternative rough pencil style (for action choreography preview)
 3. Exclusion list practice (GPT responds well to explicit "no" lists)
 
+The spatial-topology and per-panel visibility rules in `gemini.md` and `meta/spatial-continuity.md` remain mandatory. GPT is especially prone to expanding words such as `junction`, `branch`, and `side road` into a visible secondary street; describe occlusion, visible floor planes, and vanishing points instead.
+
 ---
 
 ## GPT Storyboard Prompt Composition
+
+### Strict per-frame 16:9 mode
+
+When the user needs to inspect each shot as a production frame, use a contact-sheet canvas whose cells are individually 16:9. Select the grid and overall canvas ratio dynamically from the shot count; for example, 7–8 shots may use a 4×2 layout on an ultra-wide canvas, but neither 4×2 nor 32:9 is mandatory. Never squeeze 16:9 shots into a fixed 16:9 composite grid; the overall sheet may be any ratio.
 
 ```
 [Reference images — if provided, declare here. See gemini.md → Reference Image Declaration.]

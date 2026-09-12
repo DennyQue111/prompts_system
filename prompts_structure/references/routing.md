@@ -54,6 +54,8 @@ The default column below applies only when the user did not name a model.
 
 For concept routes, read that subtype's `README.md` if present and the layout file named by the chosen template; vfx has no README. For frame routes, read `frame/style_reference.md`. For keyFrames, consult `keyFrames/examples.md` only when the required output format remains unclear. GPT entity/prop variants use their sibling `gemini.md` bases. Loading a Gemini base for methodology does not select the Gemini renderer.
 
+For any `frame`, `storyboard`, or `keyFrames` request with precise geography, intersections, rooms, openings, occlusion, screen direction, or cross-shot spatial continuity, also read `meta/spatial-continuity.md`. A plan or multi-view sheet defines world topology; only a camera-matched view defines the exact projected composition.
+
 ## Adaptation when no exact template exists
 
 - Entity/prop extraction with references: use the selected model's entity/prop base, observe the subject first, replace invented details with observed attributes, bind the actual reference, and infer only needed hidden views. Record the mode as i2i; do not invent an `image_to_image_*` filename.

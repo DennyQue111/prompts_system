@@ -47,6 +47,7 @@ The final action verb is decisive. For example, “基于这份镜头表生成�
 1. Inspect the user's text and all attached images/files. Assign each input a role: character identity, entity, location, prop, style/look, keyframe, shot list, or script.
 2. Select the primary route and model using the precedence above. Do not ask the user to name an internal architecture.
 3. Read only the files listed for that route in `references/routing.md`, including required base/layout/hygiene files.
+   - For spatially constrained `frame`, `storyboard`, or `keyFrames` work, also read [`meta/spatial-continuity.md`](meta/spatial-continuity.md). Build world topology first, then derive what the selected camera can actually see; never assume that naming an intersection or supplying a multi-view sheet defines its perspective projection.
 4. Convert narrative or abstract language into visible action, body mechanics, spatial relationships, materials, lighting, and camera behavior. Preserve explicit identity, composition, duration, aspect ratio, and model choices.
 5. Build one clean prompt in the selected architecture. Expand layout instructions into actual panel descriptions; the image model cannot read this skill's Markdown files. Give a short route/model notice when useful; keep internal reasoning private.
    - **Concept-sheet hard gate:** For `concept-character-*` routes, the compiled image prompt MUST explicitly contain the selected layout's aspect ratio, panel count, panel order, and per-panel view instructions. Never replace a character concept sheet with a single portrait, single full-body illustration, cinematic still, or three-quarter character shot unless the user explicitly requests that alternate output.
@@ -99,4 +100,3 @@ Pass the whole skill directory to another agent, including its references and te
 ## Completion check
 
 Before responding, verify: correct route, correct model, correct reference binding, correct output mode (media vs prompt), no silent model fallback, and no invented input filenames. When generation was requested and a compatible tool exists, a prompt without the generated artifact is incomplete.
-

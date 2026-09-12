@@ -56,8 +56,8 @@ When multiple reference images are provided, the prompt must establish a clear p
 
 1. **Character reference always wins on appearance.** If a location reference shows a character with different hair, the character reference overrides.
 2. **Lighting reference wins on light behavior.** If the location reference and lighting reference disagree on color temperature, the lighting reference determines the frame's light quality.
-3. **Layout reference wins on spatial relationships.** If any text description contradicts the blockout's object positions, camera angle, or spatial geometry, the layout reference overrides. Text must NOT describe spatial relationships when a layout reference is provided.
-4. **User text instruction wins on composition and action** — *except when a layout reference is present.* When a blockout/spatial reference is uploaded, text does NOT control composition or spatial layout; it controls style, material, lighting, atmosphere, and emotion only.
+3. **Classify spatial references by camera relevance.** A camera-matched shot/blockout wins on projected composition and occlusion. A plan, map, orthographic diagram, or multi-view sheet defines world topology only; derive the current camera's visible projection in text.
+4. **User text controls the requested camera and visibility contract.** It must not move geometry locked by a camera-matched blockout, but it may identify which opening, surface, or interior is visible or occluded. Read `meta/spatial-continuity.md` for precise spatial work.
 
 ---
 
@@ -201,10 +201,10 @@ The Style Palette is appended as the final block of the content prompt. Describe
 - **Movement implication:** Gemini handles motion blur descriptions reasonably well — "mid-stride," "hair caught in wind," "rain frozen mid-fall," "motion blur on passing cars" all work.
 - **Never transfer reference image noise:** Compression artifacts, banding, micro-pattern noise, or watermark text from the reference are pollution, not style. Explicitly exclude them if the reference image quality is poor.
 - **Character pose is NOT locked by character reference.** A character concept sheet shows the character in a neutral pose. The frame prompt defines the character's action and body language in the scene. Only the character's appearance (face, hair, outfit, proportions) is locked.
-- **Blockout / layout reference = spatial authority.** When the user uploads a blockout, wireframe, or annotated spatial diagram, that image is the SOLE authority on object positions, camera angle, and spatial geometry. Do NOT describe spatial relationships (who is where, what is next to what, camera position, composition layout) in the text prompt — doing so creates conflicting instructions and causes the model to ignore the reference. Text handles style, material, lighting, atmosphere, and emotion ONLY.
-- **Reference image description must be minimal.** In the `@image` or reference anchoring line, only state what the image is and that spatial relationships are locked to it. Do NOT repeat object positions, spatial layouts, or detailed scene descriptions in the reference line — the image itself carries that information. Repeating it in text creates ambiguity about which source the model should follow.
-- **Avoid directional vocabulary when describing motion of elements already in the reference.** Words like "横向" (horizontal/transverse), "对角" (diagonal), "右侧" (right side) are interpreted differently depending on camera angle and may override the reference image's spatial logic. Use "沿当前道路" (along the current road) or "沿现有方向" (along the existing direction) instead — these refer to the inherent relationships in the reference image without introducing new directional concepts.
-- **CRITICAL: Current image models (Gemini/GPT) struggle to precisely reproduce spatial layout from blockout/wireframe reference images.** Empirical testing shows that blockout references often fail to anchor layout correctly — the model may misread geometric relationships, convert flat intersections into overpass systems, or ignore directional arrows. When precise spatial layout is required, the more reliable workflow is: upload a **location concept or previous frame for STYLE anchoring** + describe spatial relationships **explicitly in text**.
+- **Spatial authority depends on reference type.** A camera-matched blockout locks projected positions and occlusion. A map or multi-view location sheet locks connectivity and relative geometry only; it does not determine what the current camera sees.
+- **Reference descriptions declare role, not duplicate geometry.** State whether each image anchors identity, topology, camera projection, continuity, or style. Put the current shot's visibility contract in Frame Direction.
+- **Directional vocabulary must use a declared coordinate frame.** Distinguish world direction, character-relative direction, and frame-left/frame-right. Do not use bare `left/right` when more than one coordinate frame is possible.
+- **Current image models struggle with topology labels and multi-view references.** For precise space, isolate the relevant panel, establish the camera transform, and describe visible evidence: occluding edge, visible floor planes, opening width, and number of vanishing points. Prefer a local edit of a validated background when exact topology is critical.
 - **Annotations, arrows, and text labels on reference images are NOT scene content.** If the blockout contains red arrows, dimension lines, text labels, or wireframe edges, explicitly instruct the model: "The [color] arrows / text labels in the reference are ANNOTATIONS only. Do NOT draw them in the final image." The model will otherwise treat annotations as part of the scene.
 
 ---
@@ -217,9 +217,9 @@ The Style Palette is appended as the final block of the content prompt. Describe
 4. **User text instruction overrides reference on composition and action.** The reference tells the model what things look like; the text tells the model what is happening and where the camera is.
 5. **Check for repetition before output.**
 6. **No `--` parameters.** Describe everything in natural language (aspect ratio, style strength, quality are all plain text).
-7. **When a layout/blockout reference is provided, the text prompt MUST NOT describe spatial relationships, object positions, or composition layout.** The image is the sole authority on WHERE things are; text controls HOW things look and FEEL. Any text description of spatial relationships risks overriding or corrupting the reference.
-8. **Reference image descriptions must be minimal — state what the image is and that spatial layout is locked to it, but do not repeat spatial details.**
-9. **Avoid directional vocabulary ("横向", "对角", "右侧") when describing motion of reference-locked elements.** Use "沿当前道路" / "沿现有方向" to refer to inherent spatial relationships in the reference without introducing ambiguous directional concepts.
+7. **A camera-matched blockout locks projected composition; a map or multi-view sheet locks topology only.**
+8. **Every spatially constrained frame needs a visibility contract:** camera transform, occluders, visible floor/wall planes, openings, and vanishing points.
+9. **Directional words require a coordinate frame:** world-space, character-relative, or frame-space. Prefer visible evidence over topology labels.
 
 ---
 

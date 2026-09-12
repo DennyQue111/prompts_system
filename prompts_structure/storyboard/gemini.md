@@ -7,6 +7,10 @@ Use this architecture when generating a storyboard — a single 16:9 composite i
 
 ## Layout Grid
 
+### Per-frame aspect-ratio hard gate
+
+The overall storyboard canvas may use any aspect ratio. **Every individual frame panel must be an exact 16:9 image area**. Do not stretch, crop, or design panels as portrait or arbitrary rectangles. Choose the grid and total canvas ratio dynamically from the frame count; 32:9 for a 4×2 layout is only one example, not a fixed requirement. Leave any unused cell as white space or a clearly labeled blank area. Before generation, verify that every panel has the same 16:9 ratio and that no frame is made taller or narrower for visual emphasis.
+
 ```
 ┌──────────────┬──────────────┬──────────────┐
 │              │              │              │
@@ -423,6 +427,8 @@ When a single storyboard contains multiple scene types — e.g., action leading 
 
 ## Key Rules (General — Apply to All Scene Types)
 
+Before writing a storyboard with precise geography or cross-shot blocking, read `meta/spatial-continuity.md`. Create one shared world-space topology ledger, then derive the visible projection separately for each panel. A location may contain an opening that is edge-on or fully occluded in one shot and visible inside from another; do not force every panel to display all known geometry.
+
 1. **NO COLOR. Storyboards are B&W line art.** Color in a storyboard pollutes the video model's color decisions. Color/style/lighting reference comes from Frame generation (separate skill). Use ink lines only — hatch marks and line weight for shading, never grayscale fills.
 2. **VISUAL ONLY — NO NARRATIVE COMMENTARY.** Describe what the camera sees — not what it "means." The AI draws pixels, not subtext. "Eyes wide, pupils dilated, mouth open" renders. "The moment between seeing and impact, stretched into stillness" does not. If a sentence requires the model to *understand* the story to draw it, delete it. Save director's commentary for the script and shot breakdown.
 3. **Character consistency is the #1 problem.** Describe the same character IDENTICALLY in every frame (same outfit, hair, build). Add "consistent character design across all frames" to the style suffix. Use outfit and hair as visual anchors that don't change.
@@ -434,6 +440,7 @@ When a single storyboard contains multiple scene types — e.g., action leading 
 9. **Environment minimalization.** Keep backgrounds minimal and atmospheric — a few key environmental anchors (pillars, hanging cloth, light beams, ground texture) are enough. Don't overcrowd the frame with environmental detail. The character and action are the focus; environment exists to contextualize, not to compete. List 4–6 environmental elements maximum per scene and reuse them across frames.
 10. **Per-storyboard exclusion list.** End each storyboard prompt with an explicit exclusion list of what must NOT appear — e.g., "No timestamps. No dialogue. No extra characters. No logos. No watermarks." Customize per scene type (see each scene-type section for specific exclusion lists). This is especially important for GPT models that tend to add unwanted text and elements.
 11. **No dialogue text on panels.** Never write spoken lines as text on storyboard panels. Dialogue is conveyed through facial expression, body language, and lip movement only. Text on panels pollutes downstream video model generation. Black text is limited to panel labels and 2–3 word action notes.
+12. **Spatial continuity is camera-derived.** For each panel, track camera position and axis, character world positions, occluding edges, visible floor planes, openings, screen direction, and vanishing points. Topology labels such as `T-junction` are insufficient without visible evidence. Preserve one shared map across the sequence and insert a re-establishing wide panel after a major axis change when clarity requires it.
 
 ### Rule 2: Visual-Only — Examples
 

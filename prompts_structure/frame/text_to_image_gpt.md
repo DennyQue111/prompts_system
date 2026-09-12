@@ -1,5 +1,7 @@
 ## Description
 
+For any frame with precise geography, openings, intersections, rooms, occlusion, or a required connection to another shot, read `meta/spatial-continuity.md` before writing. Define world topology separately from the current camera's visible projection.
+
 Use this architecture when generating a **single cinematic frame for GPT image models** — a standalone shot that functions as a storyboard cell rendered at full quality. This is the atomic unit of visual storytelling: one composition, one moment, one emotional beat.
 
 A frame is NOT a concept sheet. It's a single image that should feel like a freeze-frame from a finished film.
