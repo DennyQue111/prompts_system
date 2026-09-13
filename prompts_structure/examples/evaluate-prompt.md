@@ -8,7 +8,7 @@
 ## Skill Behavior
 
 1. Parse: model=`GPT`, category=`concept`, subtype=`character`, output mode=`evaluation only`, evaluate existing prompt=`a pirate`
-2. Locate and read `concept/character/text_to_image_gpt.md` and both meta hygiene files
+2. Locate and read `concept/character/core-t2i.md`, `adapters/gpt-image.md`, and both meta hygiene files
 3. Load the character scoring rubric (5 weighted dimensions)
 4. Score each dimension:
 

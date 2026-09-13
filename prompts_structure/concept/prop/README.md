@@ -3,17 +3,14 @@
 ## What This Is
 Records the concept design prompt structure for **props and objects** — items that carry narrative weight: weapons, tools, artifacts, vehicles, everyday objects with story significance.
 
-## Available Model Variants
+## Files
 
-| Variant | Target | Use Case |
-|---------|--------|----------|
-| `gemini.md` | Gemini | Generate prop from text description |
-| `gpt.md` | GPT | Generate prop from text (with anti-noise) |
-| `midjourney.md` | Midjourney | Single prop still directly in MJ |
+| File | Purpose |
+|---|---|
+| `core.md` | Renderer-neutral prop concept content |
+| `midjourney.md` | Midjourney-only prop still workflow |
 
 ## Usage
-- If no model is specified → default to `gpt.md`
-- If the user wants Gemini → use `gemini.md`
-- If the user wants GPT → use `gpt.md`
+- Select `core.md`, then select one global renderer Adapter. GPT is the default; Gemini replaces only the Adapter.
 - If the user specifically requests Midjourney → use `midjourney.md`
 - For GPT anti-noise methodology, see `../../meta/gpt-image-hygiene.md`

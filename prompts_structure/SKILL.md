@@ -22,8 +22,8 @@ Read [references/routing.md](references/routing.md) and choose exactly one prima
 
 | Natural-language intent | Canonical route | Template |
 |---|---|---|
-| Extract the person/character from an attached image into a character concept sheet | `concept-character-i2i-gpt` | `concept/character/image_to_image_gpt.md` |
-| Extract the background/environment from an attached image into a location concept sheet | `concept-location-i2i-gpt` | `concept/location/image_to_image_gpt.md` |
+| Extract the person/character from an attached image into a character concept sheet | `concept-character-i2i-gpt` | `concept/character/core-i2i.md` + `adapters/gpt-image.md` |
+| Extract the background/environment from an attached image into a location concept sheet | `concept-location-i2i-gpt` | `concept/location/core-i2i.md` + `adapters/gpt-image.md` |
 | Animate an attached image as one continuous shot | `shot-seedance` | `shot/seedance.md` |
 | Generate a passage from character/location concepts plus a shot list or script | `sequence-seedance` | `sequence/seedance.md` |
 
@@ -46,7 +46,7 @@ The final action verb is decisive. For example, “基于这份镜头表生成�
 
 1. Inspect the user's text and all attached images/files. Assign each input a role: character identity, entity, location, prop, style/look, keyframe, shot list, or script.
 2. Select the primary route and model using the precedence above. Do not ask the user to name an internal architecture.
-3. Read only the files listed for that route in `references/routing.md`, including required base/layout/hygiene files.
+3. For an image route, read exactly one deliverable **Core** and one renderer **Adapter** listed in `references/routing.md`, plus required layout/hygiene files. GPT is the default Adapter; an explicit Gemini or Jimeng choice replaces only the Adapter, not the Core.
    - For spatially constrained `frame`, `storyboard`, or `keyFrames` work, also read [`meta/spatial-continuity.md`](meta/spatial-continuity.md). Build world topology first, then derive what the selected camera can actually see; never assume that naming an intersection or supplying a multi-view sheet defines its perspective projection.
 4. Convert narrative or abstract language into visible action, body mechanics, spatial relationships, materials, lighting, and camera behavior. Preserve explicit identity, composition, duration, aspect ratio, and model choices.
 5. Build one clean prompt in the selected architecture. Expand layout instructions into actual panel descriptions; the image model cannot read this skill's Markdown files. Give a short route/model notice when useful; keep internal reasoning private.
@@ -83,11 +83,11 @@ If the requested model has no native variant, follow the adaptation rules in `re
 ## Shared quality rules
 
 - Read `meta/prompt-hygiene.md` before any prompt.
-- For every GPT image route, also read `meta/gpt-image-hygiene.md`.
+- For every GPT image route, read `adapters/gpt-image.md` and `meta/gpt-image-hygiene.md`.
 - Use `concept-classification.md` when the concept subtype is not explicit or could be confused with another subtype.
 - For character performance in shot/sequence video, read the applicable files under `performance/` before writing actions; a simple environment-only move does not need a character acting profile.
 - Respect the selected template's layout, duration, character limit, reference syntax, and negative-prompt policy.
-- User instructions override template defaults, including layout, one-take direction, style, and output count. Within this library, this entrypoint resolves routing and execution; the selected model variant overrides its base for model-specific syntax; shared hygiene is applied within those constraints.
+- User instructions override template defaults, including layout, one-take direction, style, and output count. Within this library, this entrypoint resolves routing and execution; the selected renderer Adapter compiles the shared Core into model-specific syntax; shared hygiene is applied within those constraints.
 - Keep functional reference names, `@TAG` bindings, shot timing, and panel labels. Omit unrelated lore or project-management metadata.
 - Preserve the user's/project's supplied style profile; otherwise infer style from the reference. Optional style snippets live in `style-profiles/style-library.md`. Sibling `../style-profiles/` is optional and must not block a copied standalone skill.
 

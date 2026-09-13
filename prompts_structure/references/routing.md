@@ -6,8 +6,8 @@ Use this file after `SKILL.md` identifies the requested deliverable. Select one 
 
 | User intent or close paraphrase | Route | Default model | Read |
 |---|---|---|---|
-| “把这个图片中间的人物提取出来成人物概念图/角色设定图/三视图” | `concept-character-i2i-gpt` | GPT | `concept/character/image_to_image_gpt.md`; its required base `concept/character/image_to_image_gemini.md`; `concept/character/simple_layout_instruction.md` by default or `general_layout_instruction.md` if a full sheet is requested; both meta hygiene files |
-| “把这个背景/场景提取出来成场景概念图/环境设定图/HDR 场景图” | `concept-location-i2i-gpt` | GPT | `concept/location/image_to_image_gpt.md`; its required base `concept/location/image_to_image_gemini.md`; `concept/location/hdr_layout_instruction.md`; both meta hygiene files |
+| “把这个图片中间的人物提取出来成人物概念图/角色设定图/三视图” | `concept-character-i2i-gpt` | GPT | `concept/character/core-i2i.md`; `concept/character/simple_layout_instruction.md` by default or `general_layout_instruction.md` if a full sheet is requested; `adapters/gpt-image.md`; both meta hygiene files |
+| “把这个背景/场景提取出来成场景概念图/环境设定图/HDR 场景图” | `concept-location-i2i-gpt` | GPT | `concept/location/core-i2i.md`; `concept/location/hdr_layout_instruction.md`; `adapters/gpt-image.md`; both meta hygiene files |
 | “把这张图片生成视频/让这张图动起来，我的要求是……” with one continuous beat | `shot-seedance` | Seedance | `shot/seedance.md`; `meta/prompt-hygiene.md`; applicable `performance/` files when a visible character performs |
 | “基于人物概念图、场景概念图和这段镜头表/剧本生成这段视频” | `sequence-seedance` | Seedance | `sequence/seedance.md`; `meta/prompt-hygiene.md`; `performance/acting_master_profile.md`, `performance/scene_adaptation.md`, and `performance/eye_life.md` when human/humanoid characters perform |
 
@@ -37,22 +37,22 @@ Character i2i defaults to the existing simple layout: one 16:9 three-column shee
 
 The default column below applies only when the user did not name a model.
 
-| Deliverable | Mode | Default | GPT template | Other documented variants |
+| Deliverable | Mode | Core | Default adapter | Explicit renderer alternative |
 |---|---|---|---|---|
-| Humanoid character concept | t2i | GPT | `concept/character/text_to_image_gpt.md` | Gemini `text_to_image_gemini.md`; MJ `text_to_image_midjourney.md` |
-| Humanoid character concept | i2i | GPT | `concept/character/image_to_image_gpt.md` | Gemini `image_to_image_gemini.md`; Jimeng `image_to_image_jimeng.md` |
-| Location/environment concept | t2i | GPT | `concept/location/text_to_image_gpt.md` | Gemini `text_to_image_gemini.md`; MJ `midjourney.md` |
-| Location/environment concept | i2i | GPT | `concept/location/image_to_image_gpt.md` | Gemini `image_to_image_gemini.md`; Jimeng `image_to_image_jimeng.md` |
-| Non-humanoid sentient entity | t2i | GPT | `concept/entity/gpt.md` | Gemini `gemini.md`; MJ `midjourney.md` |
-| Inert prop/object | t2i | GPT | `concept/prop/gpt.md` | Gemini `gemini.md`; MJ `midjourney.md` |
+| Humanoid character concept | t2i | `concept/character/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng when route/tool supports it → `adapters/jimeng-image.md`; MJ → existing `text_to_image_midjourney.md` |
+| Humanoid character concept | i2i | `concept/character/core-i2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md` |
+| Location/environment concept | t2i | `concept/location/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; MJ → existing `midjourney.md` |
+| Location/environment concept | i2i | `concept/location/core-i2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md` |
+| Non-humanoid sentient entity | t2i | `concept/entity/core.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; MJ → existing `midjourney.md` |
+| Inert prop/object | t2i | `concept/prop/core.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; MJ → existing `midjourney.md` |
 | VFX concept from a reference | i2i | GPT | `concept/vfx/image_to_image_gpt.md` | No other local variant |
-| Single cinematic frame | t2i | GPT | `frame/text_to_image_gpt.md` | Gemini `text_to_image_gemini.md`; MJ `text_to_image_midjourney.md` |
-| Single cinematic frame | i2i | GPT | `frame/image_to_image_gpt.md` | Gemini `image_to_image_gemini.md`; MJ `image_to_image_midjourney.md`; Jimeng `jimeng_image_to_image.md` |
-| Full-color keyframe grid | t2i | GPT | `keyFrames/text_to_image_gpt.md` | Gemini `text_to_image_gemini.md` |
-| Full-color keyframe/reference sheet | i2i | GPT | `keyFrames/image_to_image_gpt.md` | No other local i2i variant |
-| Storyboard | t2i/i2i | GPT | Load `storyboard/gemini.md` as base, then `storyboard/gpt.md` overlay | Gemini base only; Jimeng base + `storyboard/jimeng.md` overlay |
+| Single cinematic frame | t2i | `frame/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md`; MJ → existing `text_to_image_midjourney.md` |
+| Single cinematic frame | i2i | `frame/core-i2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md`; MJ → existing `image_to_image_midjourney.md` |
+| Full-color keyframe grid | t2i | `keyFrames/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md` |
+| Full-color keyframe/reference sheet | i2i | `keyFrames/core-i2i.md` | `adapters/gpt-image.md` | Adapt another selected compatible renderer with its adapter; preserve the requested sheet layout |
+| Storyboard | t2i/i2i | `storyboard/core.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md` |
 
-For concept routes, read that subtype's `README.md` if present and the layout file named by the chosen template; vfx has no README. For frame routes, read `frame/style_reference.md`. For keyFrames, consult `keyFrames/examples.md` only when the required output format remains unclear. GPT entity/prop variants use their sibling `gemini.md` bases. Loading a Gemini base for methodology does not select the Gemini renderer.
+For every unified image route, read exactly one deliverable Core and exactly one renderer Adapter. The default Adapter is `adapters/gpt-image.md`; an explicit image-renderer choice replaces it. Read a subtype `README.md` and the named layout file when present; vfx remains its existing GPT-only route. For frame routes, read `frame/style_reference.md`. For keyFrames, consult `keyFrames/examples.md` only when the output format remains unclear.
 
 For any `frame`, `storyboard`, or `keyFrames` request with precise geography, intersections, rooms, openings, occlusion, screen direction, or cross-shot spatial continuity, also read `meta/spatial-continuity.md`. A plan or multi-view sheet defines world topology; only a camera-matched view defines the exact projected composition.
 
@@ -61,7 +61,7 @@ For any `frame`, `storyboard`, or `keyFrames` request with precise geography, in
 - Entity/prop extraction with references: use the selected model's entity/prop base, observe the subject first, replace invented details with observed attributes, bind the actual reference, and infer only needed hidden views. Record the mode as i2i; do not invent an `image_to_image_*` filename.
 - VFX without references: reuse `concept/vfx/image_to_image_gpt.md` for its effect form and lifecycle structure, omit reference-only instructions, and mark t2i adaptation.
 - Another explicit model (such as Kling or Sora video): use the same shot/sequence semantics and a model-neutral adaptation of the default architecture. Read the actual provider's available skill/tool documentation for syntax and parameters; remove incompatible Seedance-specific tags or negative fields. Keep the explicitly chosen model and render if its tool supports the task.
-- When an available variant produces a single still but the user requests a sheet (for example an MJ character sheet), adapt the layout explicitly rather than silently delivering a single still. A text-only location HDR request can combine `concept/location/text_to_image_gpt.md` with `concept/location/hdr_layout_instruction.md`; do not require a needless intermediate image.
+- When an available variant produces a single still but the user requests a sheet (for example an MJ character sheet), adapt the layout explicitly rather than silently delivering a single still. A text-only location HDR request can combine `concept/location/core-t2i.md`, `concept/location/hdr_layout_instruction.md`, and the selected renderer Adapter; do not require a needless intermediate image.
 - For any adaptation, preserve the requested content, references, and output form. Briefly state that the template was adapted. If the actual tool cannot support the required modality or references, use the unavailable-capability handling in `references/execution.md`.
 
 ## General video routes
@@ -75,8 +75,8 @@ Choose scope from camera/edit structure, not duration or action count alone. A t
 
 ## Model override examples
 
-- “用 Gemini 把图中人物做成概念图” → character i2i semantics + `concept/character/image_to_image_gemini.md` + Gemini renderer.
-- “用即梦生图把这张背景做成场景概念图” → location i2i semantics + `concept/location/image_to_image_jimeng.md` + Jimeng image renderer.
+- “用 Gemini 把图中人物做成概念图” → character i2i Core + Gemini Adapter + Gemini renderer.
+- “用即梦生图把这张背景做成场景概念图” → location i2i Core + Jimeng Adapter + Jimeng image renderer.
 - “用 MiniMax/海螺生成这份镜头表的视频” → sequence semantics + `sequence/minimax.md` + MiniMax renderer.
 - “用 GPT 写 Seedance 提示词” → GPT is the writing agent, not the renderer; route remains `shot-seedance` or `sequence-seedance` according to scope.
 

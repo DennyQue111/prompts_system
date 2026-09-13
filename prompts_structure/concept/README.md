@@ -7,11 +7,11 @@ Defines **what information to put into each panel** of a concept design sheet â€
 
 | Directory | Content Type | Files |
 |-----------|-------------|-------|
-| `character/` | Human/humanoid characters | text_to_image / image_to_image, gemini + gpt + midjourney |
-| `entity/` | Non-humanoid sentient beings | gemini + gpt + midjourney |
-| `location/` | Environments and settings | text_to_image / image_to_image, gemini + gpt + midjourney |
-| `prop/` | Objects and items | gemini + gpt + midjourney |
+| `character/` | Human/humanoid characters | `core-t2i` / `core-i2i` + one renderer Adapter; MJ remains specialized |
+| `entity/` | Non-humanoid sentient beings | `core.md` + one renderer Adapter; MJ remains specialized |
+| `location/` | Environments and settings | `core-t2i` / `core-i2i` + one renderer Adapter; MJ remains specialized |
+| `prop/` | Objects and items | `core.md` + one renderer Adapter; MJ remains specialized |
 
 ## Usage
-- Load the concept content file first, then the layout file named by that subtype/template (`general_layout_instruction.md`, `simple_layout_instruction.md`, or `hdr_layout_instruction.md`)
-- For GPT variants, also read `../meta/gpt-image-hygiene.md` before writing
+- Load the subtype Core first, then exactly one renderer Adapter, then its named layout file (`general_layout_instruction.md`, `simple_layout_instruction.md`, or `hdr_layout_instruction.md`).
+- GPT is the default Adapter and also requires `../meta/gpt-image-hygiene.md`.

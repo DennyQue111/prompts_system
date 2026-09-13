@@ -8,7 +8,7 @@
 
 1. Parse input: model unspecified → default `GPT`; category=`concept`; subtype=`character`; source mode=`t2i`; description=`a detective in a steampunk trench coat`
 2. Subtype is `character` — no ambiguity, no need to check `concept-classification.md`
-3. Locate and read `concept/character/text_to_image_gpt.md`, `concept/character/general_layout_instruction.md`, and both meta hygiene files
+3. Locate and read `concept/character/core-t2i.md`, `adapters/gpt-image.md`, `concept/character/general_layout_instruction.md`, and both meta hygiene files
 4. Obtain the character prompt structure formula:
 
    ```

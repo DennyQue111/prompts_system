@@ -427,7 +427,7 @@ When a single storyboard contains multiple scene types — e.g., action leading 
 
 ## Key Rules (General — Apply to All Scene Types)
 
-Before writing a storyboard with precise geography or cross-shot blocking, read `meta/spatial-continuity.md`. Create one shared world-space topology ledger, then derive the visible projection separately for each panel. A location may contain an opening that is edge-on or fully occluded in one shot and visible inside from another; do not force every panel to display all known geometry.
+Before writing a storyboard with precise geography or cross-shot blocking, read `../meta/spatial-continuity.md`. Create one shared world-space topology ledger, then derive the visible projection separately for each panel. A location may contain an opening that is edge-on or fully occluded in one shot and visible inside from another; do not force every panel to display all known geometry.
 
 1. **NO COLOR. Storyboards are B&W line art.** Color in a storyboard pollutes the video model's color decisions. Color/style/lighting reference comes from Frame generation (separate skill). Use ink lines only — hatch marks and line weight for shading, never grayscale fills.
 2. **VISUAL ONLY — NO NARRATIVE COMMENTARY.** Describe what the camera sees — not what it "means." The AI draws pixels, not subtext. "Eyes wide, pupils dilated, mouth open" renders. "The moment between seeing and impact, stretched into stillness" does not. If a sentence requires the model to *understand* the story to draw it, delete it. Save director's commentary for the script and shot breakdown.
@@ -438,7 +438,7 @@ Before writing a storyboard with precise geography or cross-shot blocking, read 
 7. **Light is described by direction and shadow, not color.** "Light from frame left, hard shadows across face" — not "cold blue light."
 8. **2–3 sentences per frame.** Enough to render, not so much the model forgets what it just drew. If a frame needs more explanation, split it into two frames.
 9. **Environment minimalization.** Keep backgrounds minimal and atmospheric — a few key environmental anchors (pillars, hanging cloth, light beams, ground texture) are enough. Don't overcrowd the frame with environmental detail. The character and action are the focus; environment exists to contextualize, not to compete. List 4–6 environmental elements maximum per scene and reuse them across frames.
-10. **Per-storyboard exclusion list.** End each storyboard prompt with an explicit exclusion list of what must NOT appear — e.g., "No timestamps. No dialogue. No extra characters. No logos. No watermarks." Customize per scene type (see each scene-type section for specific exclusion lists). This is especially important for GPT models that tend to add unwanted text and elements.
+10. **Per-storyboard exclusion list.** End each storyboard prompt with an explicit exclusion list of what must NOT appear — e.g., "No timestamps. No dialogue. No extra characters. No logos. No watermarks." Customize per scene type. The selected Adapter decides whether this needs additional model-specific constraints.
 11. **No dialogue text on panels.** Never write spoken lines as text on storyboard panels. Dialogue is conveyed through facial expression, body language, and lip movement only. Text on panels pollutes downstream video model generation. Black text is limited to panel labels and 2–3 word action notes.
 12. **Spatial continuity is camera-derived.** For each panel, track camera position and axis, character world positions, occluding edges, visible floor planes, openings, screen direction, and vanishing points. Topology labels such as `T-junction` are insufficient without visible evidence. Preserve one shared map across the sequence and insert a re-establishing wide panel after a major axis change when clarity requires it.
 
@@ -461,10 +461,11 @@ Before writing a storyboard with precise geography or cross-shot blocking, read 
 
 ## Usage
 
-1. **Determine the model** — Gemini or GPT. If GPT, also load `gpt.md` for model-specific overlay.
+1. **Determine the renderer** — use the route default or the user's explicit renderer choice. Load the matching global Adapter for model-specific compilation.
 2. **Determine the scene type(s)** — action, dialogue, VFX, or mixed.
 3. **Build the prompt** using the Prompt Composition structure above.
 4. **Apply scene-type rules** from the relevant section(s) to each frame.
-5. **Append style suffix** — default B&W line art, or rough pencil for action choreography preview (GPT only).
+5. **Append style suffix** — default B&W line art, or rough pencil when the user asks for action-choreography preview.
 6. **Append exclusion list** — customize per scene type.
 7. **Check against Key Rules** before output.
+

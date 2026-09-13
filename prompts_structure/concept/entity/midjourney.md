@@ -46,4 +46,4 @@ For giant beings: `--ar 16:9` with telephoto lens language (100–135mm compress
 - **Material contrast is MJ's superpower.** Spend most of your descriptive budget on what the entity is MADE of and how those materials interact.
 - **Sentience needs verbs.** "It glows" → "Its surface pulses with a slow heartbeat rhythm, brightening every 3 seconds." Write behavior as time-unfolding.
 - **Scale reference is mandatory.** Without it, the entity could be fist-sized or city-sized. Use a human figure, architecture, or focal length.
-- **Entity personality-to-visual applies** (see `gemini.md` or `gpt.md` for translation table): ancient → geological layering; hungry → surfaces ripple toward viewer; broken → internal light flickers irregularly.
+- **Entity personality-to-visual applies** (see `core.md` for the translation table): ancient → geological layering; hungry → surfaces ripple toward viewer; broken → internal light flickers irregularly.

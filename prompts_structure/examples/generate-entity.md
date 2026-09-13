@@ -11,7 +11,7 @@
    - Not a location (it's a being, not a space)
    - No humanoid body plan (no head, torso, limbs, face)
    - Has consciousness and narrative role (sentient, game-master) → **entity** ✓
-3. Locate and read `concept/entity/gpt.md`, `concept/entity/general_layout_instruction.md`, and both meta hygiene files
+3. Locate and read `concept/entity/core.md`, `adapters/gpt-image.md`, `concept/entity/general_layout_instruction.md`, and both meta hygiene files
 4. Obtain the entity prompt structure formula:
 
    ```

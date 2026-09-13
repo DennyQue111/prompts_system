@@ -9,17 +9,14 @@ A frame is NOT a concept sheet. It's a single image that should feel like a free
 
 | File | What It Is |
 |------|-------------|
-| `text_to_image_gemini.md` | Full frame architecture for Gemini 2.5 Flash Image — text-to-image |
-| `image_to_image_gemini.md` | Frame architecture for Gemini 2.5 Flash Image — image-to-image with reference images |
-| `text_to_image_gpt.md` | Frame architecture for GPT image models — text-to-image (with anti-noise adaptations) |
-| `image_to_image_gpt.md` | Frame architecture for GPT image models — image-to-image with reference images (with anti-noise adaptations) |
+| `core-t2i.md` | Renderer-neutral single-frame architecture — text-to-image |
+| `core-i2i.md` | Renderer-neutral single-frame architecture — image-to-image with reference images |
 | `midjourney.md` | Frame architecture for Midjourney (with `--` parameter syntax) |
 | `style_reference.md` | Visual DNA palette library — film stock, CG anime, color palette, camera language templates |
 
-`gemini.md` and `gpt.md` are retained as legacy compact architectures. For new routing, use the explicit `text_to_image_*` or `image_to_image_*` files above.
+The model-specific language, anti-noise, and platform controls live in `../adapters/`; the Core defines the shot itself.
 
 ## Usage
-- If the user specifies a model name, load the corresponding variant file from this directory
-- If no model is specified, default to `text_to_image_gpt.md` for t2i or `image_to_image_gpt.md` for i2i
+- Select `core-t2i.md` or `core-i2i.md` by input mode, then load one renderer Adapter. GPT is default; an explicit Gemini or Jimeng selection replaces only the Adapter.
 - **Always consult `style_reference.md`** to select the correct visual palette before generating any frame — the Style Palette is project DNA, defined once and applied to every frame for visual continuity
 - For GPT image generation, also read `../meta/gpt-image-hygiene.md` before writing the prompt
