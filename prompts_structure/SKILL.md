@@ -18,16 +18,19 @@ Turn the user's intended deliverable into a finished image/video or a production
 
 ## Route before writing
 
-Read [references/routing.md](references/routing.md) and choose exactly one primary route for each deliverable. Its four high-priority routes are:
+Read [references/routing.md](references/routing.md) and choose exactly one primary route for each deliverable. Its high-priority routes are:
 
 | Natural-language intent | Canonical route | Template |
 |---|---|---|
 | Extract the person/character from an attached image into a character concept sheet | `concept-character-i2i-gpt` | `concept/character/core-i2i.md` + `adapters/gpt-image.md` |
 | Extract the background/environment from an attached image into a location concept sheet | `concept-location-i2i-gpt` | `concept/location/core-i2i.md` + `adapters/gpt-image.md` |
+| Split a screenplay/script into an importable JSON shot breakdown | `script-shot-breakdown` | `script/shot_breakdown/SKILL.md` |
 | Animate an attached image as one continuous shot | `shot-seedance` | `shot/seedance.md` |
 | Generate a passage from character/location concepts plus a shot list or script | `sequence-seedance` | `sequence/seedance.md` |
 
 These defaults apply even when the user never mentions `concept-character-i2i`, `concept-location-i2i`, `shot`, `sequence`, GPT, or Seedance.
+
+For requests such as “把剧本拆分成 JSON 镜头表”, “按镜头表 JSON 结构拆剧本”, or “生成可导入镜头表管理页的 JSON”, use `script-shot-breakdown`: read [`script/shot_breakdown/SKILL.md`](script/shot_breakdown/SKILL.md), return or save its `schema_version: 2` JSON, and do not generate media or platform prompts unless the user separately requests them.
 
 ## Routing precedence
 
