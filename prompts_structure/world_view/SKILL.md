@@ -138,7 +138,7 @@ Before answering, repair any failure:
 - Concrete visible action and spatial depth in every prompt.
 - No contradictory camera or capture-medium claims.
 - No human-skin detail when faces are absent, distant, hidden, or non-human.
-- Shared backbone / negative / parameter blocks written once at the top; every scene executable still standalone-runnable (backbone + scene + negative + params inline).
+- Shared backbone / character-rendering / negative / parameter blocks written ONCE at the top; scene blocks contain ONLY the independent scene-description paragraph. Repeating the shared blocks inside any scene = format violation, no exceptions.
 - Correct platform syntax with no empty or invented parameters.
 - User instructions override every default.
 
@@ -146,9 +146,9 @@ Do not print the validation checklist unless the user asks for an audit.
 
 ## Nine-frame set document layout — 公用 backbone 先行（mandatory）
 
-Denny's standing rule (confirmed 2026-09-01): every 世界观/九景-class deliverable — file or chat paste — MUST use this layout. Never silently fall back to a "nine fully self-contained scenes with no shared section" layout, and never drop the shared sections.
+Denny's standing rule (confirmed 2026-09-01, tightened 2026-09-15): every 世界观/九景-class deliverable — file or chat paste — MUST use this layout. The shared blocks are written ONCE at the top and are NEVER repeated per scene. A scene block that repeats backbone/rendering/negative/params is a hard format failure (Denny has flagged this repeatedly — treat it as a blocking error, fix before delivering). Never silently fall back to a "nine fully self-contained scenes with no shared section" layout, and never drop the shared sections.
 
-**File layout (headings in this exact order):**
+**Assembly order (file and chat are identical):**
 
 1. Title + metadata block (worldview, platform, date, style backbone source, positioning).
 2. 世界观概念（本篇细化）.
@@ -158,9 +158,11 @@ Denny's standing rule (confirmed 2026-09-01): every 世界观/九景-class deliv
 6. Optional `## Character Rendering（人物段）` — a reusable character-rendering paragraph; state which scenes require it (character scenes embed it; pure architecture/wide scenes skip it).
 7. `## Negative Prompt（全 N 景共用）` — shared negative, written ONCE here.
 8. `## MJ Parameters（全 N 景共用）` — e.g. `--ar 9:16 --stylize 250 --v 8.2`.
-9. Scenes 1–N. Each scene block = Chinese title + 叙事功能/视觉意图 (Chinese, never inside the executable) + a full standalone Executable Prompt that repeats backbone + (character rendering if needed) + scene description + negative + parameters inline — so any single scene can be copied and run alone without the shared sections.
-10. 更新日志.
+9. Scenes 1–N. Each scene block = Chinese title + 叙事功能/视觉意图 (Chinese) + the scene's INDEPENDENT English scene-description paragraph ONLY. Do NOT inline backbone / character rendering / negative / parameters — the label should say so explicitly, e.g. `Executable Prompt（场景段·骨架/人物段/Negative/参数见上方共用段）`.
+10. Update log / summary tables (技能覆盖、叙事弧线 etc.) if useful.
 
-**Chat-delivery variant (when the user says "直接发我"):** paste the shared blocks once at the front, then each scene's independent scene-description paragraph only. Keep the executable English pure; put Chinese intent on its own line.
+**Chat delivery (when the user says "直接发我" / "发我" / "聊天发我"):** plain text only — no code fences, no line numbers, select-all-and-copy friendly. Paste the shared blocks once at the front, then each scene's scene-description paragraph. Keep the executable English pure; put Chinese intent on its own line.
+
+**Self-check before delivering (mandatory, silent):** count how many times the backbone's opening words and the negative's opening words appear in the document. If either appears more than once → the format is wrong, strip the repeats before sending.
 
 **Canon templates:** `projects/孢子纪元/world_view/孢子纪元_9景_v16_人类建筑篇.md` and `孢子纪元_9景_v17_人类底层篇.md` (identical layout). New nine-frame sets must mirror them.
