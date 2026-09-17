@@ -30,7 +30,7 @@ Read [references/routing.md](references/routing.md) and choose exactly one prima
 
 These defaults apply even when the user never mentions `concept-character-i2i`, `concept-location-i2i`, `shot`, `sequence`, GPT, or Seedance.
 
-For requests such as “把剧本拆分成 JSON 镜头表”, “按镜头表 JSON 结构拆剧本”, or “生成可导入镜头表管理页的 JSON”, use `script-shot-breakdown`: read [`script/shot_breakdown/SKILL.md`](script/shot_breakdown/SKILL.md), return or save its `schema_version: 2` JSON, and do not generate media or platform prompts unless the user separately requests them.
+For requests such as “把剧本拆分成 JSON 镜头表”, “按镜头表 JSON 结构拆剧本”, or “生成可导入镜头表管理页的 JSON”, use `script-shot-breakdown`: read [`script/shot_breakdown/SKILL.md`](script/shot_breakdown/SKILL.md), return or save its linked `concepts` and `shot_breakdown` JSON files, and do not generate media or platform prompts unless the user separately requests them.
 
 ## Routing precedence
 
