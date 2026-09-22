@@ -49,12 +49,13 @@ The final action verb is decisive. For example, “基于这份镜头表生成�
 
 1. Inspect the user's text and all attached images/files. Assign each input a role: character identity, entity, location, prop, style/look, keyframe, shot list, or script.
 2. Select the primary route and model using the precedence above. Do not ask the user to name an internal architecture.
-3. For an image route, read exactly one deliverable **Core** and one renderer **Adapter** listed in `references/routing.md`, plus required layout/hygiene files. GPT is the default Adapter; an explicit Gemini or Jimeng choice replaces only the Adapter, not the Core.
+3. For an image route, read exactly one deliverable **Core** and one renderer **Adapter** listed in `references/routing.md`, plus required layout/hygiene files. GPT is the default Adapter; an explicit Gemini, Jimeng, or Flux choice replaces only the Adapter, not the Core.
    - For spatially constrained `frame`, `storyboard`, or `keyFrames` work, also read [`meta/spatial-continuity.md`](meta/spatial-continuity.md). Build world topology first, then derive what the selected camera can actually see; never assume that naming an intersection or supplying a multi-view sheet defines its perspective projection.
 4. Convert narrative or abstract language into visible action, body mechanics, spatial relationships, materials, lighting, and camera behavior. Preserve explicit identity, composition, duration, aspect ratio, and model choices.
 5. Build one clean prompt in the selected architecture. Expand layout instructions into actual panel descriptions; the image model cannot read this skill's Markdown files. Give a short route/model notice when useful; keep internal reasoning private.
    - **Concept-sheet hard gate:** For `concept-character-*` routes, the compiled image prompt MUST explicitly contain the selected layout's aspect ratio, panel count, panel order, and per-panel view instructions. Never replace a character concept sheet with a single portrait, single full-body illustration, cinematic still, or three-quarter character shot unless the user explicitly requests that alternate output.
    - For the default character i2i route, the prompt MUST state: `16:9`, `three equal vertical columns`, `LEFT facial close-up`, `CENTER front full body head intentionally cropped at the neck`, and `RIGHT back full body head-to-toe`. If any of these are missing, do not execute the image tool; repair the prompt first.
+   - For the Flux-friendly character i2i route, the prompt MUST state: `16:9`, `two equal vertical columns`, `LEFT front full body head-to-toe`, and `RIGHT back full body head-to-toe`. If the prompt drifts into a single hero portrait or silently reverts to the three-panel layout, repair it before execution.
 6. For a media stage, read [references/execution.md](references/execution.md), discover the matching generation capability in the host, pass actual references, and return the artifact or precise job status. For a prompt-only stage, return the prompt without rendering.
 7. For a multi-stage request, run dependencies in order and reuse outputs: concept assets first, then keyframes/frame if requested, then shot/sequence video.
 
@@ -76,6 +77,7 @@ Normalize common names only to select a template family; retain any exact versio
 - `Gemini`, `Nano Banana` → Gemini image.
 - `Midjourney`, `MJ` → Midjourney image.
 - `即梦生图`, `Jimeng image` → Jimeng image.
+- `Flux`, `FLUX`, `Flux Kontext`, `Flux.1`, `本地 Flux`, `comfyui-flux`, `comfyui-flux-kontext` → Flux image.
 - `Seedance`, `即梦视频` → Seedance video.
 - `MiniMax`, `海螺`, `Hailuo` → MiniMax video.
 
@@ -87,6 +89,7 @@ If the requested model has no native variant, follow the adaptation rules in `re
 
 - Read `meta/prompt-hygiene.md` before any prompt.
 - For every GPT image route, read `adapters/gpt-image.md` and `meta/gpt-image-hygiene.md`.
+- For every Flux image route, read `adapters/flux-image.md`.
 - Use `concept-classification.md` when the concept subtype is not explicit or could be confused with another subtype.
 - For character performance in shot/sequence video, read the applicable files under `performance/` before writing actions; a simple environment-only move does not need a character acting profile.
 - Respect the selected template's layout, duration, character limit, reference syntax, and negative-prompt policy.

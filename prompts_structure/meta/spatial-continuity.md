@@ -2,6 +2,8 @@
 
 Use this reference for spatially constrained `frame`, `storyboard`, and `keyFrames` prompts: intersections, alleys, doors, rooms, corridors, vehicles, multiple characters, screen direction, or any shot that must connect to another camera angle.
 
+Keep this file renderer-neutral. Model-specific prompt density, wording style, and generation quirks belong in renderer adapters such as `../adapters/flux-image.md`, not in the topology rules themselves.
+
 ## Core distinction
 
 Never treat **world topology** and **what the current camera can see** as the same description.

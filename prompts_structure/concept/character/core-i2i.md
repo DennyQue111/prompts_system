@@ -148,9 +148,9 @@ Based on: [current camera angle — front/profile/3/4/back]
 
 ### Step 5: Renderer-Neutral Output Prompt
 
-The final prompt, formatted for the supported image renderers image generation. Follow the panel layout defined in `simple_layout_instruction.md` in this directory (default), but fill ALL content from Steps 1-4 observations and inferences.
+The final prompt, formatted for the supported image renderers image generation. Follow the selected panel layout in this directory, but fill ALL content from Steps 1-4 observations and inferences.
 
-> **Layout 默认为 simple（三列等分）。** 如果用户明确要求 general 布局（主视觉/视角变化/表情/底排），改用 `general_layout_instruction.md`。
+> **Layout 默认为 simple（三列等分）。** 如果用户明确要求 general 布局（主视觉/视角变化/表情/底排），改用 `general_layout_instruction.md`。如果用户明确使用 Flux，或目标是给 Flux/本地开源视频链路做更稳的角色参考图，可改用 `flux_video_layout_instruction.md`（前视图 + 后视图双栏）。
 
 ```
 [Style preservation keywords from Step 2.6] +
@@ -212,7 +212,7 @@ RIGHT COLUMN — BACK FULL BODY (head to toe, including back of head):
 - **When to use this**: User uploads a reference image (MJ or other) and asks to extract/reproduce a character from it.
 - **When to use `core-t2i.md` instead**: User describes a character from imagination/script — no reference image provided.
 - **Future extension**: `image_to_image_midjourney.md` for MJ→MJ style reference transfer (using `--sref` or image prompt mode).
-- **Sheet layout**: Default pair with `simple_layout_instruction.md` (three-column). If user requests general layout, pair with `general_layout_instruction.md` instead.
+- **Sheet layout**: Default pair with `simple_layout_instruction.md` (three-column). If the user requests general layout, pair with `general_layout_instruction.md` instead. If the user explicitly wants Flux-friendly video reference output, pair with `flux_video_layout_instruction.md`.
 - **Image quality**: If the reference image is low resolution or heavily cropped, note visibility limits in Step 1 and prioritize what IS visible.
 
 

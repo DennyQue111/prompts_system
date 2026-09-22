@@ -15,7 +15,7 @@ The phrase need not match word-for-word. Infer by deliverable and input structur
 
 “调取背景成概念图” and “提取背景成概念图” have the same route. Correct obvious typos from context, such as “根据剧本生活这段视频” meaning “生成这段视频”; do not reinterpret them when multiple meanings remain plausible.
 
-Character i2i defaults to the existing simple layout: one 16:9 three-column sheet with facial close-up / front body cropped at the neck / full back view. An explicit “正面、侧面、背面三视图” requires those three full-body views instead, with the heads preserved. “三视图” alone conventionally means front/side/back; it is not a synonym for this library's special simple layout. Explicit panel counts/views override defaults. Location i2i defaults to the HDR four-view sheet; a requested single environment view overrides that layout. A generic request such as “把图中人物提取出来生成这个人物的概念图” still means the default character concept sheet, not a single portrait or cinematic character illustration.
+Character i2i defaults to the existing simple layout: one 16:9 three-column sheet with facial close-up / front body cropped at the neck / full back view. An explicit “正面、侧面、背面三视图” requires those three full-body views instead, with the heads preserved. “三视图” alone conventionally means front/side/back; it is not a synonym for this library's special simple layout. Explicit panel counts/views override defaults. When the user explicitly chooses Flux for a downstream video-reference character sheet, prefer `concept/character/flux_video_layout_instruction.md` unless they request a different layout. Location i2i defaults to the HDR four-view sheet; a requested single environment view overrides that layout. A generic request such as “把图中人物提取出来生成这个人物的概念图” still means the default character concept sheet, not a single portrait or cinematic character illustration.
 
 ## Boundaries that prevent common misroutes
 
@@ -39,20 +39,20 @@ The default column below applies only when the user did not name a model.
 
 | Deliverable | Mode | Core | Default adapter | Explicit renderer alternative |
 |---|---|---|---|---|
-| Humanoid character concept | t2i | `concept/character/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng when route/tool supports it → `adapters/jimeng-image.md`; MJ → existing `text_to_image_midjourney.md` |
-| Humanoid character concept | i2i | `concept/character/core-i2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md` |
-| Location/environment concept | t2i | `concept/location/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; MJ → existing `midjourney.md` |
-| Location/environment concept | i2i | `concept/location/core-i2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md` |
+| Humanoid character concept | t2i | `concept/character/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng when route/tool supports it → `adapters/jimeng-image.md`; Flux → `adapters/flux-image.md`; MJ → existing `text_to_image_midjourney.md` |
+| Humanoid character concept | i2i | `concept/character/core-i2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md`; Flux → `adapters/flux-image.md` |
+| Location/environment concept | t2i | `concept/location/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Flux → `adapters/flux-image.md`; MJ → existing `midjourney.md` |
+| Location/environment concept | i2i | `concept/location/core-i2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md`; Flux → `adapters/flux-image.md` |
 | Non-humanoid sentient entity | t2i | `concept/entity/core.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; MJ → existing `midjourney.md` |
 | Inert prop/object | t2i | `concept/prop/core.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; MJ → existing `midjourney.md` |
 | VFX concept from a reference | i2i | GPT | `concept/vfx/image_to_image_gpt.md` | No other local variant |
-| Single cinematic frame | t2i | `frame/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md`; MJ → existing `text_to_image_midjourney.md` |
-| Single cinematic frame | i2i | `frame/core-i2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md`; MJ → existing `image_to_image_midjourney.md` |
-| Full-color keyframe grid | t2i | `keyFrames/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md` |
-| Full-color keyframe/reference sheet | i2i | `keyFrames/core-i2i.md` | `adapters/gpt-image.md` | Adapt another selected compatible renderer with its adapter; preserve the requested sheet layout |
+| Single cinematic frame | t2i | `frame/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md`; Flux → `adapters/flux-image.md`; MJ → existing `text_to_image_midjourney.md` |
+| Single cinematic frame | i2i | `frame/core-i2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md`; Flux → `adapters/flux-image.md`; MJ → existing `image_to_image_midjourney.md` |
+| Full-color keyframe grid | t2i | `keyFrames/core-t2i.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Flux → `adapters/flux-image.md` |
+| Full-color keyframe/reference sheet | i2i | `keyFrames/core-i2i.md` | `adapters/gpt-image.md` | Flux → `adapters/flux-image.md`; adapt another selected compatible renderer with its adapter; preserve the requested sheet layout |
 | Storyboard | t2i/i2i | `storyboard/core.md` | `adapters/gpt-image.md` | Gemini → `adapters/gemini-image.md`; Jimeng → `adapters/jimeng-image.md` |
 
-For every unified image route, read exactly one deliverable Core and exactly one renderer Adapter. The default Adapter is `adapters/gpt-image.md`; an explicit image-renderer choice replaces it. Read a subtype `README.md` and the named layout file when present; vfx remains its existing GPT-only route. For frame routes, read `frame/style_reference.md`. For keyFrames, consult `keyFrames/examples.md` only when the output format remains unclear.
+For every unified image route, read exactly one deliverable Core and exactly one renderer Adapter. The default Adapter is `adapters/gpt-image.md`; an explicit image-renderer choice replaces it. Read a subtype `README.md` and the named layout file when present; vfx remains its existing GPT-only route. For frame routes, read `frame/style_reference.md`. For Flux character-concept video sheets, prefer `concept/character/flux_video_layout_instruction.md` unless the user requests another layout. For keyFrames, consult `keyFrames/examples.md` only when the output format remains unclear.
 
 For any `frame`, `storyboard`, or `keyFrames` request with precise geography, intersections, rooms, openings, occlusion, screen direction, or cross-shot spatial continuity, also read `meta/spatial-continuity.md`. A plan or multi-view sheet defines world topology; only a camera-matched view defines the exact projected composition.
 
@@ -76,6 +76,7 @@ Choose scope from camera/edit structure, not duration or action count alone. A t
 ## Model override examples
 
 - “用 Gemini 把图中人物做成概念图” → character i2i Core + Gemini Adapter + Gemini renderer.
+- “用 Flux 做这个人物概念图，后面还要拿去做视频” → character i2i Core + Flux Adapter + `flux_video_layout_instruction.md`.
 - “用即梦生图把这张背景做成场景概念图” → location i2i Core + Jimeng Adapter + Jimeng image renderer.
 - “用 MiniMax/海螺生成这份镜头表的视频” → sequence semantics + `sequence/minimax.md` + MiniMax renderer.
 - “用 GPT 写 Seedance 提示词” → GPT is the writing agent, not the renderer; route remains `shot-seedance` or `sequence-seedance` according to scope.

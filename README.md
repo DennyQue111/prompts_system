@@ -9,9 +9,9 @@ Image & video generation prompts knowledge base. Three modules: `style-profiles`
 The prompt engineering engine. It first infers *what* the user wants from natural language and attached references, then selects the matching type, source mode, and model variant. Image generation defaults to GPT; video generation defaults to Seedance. Explicit model choices always override these defaults.
 
 Key directories:
-- **concept/** — Content architectures for concept design sheets (character / entity / location / prop / vfx), with Gemini/GPT/Jimeng/Midjourney variants
+- **concept/** — Content architectures for concept design sheets (character / entity / location / prop / vfx), with Gemini/GPT/Jimeng/Midjourney variants and Flux-friendly layout support where needed
 - **performance/** — Character acting & behavior system. Upstream layer: acting master profiles, scene adaptation rules, eye life system — feeds into video sequences and shots
-- **frame/** — Single cinematic frame (frameRef / look reference), t2i + i2i for Gemini/GPT/Midjourney/Jimeng
+- **frame/** — Single cinematic frame (frameRef / look reference), t2i + i2i for Gemini/GPT/Midjourney/Jimeng, plus Flux through adapter-level compilation
 - **keyFrames/** — 3×3 grid single-image anchor for multi-shot visual consistency
 - **sequence/** — Timed multi-shot pre-vis (Seedance), with @TAG reference binding, first-frame rules, spatial landmarks
 - **shot/** — Single-shot video generation (Seedance)
@@ -21,6 +21,10 @@ Key directories:
 - **examples/** — Session walkthroughs
 
 Entry point: `SKILL.md`. The skill is execution-oriented: when the user asks to generate media, the agent should assemble the prompt internally and call an available compatible renderer instead of requiring the user to name a template.
+
+Flux note:
+- Keep Flux differences primarily in renderer adapters and Flux-specific layout files, not in the renderer-neutral cores.
+- For character concept sheets used as video references, the source of truth is now `prompts_structure/adapters/flux-image.md` plus `prompts_structure/concept/character/flux_video_layout_instruction.md`.
 
 ---
 

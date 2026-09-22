@@ -18,5 +18,6 @@ The model-specific language, anti-noise, and platform controls live in `../adapt
 
 ## Usage
 - Select `core-t2i.md` or `core-i2i.md` by input mode, then load one renderer Adapter. GPT is default; an explicit Gemini or Jimeng selection replaces only the Adapter.
+- If the user explicitly chooses Flux, keep the same Core and switch only the Adapter to `../adapters/flux-image.md`. Flux-specific density belongs in the Adapter, not a separate frame Core.
 - **Always consult `style_reference.md`** to select the correct visual palette before generating any frame — the Style Palette is project DNA, defined once and applied to every frame for visual continuity
 - For GPT image generation, also read `../meta/gpt-image-hygiene.md` before writing the prompt
