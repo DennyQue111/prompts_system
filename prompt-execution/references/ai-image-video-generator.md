@@ -49,6 +49,58 @@ Valid progression remains: `pending → breakdown_confirmed → anchors_ready �
 - A multi-view character sheet is an approval artifact, not the preferred composition authority for a keyframe. Generate or select a separate single-character identity anchor for shots.
 - Use the shot keyframe as the composition anchor and the character image as the identity anchor. Explain the role of every supplied reference image in the prompt when ambiguity would cause drift.
 
+## Three-stage keyframe fallback for difficult shots
+
+Use this fallback only after a direct keyframe attempt from a location anchor and character anchor fails visual QC for an important constraint: target camera/viewpoint, spatial topology, character pose, identity, or left/right anatomy. It is particularly useful for a new angle derived from a wide location concept, a character who must perform a specific action, a multi-person interaction, or a prosthetic/weapon whose side cannot flip.
+
+Do **not** make it the default for every simple transition shot. If a direct keyframe is already consistent, keep the simpler route.
+
+### 1. Camera plate
+
+Starting from the location anchor, make an **environment-only** image at the target shot's actual camera position, lens, height, view direction, and visible topology. This is not a generic alternate location view.
+
+- Describe what is visible, what is occluded, and where the subject will stand.
+- Request an empty plate: no people, creatures, or silhouettes.
+- Preserve only the location's material, lighting, and structural authority; do not force the original overview's composition.
+- If an unwanted person appears, first perform a dedicated removal edit on the plate before proceeding. Never composite a new actor over an accidental actor.
+
+### 2. Character action plate
+
+Starting from the single-character identity anchor, make an image that contains only the required actor in the target shot's pose, facing, framing, and action start state.
+
+- Use a neutral/studio background so the actor remains unambiguous.
+- State screen-side anatomy in visible terms, for example: `the character's anatomical LEFT prosthetic arm appears on the viewer's RIGHT; the viewer's LEFT arm is natural human skin`. Also state `exactly one mechanical arm and one human arm` when relevant.
+- Keep camera, lighting, and environment out of this prompt except for what affects the pose. This image is the authority for identity, clothing, anatomy, and action—not location composition.
+
+### 3. Final composite
+
+Submit the camera plate and character action plate together to the multi-image edit workflow. State their roles explicitly and in order:
+
+1. **Reference 1 / camera plate** is absolute authority for frame size, camera, road/room geometry, architectural perspective, background, and light direction.
+2. **Reference 2 / character action plate** is absolute authority for actor identity, pose, wardrobe, and side-specific anatomy.
+3. Specify the actor's screen placement and scale, then require matched contact shadow, wet reflection or other surface interaction.
+
+The final output must be checked as a new keyframe, not accepted merely because the intermediate plates were correct. Common final-composite defects are the actor being too small, new bystanders, lost contact shadow, or a mirrored prosthetic.
+
+### Retry and records
+
+- Treat this as a **workflow change**, not permission to retry the same final prompt indefinitely. Each individual plate or final composite gets at most one prompt-corrected retry under the standard retry policy.
+- Keep failed intermediate files for diagnosis, but only append an approved final composite to `shots[].reference_images`.
+- Record accepted intermediates in the shot's `production` object so a later agent can reproduce or revise the frame:
+
+```json
+{
+  "production": {
+    "camera_plate_url": "/static/projects/...",
+    "action_plate_urls": ["/static/projects/..."],
+    "keyframe_method": "three_stage_composite",
+    "keyframe_url": "/static/projects/..."
+  }
+}
+```
+
+- If the final composite remains wrong after its correction attempt, set the shot to `blocked(原因)` and preserve the successful plate URLs. A later pass may use inpainting or a different renderer without rebuilding the approved plates.
+
 ## Present limitation: no autonomous batch runner
 
 The application currently offers independent generation endpoints, manual reference selection, and per-shot prompt generation. It does **not** yet provide an endpoint that automatically:
