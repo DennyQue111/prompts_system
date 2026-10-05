@@ -7,7 +7,7 @@ description: 指挥剧本到成片的镜头级生产执行，规定拆镜、概�
 
 将一份剧本稳定地跑成整组镜头视频的生产调度层。`prompts_structure` 负责“怎么写提示词”，本 skill 负责“先做什么、谁确认、失败了怎么办、经验记到哪里”。
 
-当用户明确在 `ai_image_video_generator` 中使用 **Flux.2 Klein 生图 + MiniMax H3 视频**时，先读 [references/ai-image-video-generator.md](references/ai-image-video-generator.md)。它是该应用的集成档案：说明已实现的接口、资产回填格式和当前仍需人工执行的步骤。它不替代本 skill 的确认门，也不改变其他渲染器的通用流程。
+当用户明确在 `ai_image_video_generator` 中使用 **Flux.2 Klein 或由 Codex 直接调用的 GPT 图像模型生图 + MiniMax H3 视频**时，先读 [references/ai-image-video-generator.md](references/ai-image-video-generator.md)。它是该应用的集成档案：说明已实现的接口、资产回填格式和当前仍需人工执行的步骤。它不替代本 skill 的确认门，也不改变其他渲染器的通用流程。
 
 ## 总流程
 

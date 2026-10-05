@@ -1,6 +1,6 @@
-# ai_image_video_generator · Flux.2 Klein → MiniMax H3 integration
+# ai_image_video_generator · image generation → MiniMax H3 integration
 
-Use this reference only when the target is `D:\files\code\ai_image_video_generator` and the user has selected Flux.2 Klein for images and MiniMax H3 for video. It maps `prompt-execution` onto the application's real capabilities as of 2026-10-05.
+Use this reference only when the target is `D:\files\code\ai_image_video_generator` and the user has selected Flux.2 Klein or Codex-direct GPT image generation for images, and MiniMax H3 for video. It maps `prompt-execution` onto the application's real capabilities as of 2026-10-05.
 
 ## What the application can do now
 
@@ -14,6 +14,48 @@ Use this reference only when the target is `D:\files\code\ai_image_video_generat
 | Work on a shot in isolation | Project Management → open shot canvas | The canvas is a useful per-shot workspace; it is not a batch runner. |
 
 The application copies generated outputs into `outputs/_temp/generator_outputs/` and serves them as `/static/projects/...`. Never replace these paths with guessed local paths when writing JSON.
+
+## GPT direct-image asset handoff
+
+When the user selects GPT as the **project-wide primary image renderer**, Codex calls the image-generation capability directly rather than the app's Flux generation endpoints. MiniMax remains unchanged. GPT output is not a transient chat illustration: it must be made a first-class application asset before it is used as an anchor, keyframe, or video reference.
+
+### Renderer consistency
+
+- Use the selected primary renderer consistently for all newly generated project anchors, camera plates, action plates, and approved keyframes. Do not mix Flux and GPT output as peer production assets within one project merely for convenience; their rendering signatures can break continuity.
+- Flux inpainting is allowed only as an explicitly recorded local repair of an approved GPT image. It is not permission to use Flux for unrelated full-frame assets.
+- Preserve already approved legacy assets unless the user asks to replace them. If the project switches primary renderer partway through, explain that affected anchors and dependent keyframes need regeneration to regain a coherent look.
+
+### Required local persistence
+
+Save GPT-generated raster output under the same application-owned directories used by Flux, never only in the chat or an external temporary location:
+
+| Asset kind | Local directory | Public URL prefix | Filename prefix |
+|---|---|---|---|
+| Text-derived anchor or keyframe | `D:\files\code\ai_image_video_generator\outputs\_temp\generator_outputs\text_to_image\` | `/static/projects/_temp/generator_outputs/text_to_image/` | `gpt_txt2img_` |
+| Reference-guided edit, camera plate, action plate, or composite | `D:\files\code\ai_image_video_generator\outputs\_temp\generator_outputs\image_to_image\` | `/static/projects/_temp/generator_outputs/image_to_image/` | `gpt_img2img_` |
+
+- Use a collision-safe filename ending in a short unique identifier and preserve the generated file extension.
+- Verify the file exists locally, then construct the `/static/projects/...` URL from its path relative to `outputs/`. Do not invent a URL before the file is present.
+- The file is discoverable by the existing frontend because FastAPI mounts `outputs/` at `/static/projects/`; no separate frontend path, upload directory, or remote URL is required.
+- If the direct image-generation tool cannot provide a writable local artifact, stop before recording a fake path. Use a supported artifact export/ingest step first, then verify the saved bytes. Do not silently fall back to a remote URL.
+
+### JSON records
+
+Keep the existing `reference_images`, `keyframe_url`, and `video_url` paths exactly as application URLs. Record renderer provenance alongside them so a later run can reproduce the project without guessing:
+
+```json
+{
+  "production": {
+    "image_renderer": "gpt-image",
+    "generation_method": "text_to_image",
+    "prompt": "actual submitted image prompt",
+    "reference_images": ["/static/projects/_temp/generator_outputs/text_to_image/gpt_txt2img_xxxxxxxx.png"],
+    "keyframe_url": "/static/projects/_temp/generator_outputs/image_to_image/gpt_img2img_xxxxxxxx.png"
+  }
+}
+```
+
+For a three-stage fallback, retain `camera_plate_url`, `action_plate_urls`, and `keyframe_method` as already specified below, and set `image_renderer` to `gpt-image`. Pass the approved local `/static/projects/...` URLs to MiniMax in exactly the same way as Flux URLs.
 
 ## Required production order
 
