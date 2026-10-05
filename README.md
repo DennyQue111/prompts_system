@@ -48,6 +48,18 @@ Usage: tell an agent "按 project-structure skill 的结构来" when starting a 
 
 ---
 
+## prompt-execution
+
+The production orchestration layer. `prompts_structure` answers "how do I write the prompt?"; `prompt-execution` answers "what runs first, who approves it, what happens on failure, and where lessons are recorded". Contains:
+- `SKILL.md` — stage pipeline (breakdown → review gate → concept anchors → keyframes → per-shot video → retrospective) and per-shot status tracking
+- `references/pipeline.md` — per-stage inputs/outputs and QC checklists
+- `references/retry-policy.md` — retry-once-then-blocked failure handling, no silent skipping
+- `references/lessons-learned.md` — archived production issues (Flux pitfalls, service timeouts, dialogue control limits) with rules to avoid them
+
+Usage: tell an agent "按 prompt-execution 跑这个剧本" when starting a full script-to-shots production.
+
+---
+
 ## ref_skills
 
 External reference skill files from third-party workflows. **These are for study and reference only — not part of the active prompts_structure.** They provide alternative methodologies (Cinedance Higgsfield director system, Lira image prompt optimization, acting performance systems) that can inform improvements to the main prompt pipeline.
