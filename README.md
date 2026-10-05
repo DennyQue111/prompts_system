@@ -58,6 +58,10 @@ The production orchestration layer. `prompts_structure` answers "how do I write 
 
 Usage: tell an agent "按 prompt-execution 跑这个剧本" when starting a full script-to-shots production.
 
+### ai_image_video_generator integration profile
+
+For the local `D:\files\code\ai_image_video_generator` application, use `prompt-execution/references/ai-image-video-generator.md` together with `prompt-execution`. It maps the production workflow to the current **Flux.2 Klein → MiniMax H3** endpoints and JSON persistence conventions. It is intentionally an opt-in application profile: it does not replace the general renderer defaults or claim that the app already has a one-click novel-to-video orchestrator.
+
 ---
 
 ## ref_skills
