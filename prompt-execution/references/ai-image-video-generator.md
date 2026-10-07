@@ -9,6 +9,7 @@ Use this reference only when the target is `D:\files\code\ai_image_video_generat
 | Persist concepts and a shot list | `POST /api/shot_breakdowns/save` or the Project Management UI | Stores a concepts file and a shot-breakdown file linked by `project_id`. |
 | Generate a Flux key image | `POST /api/text-to-image`, `model: "comfyui-flux2"` | Flux dimensions must be multiples of 16; use the returned `/static/projects/...` URL as the asset path. |
 | Refine an existing asset with Flux | `POST /api/image-to-image`, `model: "comfyui-flux-kontext"`; use inpaint where a local correction is needed | Preserve the core identity and topology in the edit prompt; do not use a multi-view sheet as a single-shot composition reference. |
+| Generate a Flux character concept image | Free Canvas → Image-to-Image → Skill → Concept Image | Produces a front view, back view, directly cropped headless body, 2× face detail, and one combined concept sheet. Use the combined sheet for MiniMax, not for Flux keyframe composition. |
 | Produce a MiniMax H3 video | `POST /api/image-to-video`, `model: "comfyui-minimax"` | Requires 1–9 `reference_images`; default is 8 s at 1344×768 when duration and size are omitted. |
 | Derive a per-shot MiniMax prompt | `POST /api/shot-video-prompt` | Requires an existing `project_id`, `shot_id`, and the selected reference-image URLs. |
 | Work on a shot in isolation | Project Management → open shot canvas | The canvas is a useful per-shot workspace; it is not a batch runner. |
@@ -24,6 +25,15 @@ When the user selects GPT as the **project-wide primary image renderer**, Codex 
 - Use the selected primary renderer consistently for all newly generated project anchors, camera plates, action plates, and approved keyframes. Do not mix Flux and GPT output as peer production assets within one project merely for convenience; their rendering signatures can break continuity.
 - Flux inpainting is allowed only as an explicitly recorded local repair of an approved GPT image. It is not permission to use Flux for unrelated full-frame assets.
 - Preserve already approved legacy assets unless the user asks to replace them. If the project switches primary renderer partway through, explain that affected anchors and dependent keyframes need regeneration to regain a coherent look.
+
+### Character concept images for MiniMax
+
+For every recurring or speaking character, create and approve one MiniMax-facing character concept image before submitting that character's first video shot. A concept image supplements the current-shot keyframe: the keyframe controls composition and action, while the concept image preserves identity, wardrobe, front/back silhouette, and face detail when a shot moves close to the actor.
+
+- **Flux primary renderer:** use the application's Concept Image workflow from a selected character source. It generates Flux front and back full-body views, uses local face detection to crop a headless front body directly from the front image, creates a 2× face-detail crop, and combines those assets into one concept sheet. Do not ask Flux to regenerate a headless body.
+- **GPT primary renderer:** generate the character concept image directly with GPT and persist it as an application asset using the GPT handoff rules below. Do not route the asset through the Flux Concept Image workflow merely to match its layout.
+- **MiniMax binding:** every shot containing one or more principal characters must include the approved current-shot keyframe plus the corresponding character concept image for each such character. A character-free shot needs only its current-shot keyframe unless another reference is materially necessary. Stay within the backend maximum of nine references.
+- Describe the roles in the MiniMax prompt when necessary: the keyframe is the opening-frame composition, and the concept image is the character-detail authority. Do not request the concept-sheet layout itself to appear in the video.
 
 ### Required local persistence
 
@@ -61,11 +71,11 @@ For a three-stage fallback, retain `camera_plate_url`, `action_plate_urls`, and 
 
 1. **Prepare JSON, do not render yet.** Use `script-shot-breakdown` to create the paired `*_concepts.json` and `*_shot_breakdown.json` with schema version 2. Save or import them into the application, keeping a shared `project_id` and a valid `concepts_file` reference.
 2. **Obtain user approval of the shot table.** Check scene coverage, duration, continuity, and whether the required shot count is acceptable. Do not start Flux or MiniMax work before this approval.
-3. **Create reusable anchors.** Generate a production-ready single-character identity anchor for every recurring/speaking character, a location anchor for every recurring location, and a prop anchor when a prop has continuity significance. Write their real application URLs into the matching `reference_images` lists in concepts JSON.
+3. **Create reusable anchors and character concepts.** Generate a production-ready single-character identity anchor and a MiniMax character concept image for every recurring/speaking character, a location anchor for every recurring location, and a prop anchor when a prop has continuity significance. Write their real application URLs into the matching `reference_images` lists in concepts JSON.
 4. **Approve anchors when identity or art direction is important.** This is recommended before generating many dependent frames.
 5. **Generate and inspect each keyframe.** Use Flux with the relevant identity/location anchors. Each output must satisfy the shot's camera, visible action start state, identity, lighting, and space before it can be used for video.
 6. **Immediately record approved assets.** Add the accepted keyframe URL to that shot's `reference_images`; do not wait until the end of a batch. A separate `production` object may be retained on a shot for status metadata because the current persistence route preserves unknown shot fields.
-7. **Generate video per shot.** Build the MiniMax H3 prompt from the selected shot JSON using `shot/minimax.md`. Bind the character identity anchor and the approved current-shot keyframe first. Add only necessary extra anchors, maximum nine total.
+7. **Generate video per shot.** Build the MiniMax H3 prompt from the selected shot JSON using `shot/minimax.md`. For any character shot, bind the approved current-shot keyframe and every on-screen principal character's approved concept image. Add only necessary extra anchors, maximum nine total.
 8. **Record results and exceptions.** Store the final video URL in the shot's `production.video_url` (or an equivalent agreed project status record) and mark the state. Record failures as `blocked` with the reason; do not silently skip them.
 
 Suggested status payload, kept alongside the canonical shot fields:
@@ -88,8 +98,8 @@ Valid progression remains: `pending → breakdown_confirmed → anchors_ready �
 
 - For Flux, read `prompts_structure/adapters/flux-image.md` with the relevant concept/frame/keyframe core. Repeat visible identity traits, exact shot geometry, foreground/midground/background, material cues, and lighting instead of relying on style shorthand.
 - For MiniMax, read `prompts_structure/shot/minimax.md` for a continuous shot or `prompts_structure/sequence/minimax.md` when the requested result contains cuts. The selected model is a renderer override; do not use Seedance-specific syntax.
-- A multi-view character sheet is an approval artifact, not the preferred composition authority for a keyframe. Generate or select a separate single-character identity anchor for shots.
-- Use the shot keyframe as the composition anchor and the character image as the identity anchor. Explain the role of every supplied reference image in the prompt when ambiguity would cause drift.
+- A multi-view character concept sheet is not the preferred composition authority for a Flux keyframe. Generate or select a separate single-character identity anchor for Flux shots; use the concept sheet as a MiniMax character-detail reference instead.
+- For MiniMax character shots, use the current shot keyframe as the composition anchor and the character concept image as the identity/detail anchor. Explain the role of every supplied reference image in the prompt when ambiguity would cause drift.
 
 ## Three-stage keyframe fallback for difficult shots
 
