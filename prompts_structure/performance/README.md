@@ -33,3 +33,7 @@
 - **不需要参考图**——表演层描述的是行为模式，不是视觉外观
 - **Model-agnostic**——适用于任何视频模型（Seedance、即梦、Sora 等）
 - **和 concept/character 互补**——concept 管模型知道谁是谁，performance 管模型知道怎么做
+
+## 视频提示词前置检查（强制）
+
+生成任何 MiniMax、Seedance 或即梦视频提示词前，先读取本目录中与当前角色和镜头相关的 `acting_master_profile.md`、`eye_life.md` 与 `scene_adaptation.md`。提交前确认每个角色的具体视线目标、扫描顺序、微跳视、眨眼质量、catchlights 来源、目光→头部→身体的先后；多人同框逐人指定看谁并明确谁不看镜头；动作包含预备、发力、峰值、回收、恢复；摄影机左右与角色自身左右分开定义；武器、义肢和身体状态写明切换时机。

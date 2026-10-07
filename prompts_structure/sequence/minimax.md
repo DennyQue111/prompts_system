@@ -6,6 +6,10 @@ Sequence (MiniMax H3) 是专为 MiniMax H3 模型设计的**时间段轴视频�
 
 H3 的核心能力差异：**原生立体声生成**、**15秒连续时间轴**、**全正向描述**（不写 negative prompt）、**内联图片引用**、**严格标点语法**。
 
+## Performance 前置步骤（必做）
+
+生成 H3 Sequence 前先读取 `performance/README.md`，并按当前角色读取 `acting_master_profile.md`、`eye_life.md`、`scene_adaptation.md`。有人脸时写具体视线目标、扫描路径、微跳视、眨眼质量、catchlights 来源和目光→头部→身体的先后；多人同框分别指定每个人看谁；武戏按预备→发力→峰值→回收→恢复描述，并明确摄影机左右、角色自身左右及武器/义肢切换时机。H3 的约束全部改写为正向保持描述。
+
 ---
 
 ## 核心原则

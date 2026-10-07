@@ -6,6 +6,10 @@ Sequence 是**视频模型直出的镜头描述序列**。它的职责是告诉�
 
 Sequence 绑定你给的参考图，每次生成前先描述参考图结构，再逐镜写提示词。
 
+## Performance 前置步骤（必做）
+
+开始写 Sequence 前先读取 `performance/README.md`，并按当前角色读取 `acting_master_profile.md`、`eye_life.md`、`scene_adaptation.md`。把表演规则注入角色锚定、动作和情绪字段：有人脸时写具体视线目标、扫描路径、微跳视、眨眼质量、catchlights 来源及目光→头部→身体的先后；多人同框逐人锁定“谁看谁”，避免默认看镜头；动作戏按预备→发力→峰值→回收→恢复描述，并区分摄影机左右与角色自身左右。
+
 ---
 
 ## ⚠️ 字数限制

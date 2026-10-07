@@ -6,6 +6,10 @@ Shot (MiniMax H3) 是专为 MiniMax H3 模型设计的**单镜头视频提示词
 
 适用场景：单镜头测试、关键帧动效验证、独立镜头生成后手动拼接。
 
+## Performance 前置步骤（必做）
+
+生成 MiniMax H3 单镜头提示词前先读取 `performance/README.md`，并按当前角色读取 `acting_master_profile.md`、`eye_life.md`、`scene_adaptation.md`。把表演规则写入正向画面、动作、情绪和声音描述：有人脸时明确视线目标、扫描顺序、微跳视、眨眼、catchlights 及目光→头部→身体的先后；多人逐人指定看谁；武戏按预备→发力→峰值→回收→恢复写物理因果；区分摄影机左右、角色自身左右和武器/义肢切换时机。H3 不使用 negative prompt，约束改写为正向保持描述。
+
 与 Seedance Shot 的核心差异：H3 Shot 同样保留**声音设计**（H3 生成原生立体声）、**全正向描述**（不写 negative prompt）、**内联图片引用**和**严格标点语法**。
 
 ---
