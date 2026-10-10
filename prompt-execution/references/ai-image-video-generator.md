@@ -10,7 +10,7 @@ Use this reference only when the target is `D:\files\code\ai_image_video_generat
 | Generate a Flux key image | `POST /api/text-to-image`, `model: "comfyui-flux2"` | Flux dimensions must be multiples of 16; use the returned `/static/projects/...` URL as the asset path. |
 | Refine an existing asset with Flux | `POST /api/image-to-image`, `model: "comfyui-flux-kontext"`; use inpaint where a local correction is needed | Preserve the core identity and topology in the edit prompt; do not use a multi-view sheet as a single-shot composition reference. |
 | Generate a Flux character concept image | Free Canvas → Image-to-Image → Skill → Concept Image | Produces a front view, back view, directly cropped headless body, 2× face detail, and one combined concept sheet. Use the combined sheet for MiniMax, not for Flux keyframe composition. |
-| Produce a MiniMax H3 video | `POST /api/image-to-video`, `model: "comfyui-minimax"` | Requires 1–9 `reference_images`; default is 8 s at 1344×768 when duration and size are omitted. |
+| Produce a MiniMax H3 video | `POST /api/image-to-video`, `model: "comfyui-minimax"` | Requires 1–9 `reference_images`; default is 8 s at 1344×768 when duration and size are omitted. **Width and height must each be divisible by 32** (for example, 1280×704 or 1344×768); 1280×720 will fail at the MiniMax conditioning node. |
 | Derive a per-shot MiniMax prompt | `POST /api/shot-video-prompt` | Requires an existing `project_id`, `shot_id`, and the selected reference-image URLs. |
 | Work on a shot in isolation | Project Management → open shot canvas | The canvas is a useful per-shot workspace; it is not a batch runner. |
 
