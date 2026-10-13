@@ -14,6 +14,10 @@ Do not invent platform parameters.
 
 Place parameters at the end of the prompt.
 
+For direct copy-paste batches, every prompt is an independent command. Do not rely on a shared prompt, previous image, or previous scene for identity or style context. Avoid phrases such as `the same character`, `as above`, and `previously shown`; repeat the needed visible descriptors. A shared style/backbone block may be shown once as a reference, but the executable prompt must remain self-contained.
+
+Use `--ar 16:9` by default for world-view and cinematic concept-art prompts unless the user requests another ratio. Repeat the full parameter suffix on every executable prompt. Omit `--p` by default because the user may configure Personalization in the Midjourney Create page; include it only when the user explicitly asks for a literal parameter. Include `--sref` and `--profile` only when explicitly supplied or requested.
+
 - Add `--ar [ratio]` when a ratio is known.
 - Add `--sref [value]` and `--profile [value]` only when the user supplies them.
 - Add a model version only when the user requests that version; otherwise use the platform default.

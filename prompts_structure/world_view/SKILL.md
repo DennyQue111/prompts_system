@@ -65,6 +65,16 @@ If the user gives no creative spark at all, ask one short question. Otherwise pr
 
 Do not ask for Midjourney `--sref`, `--profile`, version, or HD settings. Use them only when supplied or explicitly requested.
 
+### Midjourney copy-paste rules
+
+When the user intends to copy each prompt directly into Midjourney:
+
+- Treat the shared Backbone/style block at the top as a visual reference and style guide, not as a hidden variable. Each executable prompt must still be semantically self-contained.
+- Never use context-dependent phrases such as `the same young man`, `the same character`, `as above`, `as before`, `this weapon`, or `the previously shown scene`. Repeat the necessary identity, costume, weapon, and setting descriptors in that prompt.
+- Put the complete Midjourney parameter string at the end of every executable prompt, even when the same parameters are shown in the shared parameter reference block. This makes every line independently copy-pasteable.
+- Use `--ar 16:9` as the default world-view and concept-art ratio unless the user specifies another ratio.
+- Do not include `--p` by default. The user may configure Personalization in the Midjourney Create page, so omit it from prompt text unless the user explicitly asks for a literal `--p` parameter. Likewise, include `--sref`, `--profile`, model, stylize, and other optional parameters only when the user explicitly supplies or requests them.
+
 ## Load only the needed references
 
 - Read [world-aspects.md](references/world-aspects.md) and [continuity-and-shot-planning.md](references/continuity-and-shot-planning.md) for every worldbuilding run.
@@ -157,11 +167,11 @@ Denny's standing rule (confirmed 2026-09-01, tightened 2026-09-15): every 世界
 5. `## Backbone（全 N 景共用）` — shared style backbone paragraph, written ONCE here, before any scene.
 6. Optional `## Character Rendering（人物段）` — a reusable character-rendering paragraph; state which scenes require it (character scenes embed it; pure architecture/wide scenes skip it).
 7. `## Negative Prompt（全 N 景共用）` — shared negative, written ONCE here.
-8. `## MJ Parameters（全 N 景共用）` — e.g. `--ar 9:16 --stylize 250 --v 8.2`.
-9. Scenes 1–N. Each scene block = Chinese title + 叙事功能/视觉意图 (Chinese) + the scene's INDEPENDENT English scene-description paragraph ONLY. Do NOT inline backbone / character rendering / negative / parameters — the label should say so explicitly, e.g. `Executable Prompt（场景段·骨架/人物段/Negative/参数见上方共用段）`.
+8. `## MJ Parameters（参考默认值）` — e.g. `--ar 16:9 --stylize 250`; if the user supplies a `--p` value, show it here as a user-provided value.
+9. Scenes 1–N. Each scene block = Chinese title + 叙事功能/视觉意图 (Chinese) + a self-contained executable prompt. For direct Midjourney copy-paste delivery, append the complete parameter string to every scene prompt, including `--ar 16:9` and any user-supplied `--p` / `--sref` / `--profile`. The shared Backbone remains a reference block and is not assumed to be automatically injected into Midjourney.
 10. Update log / summary tables (技能覆盖、叙事弧线 etc.) if useful.
 
-**Chat delivery (when the user says "直接发我" / "发我" / "聊天发我"):** plain text only — no code fences, no line numbers, select-all-and-copy friendly. Paste the shared blocks once at the front, then each scene's scene-description paragraph. Keep the executable English pure; put Chinese intent on its own line.
+**Chat delivery (when the user says "直接发我" / "发我" / "聊天发我"):** plain text only — no code fences, no line numbers, select-all-and-copy friendly. Paste the shared style/backbone reference once at the front, then each self-contained executable English prompt with its own complete MJ parameter suffix. Keep the executable English pure; put Chinese intent on its own line.
 
 **Self-check before delivering (mandatory, silent):** count how many times the backbone's opening words and the negative's opening words appear in the document. If either appears more than once → the format is wrong, strip the repeats before sending.
 
