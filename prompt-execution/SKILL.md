@@ -15,7 +15,7 @@ description: 指挥剧本到成片的镜头级生产执行，规定拆镜、概�
 
 1. **拆镜**：用 `prompts_structure/script/shot_breakdown` 把剧本拆成 `concepts + shot_breakdown` 两个 JSON。
 2. **分镜确认门**：先把完整镜头表交给用户过目。用户确认前不生成任何媒体。确认后记录确认结论，后续改动走增量，不重跑全片。
-3. **概念资产**：为每个主要角色生成身份锚图和 MiniMax 角色概念图；为每个重复出现的场景生成场景锚图，跨镜头关键道具同理。资产路径回填 concepts JSON 的 `reference_images`。
+3. **概念资产**：为每个主要角色生成身份锚图和 MiniMax 角色概念图；为每个重复出现的场景生成场景锚图，跨镜头关键道具同理。用户指定使用 `ai_image_video_generator` 的 Flux 角色概念图功能时，直接在 Free Canvas 的 **Image-to-Image → Skill → Concept Image** 页签中选中该角色唯一的源图，补充必要的角色约束后点击“生成角色概念图”，完整使用应用内置流程。不要把该流程拆成多次手工 Flux API 调用、手工做人脸裁切/放大/拼版；详细行为见 [references/ai-image-video-generator.md](references/ai-image-video-generator.md)。生成后将最终概念图及需要复用的身份锚图路径回填 concepts JSON 的 `reference_images`。
 4. **资产确认门**（可选但推荐）：让用户快速过目角色与场景锚图，气质不对在这里改最便宜。
 5. **逐镜关键帧**：按镜头顺序生成关键帧，遵守 [references/retry-policy.md](references/retry-policy.md)。
 6. **关键帧质检**：逐镜核对身份、构图、空间关系、动作起始状态；不合格先修提示词重生成，不带废片往下走。
