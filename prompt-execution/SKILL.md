@@ -14,11 +14,17 @@ description: 指挥剧本到成片的镜头级生产执行，规定拆镜、概�
 严格按阶段推进，每个阶段完成并记录后才能进入下一阶段：
 
 0. **风格定义**：选定图像模型（Flux / Z-Image / GPT 等）后，用 2-3 张代表性场景试生成（如一张场景建立镜头、一张人物镜头、一张复杂构图），附上候选风格后缀。用户确认风格前不生成任何概念图或分镜。风格一经确认，全项目沿用同一风格后缀，不中途更换。
-1. **概念资产**：基于确认的风格，为每个主要角色生成身份锚图和 MiniMax 角色概念图；为每个重复出现的场景生成场景锚图，跨镜头关键道具同理。用户指定使用 `ai_image_video_generator` 的 Flux 角色概念图功能时，直接在 Free Canvas 的 **Image-to-Image → Skill → Concept Image** 页签中选中该角色唯一的源图，补充必要的角色约束后点击"生成角色概念图"，完整使用应用内置流程。不要把该流程拆成多次手工 Flux API 调用、手工做人脸裁切/放大/拼版；详细行为见 [references/ai-image-video-generator.md](references/ai-image-video-generator.md)。生成后将最终概念图及需要复用的身份锚图路径回填 concepts JSON 的 `reference_images`。
+1. **概念资产**：基于确认的风格和渲染器生成概念资产。**Flux 和 GPT 的流程不同**（详见 [references/pipeline.md](references/pipeline.md) 阶段 1-2）：
+   - **Flux**：每个角色生成两类资产——身份锚图（单人正面照，flux t2i，用于 Flux i2i 关键帧参考）+ 角色概念图（front/back 双栏，用于 MiniMax 视频参考）。场景生成场景锚图（flux t2i，无人）。
+   - **GPT**：每个角色直接生成角色概念图（可含多视图，同时用于关键帧生成和 MiniMax 视频）。场景生成场景概念图。不需要额外身份锚图。
+   - 用户指定使用 `ai_image_video_generator` 的 Flux 角色概念图功能时，直接在 Free Canvas 的 **Image-to-Image → Skill → Concept Image** 页签中选中该角色唯一的源图，补充必要的角色约束后点击"生成角色概念图"，完整使用应用内置流程。不要把该流程拆成多次手工 Flux API 调用、手工做人脸裁切/放大/拼版；详细行为见 [references/ai-image-video-generator.md](references/ai-image-video-generator.md)。生成后将最终概念图及身份锚图路径回填 concepts JSON 的 `reference_images`。
 2. **资产确认门**（可选但推荐）：让用户快速过目角色与场景锚图，气质不对在这里改最便宜。
 3. **分镜拆解**：用 `prompts_structure/script/shot_breakdown` 把剧本拆成 `concepts + shot_breakdown` 两个 JSON。此时概念图已存在，分镜可参照角色外观和场景空间精确编写 camera/framing/action。
 4. **分镜确认门**：先把完整镜头表交给用户过目。用户确认前不生成任何关键帧。确认后记录确认结论，后续改动走增量，不重跑全片。
-5. **逐镜关键帧**：按镜头顺序生成关键帧，遵守 [references/retry-policy.md](references/retry-policy.md)。
+5. **逐镜关键帧**：按镜头顺序生成关键帧，**Flux 和 GPT 的生成路径不同**（详见 [references/pipeline.md](references/pipeline.md) 阶段 5-6）：
+   - **Flux**：首选路径——身份锚图 + 场景锚图 → Flux i2i（flux-kontext）。质检不合格时走三段式回退（camera plate + action plate → 合成）。
+   - **GPT**：角色概念图 + 场景概念图 → GPT 直接生成关键帧。
+   - 遵守 [references/retry-policy.md](references/retry-policy.md)。
 6. **关键帧质检**：逐镜核对身份、构图、空间关系、动作起始状态；不合格先修提示词重生成，不带废片往下走。
 7. **回填镜头表**：关键帧通过质检后，立即把文件路径写入镜头表 JSON 对应镜头的 `reference_images`。概念资产（角色/场景/道具锚图）生成后同样回填 concepts JSON。保持 JSON 与磁盘产物实时一致，前端和后续 agent 读到的永远是最新状态。
 8. **逐镜视频**：用合格关键帧 + 角色/场景锚图组装视频提示词并提交，同样遵守重试策略。使用 MiniMax H3 时，含角色镜头必须绑定"当前镜头关键帧 + 每个画内主要角色的概念图"；无角色镜头只绑定当前镜头关键帧。只有确有必要时再加入场景或道具锚图，且总数不超过后端支持上限。
