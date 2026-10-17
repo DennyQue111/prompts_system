@@ -102,6 +102,12 @@ Valid progression remains: `pending → breakdown_confirmed → anchors_ready �
 - A multi-view character concept sheet is not the preferred composition authority for a Flux keyframe. Generate or select a separate single-character identity anchor for Flux shots; use the concept sheet as a MiniMax character-detail reference instead.
 - For MiniMax character shots, use the current shot keyframe as the composition anchor and the character concept image as the identity/detail anchor. Explain the role of every supplied reference image in the prompt when ambiguity would cause drift.
 
+## MiniMax H3 dialogue and motion
+
+For a shot with spoken dialogue, put the exact dialogue text **once only** in a dedicated `对白` section. Include the speaker, an approximate start/end time window, delivery, and lip-sync instruction. In the action description, refer to “the shot's only line” rather than repeating its words; in the sound-design section, describe ambience and effects without quoting the dialogue again. This avoids duplicating/competing text conditioning and worked in the `FWW_0010` v003 controlled retest, where the line became correct. This is a verified prompt practice, not a guarantee that every H3 generation will speak perfectly.
+
+For background motion, make the intended motion hierarchy explicit. Separate continuous wind-driven motion (hair, grass, loose fabric, clouds) from elements that should stay still or move only slightly. State positive, observable bounds where practical—for example, “the coaster track remains empty throughout, with no train/cars/passengers” or “the Ferris wheel rotates no more than about 3° over five seconds in a light breeze.” Avoid relying on vague adverbs such as “slowly” alone. Check for contradictions across action, camera, and sound sections before submission.
+
 ## Three-stage keyframe fallback for difficult shots
 
 Use this fallback only after a direct keyframe attempt from a location anchor and character anchor fails visual QC for an important constraint: target camera/viewpoint, spatial topology, character pose, identity, or left/right anatomy. It is particularly useful for a new angle derived from a wide location concept, a character who must perform a specific action, a multi-person interaction, or a prosthetic/weapon whose side cannot flip.

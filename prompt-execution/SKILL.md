@@ -28,6 +28,7 @@ description: 指挥剧本到成片的镜头级生产执行，规定拆镜、概�
 6. **关键帧质检**：逐镜核对身份、构图、空间关系、动作起始状态；不合格先修提示词重生成，不带废片往下走。
 7. **回填镜头表**：关键帧通过质检后，立即把文件路径写入镜头表 JSON 对应镜头的 `reference_images`。概念资产（角色/场景/道具锚图）生成后同样回填 concepts JSON。保持 JSON 与磁盘产物实时一致，前端和后续 agent 读到的永远是最新状态。
 8. **逐镜视频**：用合格关键帧 + 角色/场景锚图组装视频提示词并提交，同样遵守重试策略。使用 MiniMax H3 时，含角色镜头必须绑定"当前镜头关键帧 + 每个画内主要角色的概念图"；无角色镜头只绑定当前镜头关键帧。只有确有必要时再加入场景或道具锚图，且总数不超过后端支持上限。
+   - MiniMax H3 对白按 [references/ai-image-video-generator.md](references/ai-image-video-generator.md#minimax-h3-dialogue-and-motion) 的已验证写法组织：台词全文只出现一次，置于单独的对白段并给出说话者和时间窗；动作段只引用“说出本镜唯一一句台词”，不要再次复述原句。需要压制异常运动时使用画面可验证、最好可量化的约束（如“轨道全程空置”“五秒转角不超过约3°”），避免只写“很慢/不要太快”。
 9. **回收与复盘**：全部镜头跑完后核对状态表，把新问题追加到 [references/lessons-learned.md](references/lessons-learned.md)。
 
 各阶段的输入输出细节见 [references/pipeline.md](references/pipeline.md)。
