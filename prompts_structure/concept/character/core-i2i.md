@@ -164,7 +164,7 @@ LEFT COLUMN — FACIAL CLOSE-UP (shoulder-up, neutral expression):
 [Expression: neutral, reference pose]
 
 CENTER COLUMN — FRONT FULL BODY (headless, shoulder line to shoes):
-⚠️ Place the top edge across the shoulder/clavicle line. The entire head and neck are outside this panel. Begin with shoulder clothing; show no hair, ears, jaw, chin, mouth, or face pixels, and do not leave a chin fragment touching the top edge. Only body and clothing.
+⚠️ Reserve a clean near-white blank safety band across the top 10–12% of this panel. Place/scale the body slightly lower so shoulder clothing/armor is the first visible figure content below the band. The entire head and neck are outside this panel. Show no hair, ears, jaw, chin, mouth, throat, exposed neck, or face pixels, and do not leave a chin fragment touching the top edge. Only body and clothing.
 [Build: from Step 1 body build observation] +
 [Outfit: from Step 1 clothing observation, layered outside→in, top→bottom] +
 [Accessories & body marks: from Step 1] +
