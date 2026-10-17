@@ -1,6 +1,6 @@
 # ai_image_video_generator · image generation → MiniMax H3 integration
 
-Use this reference only when the target is `D:\files\code\ai_image_video_generator` and the user has selected Flux.2 Klein or Codex-direct GPT image generation for images, and MiniMax H3 for video. It maps `prompt-execution` onto the application's real capabilities as of 2026-10-05.
+Use this reference only when the target is `D:\files\code\ai_image_video_generator` and the user has selected Flux.2 Klein or Codex-direct GPT image generation for images, and MiniMax H3 for video. It maps `prompt-execution` onto the application's real capabilities as of 2026-10-17.
 
 ## What the application can do now
 
@@ -9,6 +9,7 @@ Use this reference only when the target is `D:\files\code\ai_image_video_generat
 | Persist concepts and a shot list | `POST /api/shot_breakdowns/save` or the Project Management UI | Stores a concepts file and a shot-breakdown file linked by `project_id`. |
 | Generate a Flux key image | `POST /api/text-to-image`, `model: "comfyui-flux2"` | Flux dimensions must be multiples of 16; use the returned `/static/projects/...` URL as the asset path. |
 | Refine an existing asset with Flux | `POST /api/image-to-image`, `model: "comfyui-flux-kontext"`; use inpaint where a local correction is needed | Preserve the core identity and topology in the edit prompt; do not use a multi-view sheet as a single-shot composition reference. |
+| Prepare a MiniMax H3 keyframe | Generate one complete, camera-matched cinematic frame with the selected project renderer | **Do not use a crop from a storyboard/contact sheet as the final keyframe.** Use a native, clean 16:9 image at least 1536×864 pixels (prefer 1920×1080 or the highest clean 16:9 output supported). It must be at least as large as the submitted video dimensions; never send a tiny crop and rely on H3 to upscale it. |
 | Generate a Flux character concept image | Free Canvas → Image-to-Image → Skill → Concept Image; select exactly one character source image, optionally enter extra constraints, then click “生成角色概念图” | This is an application-native end-to-end workflow. Let the UI run its ordered Flux front view, Flux back view, direct headless-body crop, SeedVR2 2× face source, and final combined concept sheet; it also preserves the intermediate assets on the canvas. Do not manually reproduce these steps with separate API calls or hand-built crops/composites when this workflow is available. Use the final combined sheet for MiniMax, not for Flux keyframe composition. |
 | Produce a MiniMax H3 video | `POST /api/image-to-video`, `model: "comfyui-minimax"` | Requires 1–9 `reference_images`; default is 8 s at 1344×768 when duration and size are omitted. **Width and height must each be divisible by 32** (for example, 1280×704 or 1344×768); 1280×720 will fail at the MiniMax conditioning node. |
 | Derive a per-shot MiniMax prompt | `POST /api/shot-video-prompt` | Requires an existing `project_id`, `shot_id`, and the selected reference-image URLs. |
