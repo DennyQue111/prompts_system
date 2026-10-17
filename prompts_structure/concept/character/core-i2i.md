@@ -155,7 +155,7 @@ The final prompt, formatted for the supported image renderers image generation. 
 ```
 [Style preservation keywords from Step 2.6] +
 
-[Layout instruction: reference simple_layout_instruction.md in this directory for simple three-column spec — 16:9 character concept design sheet, LEFT FACIAL CLOSE-UP / CENTER FRONT FULL BODY (headless) / RIGHT BACK FULL BODY. Clean near-white background, thin dark vertical panel dividers.] +
+[Layout instruction: reference simple_layout_instruction.md in this directory for simple three-column spec — 16:9 character concept design sheet, LEFT FACIAL CLOSE-UP / CENTER FRONT FULL BODY from shoulder line to shoes with the entire head and neck outside the panel / RIGHT BACK FULL BODY. Clean near-white background, thin dark vertical panel dividers.] +
 
 LEFT COLUMN — FACIAL CLOSE-UP (shoulder-up, neutral expression):
 [Face: from Step 1 face observation] +
@@ -163,8 +163,8 @@ LEFT COLUMN — FACIAL CLOSE-UP (shoulder-up, neutral expression):
 [Facial marks: scars/freckles/tattoos from Step 1, if any] +
 [Expression: neutral, reference pose]
 
-CENTER COLUMN — FRONT FULL BODY (headless, from neck down, head cropped):
-⚠️ Head deliberately cropped — no head, no face in this column. Only body and clothing.
+CENTER COLUMN — FRONT FULL BODY (headless, shoulder line to shoes):
+⚠️ Place the top edge across the shoulder/clavicle line. The entire head and neck are outside this panel. Begin with shoulder clothing; show no hair, ears, jaw, chin, mouth, or face pixels, and do not leave a chin fragment touching the top edge. Only body and clothing.
 [Build: from Step 1 body build observation] +
 [Outfit: from Step 1 clothing observation, layered outside→in, top→bottom] +
 [Accessories & body marks: from Step 1] +
