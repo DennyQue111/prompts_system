@@ -1,26 +1,26 @@
 
 ## Description
-Use this architecture when the user wants to generate an image of **a sentient, non-humanoid entity** — a being that possesses consciousness, agency, or narrative presence but does not conform to the humanoid body plan. This includes AI manifestations, god-projections, alien consciousness, elemental beings, abstract sentient constructs, and any character whose "form" is inseparable from its identity. The generated image is always a multi-panel concept design sheet (16:9) that presents the entity's full visual range as a video production reference.
+Use this architecture when the user wants to design **a sentient, non-humanoid entity** — a being with agency or narrative presence that does not follow a human body plan. This includes AI manifestations, alien consciousnesses, elemental beings, abstract sentient constructs, and creatures whose form is central to their identity. The default deliverable is one adaptable 16:9 multi-panel concept sheet: a design master for communicating identity, important forms, structure, and behavior. It is not automatically the best direct input image for a video model.
 
 **Not for**: humanoid characters with clothes and limbs → use `character`.  
 **Not for**: inert objects without consciousness → use `prop`.
 
 ## What the Image Must Include
 
-This architecture defines **what content goes into each panel** of the entity concept image. The final image is a single 16:9 composite with the following panels:
+Choose only the panels that materially help explain this entity. Do not force every entity into the same panel recipe:
 
 | Panel Area | Content | Detail Level |
 |------------|---------|--------------|
-| **Main Visual** | The entity in its default/normal form, full presence | Richest description: form/shape, materials, scale, sentience indicators, behavior, lighting |
-| **View Variations** | 2–3 different viewing angles of the default form | Each angle: what's newly visible that isn't seen from the front (side reveals thickness, top reveals radial symmetry, etc.) |
-| **Detail Close-ups** | Close-ups of critical visual components (materials, internal structure, energy effects, scale reference) | Panel count drives grid layout — 2→side by side, 3→flexible, 4→2×2, 5+→AI decides |
-| **Bottom Row** | Form variations (2–3) then emotion states (2–3), one horizontal row | Forms first (left), emotions second (right). Each ~1-2 sentences |
+| **Primary form(s)** | The form or forms most important to the story | Give the main story form enough area to read its full silhouette, materials, scale, and sentience cues. A transforming entity may need two co-primary forms rather than one tiny secondary variant. |
+| **View variations** | Additional angles when 3D structure is hard to infer from one view | Front/side/back/top as useful; omit redundant views when the entity is a clear abstract silhouette. |
+| **Structure details** | Core, surface, internal mechanism, signature effect, or scale cue | Select details that explain identity or continuity; omit decorative close-ups that do not help recognition. |
+| **Form / state changes** | Story-relevant alternate morphologies and/or visible emotional states | Show form changes when the body actually changes. Show emotion states only when light, motion, or silhouette visibly changes; neither row is mandatory. |
 
 ## Prompt Content Formula
 
 For the main visual description, structure the text as:
 
-[Subject / Entity type] + [Physical form & structure] + [Materials & textures] + [Scale & spatial presence] + [Sentience indicators] + [Behavior / agency] + [Environment / context] + [Style suffix]
+[Subject / Entity type] + [Story-relevant form(s)] + [Physical structure & shared identity markers] + [Materials & textures] + [Scale] + [Visible sentience / behavior] + [Only useful views/details/states] + [Style]
 
 ### Content Components
 
@@ -33,7 +33,7 @@ For the main visual description, structure the text as:
 | **Sentience indicators** | Visual cues of awareness/aliveness | Eyes (embedded, blinking), glow rhythms, reactive surfaces, any non-facial signal that says "this thing is alive" |
 | **Behavior / agency** | What the entity is doing or capable of doing | Static behavior (staring, hovering, pulsing) or dynamic (rotating, blinking, form-shifting). Pick one clear primary behavior |
 | **Environment / context** | Surrounding space | Void, altar, rift, chamber — minimal backgrounds preferred when the entity's form is the primary subject |
-| **Style suffix** | Artistic style | From `../../style-profiles/style-library.md` |
+| **Style** | Rendering approach | Preserve the user's or project's supplied style; otherwise infer it from the reference or requested medium. Use an available style profile only when one is relevant. |
 
 ## Usage Notes
 - Entities thrive on **material contrast** — interior vs exterior tension (magma inside obsidian, light inside shadow).
@@ -76,19 +76,22 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 - **Entity confused with prop**: If the prompt describes only materials and form but gives no signal of consciousness → it's a prop. Add an eye, a glow, a movement, a reactive surface.
 - **No scale anchor**: "floating in space" gives no size reference → add a measurement or comparison object.
 - **Over-describing function**: "a being that controls the rules of the game" → describe what it looks like and how it behaves visually, not its metaphysical powers.
-- **Humanoid leakage**: If the entity starts growing arms, legs, or clothing → switch to `character`.
-- **Form variations and emotion states are distinct**: Forms = different physical configurations of the cubes/matter. Emotions = same form but different light color/arc tempo/glow intensity. Don't confuse them.
+- **Humanoid leakage**: If the intended design requires stable human anatomy, a human face, or ordinary clothing, route to `character`. Temporary fluid appendages or a roughly upright monster silhouette do not by themselves make an entity humanoid.
+- **Form variations and emotion states are distinct**: forms change the entity's physical configuration; emotions keep the form and change visible signals such as light, movement, or pulse. Include only the categories that matter for this entity.
 
 ## Image Structure
-For the **layout grid, panel positions, and 16:9 composition**, see:
+For adaptable **layout options and panel priorities** on the default 16:9 design sheet, see:
 → **`general_layout_instruction.md`** in this directory
 
-That file defines:
-- Exact panel positions (main visual top-left 1/3×4/5, view variations upper-right, details lower-right AI-flexible grid, bottom row full-width)
-- How to write the full combined prompt with layout instructions + panel content
-- Detailed example generation
-- Sheet-specific scoring and common issues
+That file offers layout patterns for fixed-form, multi-form/transforming, and swarm/abstract entities. Choose the pattern that gives the important forms and shared identity cues enough space; its panel proportions are guidance, not a mandatory grid.
 
-The agent workflow is: read this file for **what** content to generate → read `general_layout_instruction.md` for **how** to compose the image → combine both into the final prompt.
+## From design sheet to video references
+
+- Treat the full concept sheet as the entity's **design master**. It locks identity, form logic, materials, and shared details.
+- For a video shot, select or create a clean **single-view reference** showing the specific form and approximate framing that should appear in that shot. If the video tool supports multiple references, the concept sheet may accompany it as a secondary design reference; do not make the video model guess which panel to use.
+- Do not use the multi-panel sheet as a literal first frame unless the user wants the sheet itself animated. Keep labels, diagrams, and unrelated form panels out of a shot-specific anchor.
+- For a transformation shot, identify the starting and ending forms and the invariant that connects them (core, markings, material pattern). Use storyboard/keyframes to define intermediate beats; only generate separate transition references when the requested workflow needs them.
+
+Workflow: use this file to decide **what** must be designed → use `general_layout_instruction.md` to choose **how** to arrange it → compile a clean renderer-specific prompt. When video is later requested, use the design sheet as the source of truth and bind only the shot-relevant reference(s).
 
 

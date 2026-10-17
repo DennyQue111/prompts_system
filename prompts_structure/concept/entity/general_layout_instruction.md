@@ -1,6 +1,18 @@
 # Entity Concept Design Sheet — Layout Instruction
 
-## Layout Grid (16:9)
+## Layout Strategy (16:9 default)
+
+Use one clean 16:9 sheet as a design master by default, but adapt the zones to the entity. The layout exists to make identity, form, and continuity easy to understand—not to fill a fixed checklist. Start by deciding which morphology or state is most important to the story, then allocate enough image area for it to read clearly.
+
+Choose a layout pattern:
+
+- **Fixed-form entity:** one dominant primary view; add only useful angle views, structure details, and a scale cue.
+- **Multi-form / transforming entity:** give each story-critical form a clearly readable panel or zone. If transformation order matters, add a short left-to-right progression strip. Keep shared identity markers visible and consistent across forms.
+- **Swarm / abstract entity:** prioritize the overall silhouette, how it is composed, one or two alternate configurations, and any visual signals that communicate awareness or emotion.
+
+These patterns can be combined when the entity needs it. Omit redundant views and optional states; do not shrink a key form just to include every possible close-up.
+
+## Optional Layout Grid (16:9)
 
 ```
 ┌────────────────┬──────────────────────────────────────┐
@@ -22,38 +34,39 @@
 └─────────────────────────────────────────────────────┘
 ```
 
-## Panel Definitions
+## Optional Panel Definitions
 
-- **MAIN VISUAL** — top-left, 1/3 width × ~4/5 height. The entity in its default/normal form, full visual presence, with name/label. This is the largest rendered area — form, materials, scale, sentience indicators, behavior, and lighting all live here.
+- **PRIMARY FORM / MAIN VISUAL** — give the most story-relevant form the largest area. Usually this is the default form; for a transformation-driven entity, a combat or alternate form may be equally important and deserve its own large panel. Include a short name/label only when it helps identify the design.
 
-- **VIEW VARIATIONS** — upper half of the right area. The same default form shown from 2–3 different viewing angles (front, side, top-down, 3/4 perspective, etc.), giving a sense of the entity's three-dimensionality. Each angle should reveal structure invisible from the main view.
+- **VIEW VARIATIONS** — use 2–3 angles of the same form only when they reveal useful 3D structure or continuity. These are views, not different morphologies.
 
-- **DETAIL CLOSE-UPS** — lower half of the right area. Close-ups of critical visual components. The AI should determine the best grid arrangement based on how many details are provided: fewer details = larger panels, more details = smaller panels. No need to strictly enforce equal sizes.
+- **STRUCTURE / DETAIL CLOSE-UPS** — show only signature components such as a core, sensory area, internal pattern, material boundary, or scale cue. Arrange panels flexibly; fewer useful details should receive larger panels.
 
-- **BOTTOM ROW** — full width, ~1/5 height. One continuous horizontal row. **Form variations first** (left side), then **emotion states** (right side). All panels in this row share the same height. The number of panels can vary (typically 2–3 forms + 2–3 emotions = 4–6 total). Six panels is the practical upper limit in 16:9.
+- **FORM / STATE STRIP** — optional. Use for story-critical form changes or clearly different visual states. A short horizontal progression works when order matters. Emotion panels are optional and should show the same morphology with only the relevant visible signal changed; do not add them merely to fill space.
 
 ## Background & Dividers
 
 All panels sit on a unified clean white or near-white background with thin dark divider lines. Labels appear under each panel in small, clean typography.
 
-## Full Prompt Composition
+## Modular Prompt Composition
 
 ```
-[Layout instruction: 16:9 entity concept design sheet, panel positions, background] +
-[Entity identity & name: type/role + one-line function tag] +
-[Panel 1: MAIN VISUAL — default form, rich description] +
-[Panel 2: VIEW VARIATIONS — 2-3 different angles of the default form] +
-[Panel 3: DETAIL CLOSE-UPS — N panels, AI-determined flexible grid] +
-[Panel 4: BOTTOM ROW — form variations first (left), then emotion states (right)] +
-[Style suffix]
+[Layout instruction: 16:9 entity design sheet; name the selected zones and panel order] +
+[Entity identity and visible sentience cue] +
+[Primary form or story-critical forms — describe silhouette, scale, materials, and behavior] +
+[Optional useful views of the same form] +
+[Optional structure details and scale reference] +
+[Optional form/state progression, in narrative order if relevant] +
+[Shared identity markers repeated consistently across forms] +
+[Style and rendering controls]
 ```
 
 ## Key Rules
 
-1. **Layout first**: The grid instruction must be the first thing. Go macro (layout zones) → micro (panel contents).
-2. **Main visual gets the richest text**: ~4/5 height × 1/3 width is a big render area. This paragraph should be the most detailed.
-3. **View variations show angles, not forms**: This is about different camera perspectives of the SAME form. The side view might reveal thickness or radial symmetry invisible from the front.
-4. **Detail panel count drives the grid**: Tell the AI explicitly: "arrange the detail panels in a flexible grid — larger panels if fewer details, smaller panels if more."
-5. **Bottom row flows left to right**: Forms first (what other shapes can it be) → emotions (in the same default shape, how does the light/energy change).
-6. **Emotion panels are about color and energy tempo**: Don't re-describe form. Name the emotion + specify hue shift + arc speed + glow radius.
-7. **Unified clean background**: A white or near-white background helps all panels read as one clean composition.
+1. **Layout first, then visual priorities**: State the canvas, selected zones, and reading order before describing panel contents.
+2. **Give key forms enough area**: A story-critical alternate form is not a tiny footnote. Multi-form entities may need co-primary panels.
+3. **Views show angles, not forms**: Keep camera angle changes distinct from actual morphology changes.
+4. **Repeat invariants across forms**: Describe the shared core, markings, or material pattern so the model visibly links the forms as one entity.
+5. **Use state panels selectively**: Include emotion states only when they change visible features; keep the underlying morphology stable.
+6. **Keep the sheet legible**: Prefer fewer larger details over a crowded grid. Use short labels only when they help identify a form or component.
+7. **Unified clean background**: A white or near-white sheet background keeps the entity readable; add environmental context only when needed for scale or behavior.
