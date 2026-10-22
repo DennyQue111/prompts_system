@@ -71,6 +71,14 @@ Shot (MiniMax H3) 是专为 MiniMax H3 模型设计的**单镜头视频提示词
 
 若角色概念图是唯一参考图，则正常作为图片1 使用；若 frame 是终点或中间动作姿态而非首帧，仍将 frame 放在图片1，并在画面内容首句另行写清视频的实际第一帧。
 
+### MiniMax H3 首帧锚点与提示词标签（执行层）
+
+- `@图片N` 是项目提示词的可读写法；提交给本地 MiniMax H3 节点前，后端会转换为节点识别的 `<Picture N>` 标签。不要仅靠自然语言写“唯一首帧”来实现硬首帧约束。
+- 镜头图确实要锚定第0帧时，执行请求必须把它单独传入 `first_frame_image`；人物/外观概念图继续按顺序放进 `reference_images`。只传 `reference_images` 走的是 Ref2VA，图像是参考而非精确首帧。
+- 同时传 `first_frame_image` 与 `reference_images` 时，执行层使用 Ref2VA + 官方 `MiniMaxH3AddGuide`：首帧作为 `Picture 1` 进入参考序列，并由 AddGuide 单独锚定在视频 frame 0；后续人物/外观参考从 `Picture 2` 开始。不要把它描述成 T8 节点原生 Hybrid 模式。
+- 该组合最多 9 张 Picture 图，首帧占 1 张，因此额外人物/外观参考最多 8 张。仅传首帧走 I2VA；仅传参考图走 Ref2VA。
+- 首帧锚定把图像条件放在时间轴第0帧，但仍是生成模型条件，不承诺输出像素级复制；提示词要继续描述从该构图如何自然开始动作。
+
 ---
 
 ## 首帧占用规则

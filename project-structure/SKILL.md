@@ -25,7 +25,7 @@ description: Universal file structure & naming conventions for Denny's AI short-
 1. `world_view/` 和 `concept/` 是**世界级资产**：同一世界内的多个剧本共享同一套世界观设定和角色/场景/道具设计，不按剧本复制
 2. `script/` 下可放多个剧本文件：`Script.md`（主线）+ `Script_{外传名}.md`，或按 `script/{剧本名}/` 分子目录
 3. **分场分镜头不因剧本而变**：不同剧本 = 不同场次组，统一按 `scenes/{N}_{缩写}/` 全局连续编号（N 跨剧本递增，不按剧本重置）。每个剧本引用自己的场次区间即可
-4. 生产资产（keyFrames/sequence/export）按场次存放，天然归属对应剧本
+4. 生产资产（keyframes/sequence/export）按场次存放，天然归属对应剧本
 
 **现有实例**：《孢子纪元》= 单世界观多剧本（主线 + `side_stories/` 铁笼兔灵/机械怪人/烬夜）；《复生协议》= 单世界观单剧本（见 `references/复生协议_案例.md`）。
 
@@ -50,11 +50,22 @@ description: Universal file structure & naming conventions for Denny's AI short-
 ├── scenes/
 │   └── {N}_{缩写}/             ← 每场一个文件夹（N=全局序号跨剧本递增，缩写=英文主题）
 │       ├── storyboard/         ← ★ 分镜（镜头确认 + 视频生成参考，见「Storyboard 定位」）
-│       ├── keyFrames/          ← ★ 3×3 九宫格关键帧：prompts/ + image/（+ camera_ref/）
+│       ├── keyframes/          ← ★ 关键帧资产：prompts/ + image/（按用途分类）
+│       │   └── image/
+│       │       ├── singles/    ← 单镜头正式关键帧
+│       │       ├── entity_refs/← 镜头专用实体形态/尺度参考
+│       │       └── process_refs/← 特效/形态变化过程示意图
 │       ├── layout/             ← Blender 白模 .blend + 空间位置参考
 │       ├── frameRef/           ← 全彩单帧 look reference（prompt/）【可选】
 │       ├── location/           ← 场景设计：images/ + prompts/ 【可选】
-│       ├── sequence/           ← 多镜头序列视频：prompts/ + mp4 + edited/
+│       ├── sequence/           ← 镜头视频生成记录与成片
+│       │   ├── prompts/        ← 按镜头和版本保存提示词、请求参数、生成记录
+│       │   ├── video/
+│       │   │   └── {SHOT_ID}/  ← 一个镜头一个目录；目录内直接放各版本视频
+│       │   │       ├── {SHOT_ID}_{model}_v001.mp4
+│       │   │       └── qa_frames/
+│       │   │           └── v001/ ← 该版本的抽帧质检图
+│       │   └── edited/         ← 跨镜头剪辑/合成版本
 │       ├── shot/               ← 单镜头视频 prompt 【可选】
 │       └── {缩写}.pur          ← 剪辑工程文件
 ├── export/                     ← 成片（final/ 放定稿）
@@ -77,6 +88,15 @@ description: Universal file structure & naming conventions for Denny's AI short-
 - Gemini / GPT prompt 用英文（英文更准）；Jimeng（即梦）i2i 用中文；MJ 用英文
 - 文件名用英文/拼音（中文名场景可用中文目录，如 `character/小武/`）
 
+### 关键帧与视频目录细则
+
+- `keyframes/image/singles/` 放可作为镜头首帧/构图依据的完整单镜关键帧；storyboard 裁格不放这里。
+- `keyframes/image/entity_refs/` 放与具体镜头状态匹配的实体单体参考图；`process_refs/` 放多阶段特效/形态变化示意图。它们是视频生成参考，不替代正式关键帧。
+- `sequence/video/` 按镜头号建目录，而不是按模型或全局版本建目录。一个镜头的全部模型输出版本并列放在 `sequence/video/{SHOT_ID}/`，文件名带模型与版本，例如 `FWW_0090_minimax_h3_v010.mp4`。
+- 视频质检抽帧放在对应镜头目录的 `qa_frames/v{NNN}/`，例如 `sequence/video/FWW_0090/qa_frames/v010/frame_3.0s.png`。QA 帧是从视频抽取的检查样本，不是 keyframe，也不回填到 `keyframes/image/singles/`。
+- 如果旧项目的 QA 图无法可靠对应镜头/版本，不要猜测归档；先保留原位置并标记待整理。历史视频迁移时同步更新 prompt JSON 中的相对 `output` 路径。
+- 跨镜头剪辑成片仍放 `sequence/edited/`；不要将多个镜头的合成视频误放入单镜头目录。
+
 ## 工作流管线（文件流向）
 
 ```
@@ -84,8 +104,8 @@ world_view/（世界观视觉宪法）
   → concept/（角色/实体/场景/道具/VFX 概念设计）
   → scenes/{N}/layout/（Blender 白模，纯空间参考）
   → scenes/{N}/storyboard/（分镜：生成视频前确认每个镜头；可直接作视频参考）【可选】
-  → scenes/{N}/keyFrames/（九宫格关键帧，t2i + i2i 多轮迭代）
-  → scenes/{N}/sequence/（Seedance 视频生成）
+  → scenes/{N}/keyframes/（关键帧与镜头专用参考图，按用途分类）
+  → scenes/{N}/sequence/video/{SHOT_ID}/（按镜头归档的视频版本与 QA 抽帧）
   → export/（剪辑成片）
 ```
 
