@@ -49,12 +49,14 @@ description: Universal file structure & naming conventions for Denny's AI short-
 │   └── poster/                 ← 海报概念
 ├── scenes/
 │   └── {N}_{缩写}/             ← 每场一个文件夹（N=全局序号跨剧本递增，缩写=英文主题）
-│       ├── storyboard/         ← ★ 分镜（镜头确认 + 视频生成参考，见「Storyboard 定位」）
+│       ├── storyboard/         ← ★ 所有分镜图像统一归档于 image/（单镜/多镜/特效状态板）
+│       │   ├── image/          ← 故事板图像唯一归档目录
+│       │   └── prompts/        ← 故事板生成提示词（可选）
 │       ├── keyframes/          ← ★ 关键帧资产：prompts/ + image/（按用途分类）
 │       │   └── image/
 │       │       ├── singles/    ← 单镜头正式关键帧
 │       │       ├── entity_refs/← 镜头专用实体形态/尺度参考
-│       │       └── process_refs/← 特效/形态变化过程示意图
+│       │       └── process_refs/← 非故事板式的辅助特效/形态参考
 │       ├── layout/             ← Blender 白模 .blend + 空间位置参考
 │       ├── frameRef/           ← 全彩单帧 look reference（prompt/）【可选】
 │       ├── location/           ← 场景设计：images/ + prompts/ 【可选】
@@ -90,8 +92,10 @@ description: Universal file structure & naming conventions for Denny's AI short-
 
 ### 关键帧与视频目录细则
 
+- `storyboard/image/` 是故事板图像的唯一归档目录：单镜、多镜，以及为复杂特效制作的单镜状态变化板都放这里；不得放入 `keyframes/image/`。`storyboard/prompts/` 可存对应提示词。
+- 故事板文件名：`{SHOT_ID或镜头区间}_{可选用途}_storyboard_{model}_v{NNN}.{ext}`，例如 `FWW_0010-0050_storyboard_gpt_v001.png`、`ACT2_0100_camera_growth_storyboard_gpt_v003.png`。文件名需体现对应镜头号/区间、`storyboard`、生成模型和版本；有多个用途时可加简短用途词区分；新版本递增，不覆盖旧版。
 - `keyframes/image/singles/` 放可作为镜头首帧/构图依据的完整单镜关键帧；storyboard 裁格不放这里。
-- `keyframes/image/entity_refs/` 放与具体镜头状态匹配的实体单体参考图；`process_refs/` 放多阶段特效/形态变化示意图。它们是视频生成参考，不替代正式关键帧。
+- `keyframes/image/entity_refs/` 放与具体镜头状态匹配的实体单体参考图；`process_refs/` 仅放非故事板式的辅助特效/形态参考。多格、按顺序表达状态或变化的图均属于 storyboard，归档到 `storyboard/image/`。
 - `sequence/video/` 按镜头号建目录，而不是按模型或全局版本建目录。一个镜头的全部模型输出版本并列放在 `sequence/video/{SHOT_ID}/`，文件名带模型与版本，例如 `FWW_0090_minimax_h3_v010.mp4`。
 - 视频质检抽帧放在对应镜头目录的 `qa_frames/v{NNN}/`，例如 `sequence/video/FWW_0090/qa_frames/v010/frame_3.0s.png`。QA 帧是从视频抽取的检查样本，不是 keyframe，也不回填到 `keyframes/image/singles/`。
 - 如果旧项目的 QA 图无法可靠对应镜头/版本，不要猜测归档；先保留原位置并标记待整理。历史视频迁移时同步更新 prompt JSON 中的相对 `output` 路径。
@@ -104,6 +108,7 @@ world_view/（世界观视觉宪法）
   → concept/（角色/实体/场景/道具/VFX 概念设计）
   → scenes/{N}/layout/（Blender 白模，纯空间参考）
   → scenes/{N}/storyboard/（分镜：生成视频前确认每个镜头；可直接作视频参考）【可选】
+      └── image/（单镜、多镜与复杂特效状态板统一归档）
   → scenes/{N}/keyframes/（关键帧与镜头专用参考图，按用途分类）
   → scenes/{N}/sequence/video/{SHOT_ID}/（按镜头归档的视频版本与 QA 抽帧）
   → export/（剪辑成片）
