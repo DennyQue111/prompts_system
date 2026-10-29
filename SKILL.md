@@ -17,6 +17,7 @@ Use this skill as the routing layer for AI-film prompt work. Preserve the user's
   - `shot/` for a continuous single video shot.
   - `sequence/` for a result containing multiple timed cuts.
 - For an actual script-to-media run, read `prompt-execution/SKILL.md` before submitting media work.
+- For a scene with generated shots or a first edit, read `prompt-execution/sequence-review/SKILL.md` to review the actual timeline and plan revisions; use `prompt-execution/SKILL.md` to produce any new or revised shots.
 - For the local Flux.2 Klein → MiniMax H3 app at `D:\files\code\ai_image_video_generator`, also read `prompt-execution/references/ai-image-video-generator.md`.
 
 ## Production rules

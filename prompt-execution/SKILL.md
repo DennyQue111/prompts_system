@@ -7,6 +7,8 @@ description: 指挥剧本到成片的镜头级生产执行，规定拆镜、概�
 
 将一份剧本稳定地跑成整组镜头视频的生产调度层。`prompts_structure` 负责“怎么写提示词”，本 skill 负责“先做什么、谁确认、失败了怎么办、经验记到哪里”。
 
+当一场戏已有生成镜头或初剪，需要整体检查叙事、连续性和剪辑节奏时，先按 [sequence-review/SKILL.md](sequence-review/SKILL.md) 复盘实际片段并确定修改清单；新增或重做镜头再回到本 skill 的逐镜流程执行。
+
 当用户明确在 `ai_image_video_generator` 中使用 **Flux.2 Klein 或由 Codex 直接调用的 GPT 图像模型生图 + MiniMax H3 视频**时，先读 [references/ai-image-video-generator.md](references/ai-image-video-generator.md)。它是该应用的集成档案：说明已实现的接口、资产回填格式和当前仍需人工执行的步骤。它不替代本 skill 的确认门，也不改变其他渲染器的通用流程。
 
 本项目使用 MiniMax H3 时默认选择 **完整 int8 工作流**，提交请求时显式传 `workflow_type: "int8"`。不得因耗时或资源压力而静默切换为 pruned；若 int8 无法运行，说明原因并先与用户确认替代方案。
