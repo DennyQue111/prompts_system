@@ -83,9 +83,9 @@ H3 的核心能力差异：**原生立体声生成**、**15秒连续时间轴**�
 
 ### 首帧锚点的执行传递
 
-- 剧本序列中标记为首帧的镜头图，执行请求必须通过 `first_frame_image` 单独传入；仅写 `@图片N` 或“首帧”不会自动形成时间轴锚点。
-- 同时有首帧和角色概念图时，后端把首帧作为 `Picture 1` 加入 Ref2VA 图片序列，再用官方 `MiniMaxH3AddGuide` 将同一图像锚定在 frame 0；角色参考从 `Picture 2` 开始。首帧占用 9 个 Picture 槽位中的一个，因此角色参考最多 8 张。
-- 此实现是 Ref2VA + AddGuide，不是 T8 节点内部 Hybrid。只传首帧使用 I2VA，只传多图使用 Ref2VA。生成条件不保证像素级复制，仍需检查成片首帧与构图连续性。
+- 默认使用纯多参：剧本序列中的关键帧和角色/场景/entity 概念图按顺序放入 `reference_images`，并在提示词中标明各图职责；写“首帧参考”本身不会形成时间轴硬锚点。
+- 用户明确要求硬首帧时，才单独传入 `first_frame_image`；与角色概念图并用时，后端使用 Ref2VA + 官方 `MiniMaxH3AddGuide`，关键帧占 Picture 1，后续参考从 Picture 2 开始。
+- 用户明确要求硬首尾帧时，使用 `first_frame_image` + `last_frame_image`，并且不与 `reference_images` 混用；纯多参走 Ref2VA，首尾帧锁定走 FL2VA。实际选择由 prompt-execution 执行层负责。
 
 ---
 

@@ -83,6 +83,10 @@ Total score = (sum of weighted scores) / (sum of weights) → 0–10.
 For adaptable **layout options and panel priorities** on the default 16:9 design sheet, see:
 → **`general_layout_instruction.md`** in this directory
 
+### Face-bearing entities
+
+If the entity has a readable face that must perform emotions or mouth/eye action, combine the entity design requirements with the character reference layout: dedicate a large, clear face close-up as the only high-detail facial source, then show the same entity's body in useful front/back or full-form views. Adapt the character sheet's body panels to the entity's anatomy; do not apply a headless-body crop if the face is part of the entity. Keep entity-specific invariants (morphology, materials, scale, core, sentience cues, and form changes). Use the ordinary entity sheet for entities whose face is only a minor sensor and does not need performance.
+
 That file offers layout patterns for fixed-form, multi-form/transforming, and swarm/abstract entities. Choose the pattern that gives the important forms and shared identity cues enough space; its panel proportions are guidance, not a mandatory grid.
 
 ## From design sheet to video references

@@ -6,6 +6,8 @@ Use one clean 16:9 sheet as a design master by default, but adapt the zones to t
 
 Choose a layout pattern:
 
+- **Face-bearing entity:** If a distinct face must read clearly or perform, reserve a large dedicated face close-up and pair it with full-form/body views adapted to the entity's anatomy. Use the character sheet's face-first logic, but keep the entity's non-human structure, materials, scale, and forms. Do not force a human headless-body panel on a creature whose face is integral to its silhouette. Avoid competing low-resolution face depictions in the other panels. For entities without a performance-critical face, use the layouts below.
+
 - **Fixed-form entity:** one dominant primary view; add only useful angle views, structure details, and a scale cue.
 - **Multi-form / transforming entity:** give each story-critical form a clearly readable panel or zone. If transformation order matters, add a short left-to-right progression strip. Keep shared identity markers visible and consistent across forms.
 - **Swarm / abstract entity:** prioritize the overall silhouette, how it is composed, one or two alternate configurations, and any visual signals that communicate awareness or emotion.
