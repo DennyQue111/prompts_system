@@ -37,7 +37,7 @@ GPT 理解多视图概念图的能力更强，流程更简单：
 ## 阶段 3-4：分镜拆解与确认
 
 - 输入：剧本文本、已确认的风格、已生成的概念图（角色外观 / 场景空间作为分镜参照）。
-- 输出：`{CODE}_concepts.json` + `{CODE}_shot_breakdown.json`，遵守 `prompts_structure/script/shot_breakdown` 的 schema 与镜头覆盖规则。
+- 输出：`{CODE}_concepts.json` + `{CODE}_shot_breakdown.json`，遵守 `shot-planning/SKILL.md` 的 schema 与镜头覆盖规则。
 - 此时概念图已存在，分镜可参照角色外观和场景空间精确编写 camera/framing/action，而非凭空想象。
 - 确认门：整表给用户看，重点确认镜头数、时长分配、拆镜粒度、正反打与反应镜头的覆盖是否合理。通过前不生成任何关键帧。
 

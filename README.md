@@ -9,8 +9,10 @@ AI 影视提示词与制作流程库。
 | 目录 | 用途 |
 | --- | --- |
 | `style-profiles/` | 可复用的视觉风格技术拆解：线条、材质、光影、颜色、构图与角色渲染。 |
-| `prompts_structure/` | 提示词结构库：世界观、概念设计、单帧、关键帧、单镜头、序列、表演与剧本拆解。 |
-| `prompt-execution/` | 实际制作编排：拆镜、审核门、锚图、关键帧、逐镜视频、重试和状态记录。 |
+| `shot-planning/` | 从剧本大纲或场次剧本规划分镜，输出可执行镜头表。 |
+| `prompts_structure/` | 提示词结构库：世界观、概念设计、单帧、故事板、关键帧、单镜头、序列与表演。 |
+| `prompt-execution/` | 镜头实际制作：概念资产、故事板、关键帧、逐镜视频、重试和状态记录。 |
+| `editing-review/` | 基于生成视频或初剪时间线复盘，安排试剪、补镜与重做。 |
 | `project-structure/` | AI 短片项目的通用目录、命名和资产组织规范。 |
 | `outputs/` | 运行过程中生成的提示词与辅助输出。 |
 
@@ -24,11 +26,12 @@ AI 影视提示词与制作流程库。
 - `shot/`：一个连续镜头的视频提示词。
 - `sequence/`：有多个剪辑段落的时间序列提示词。
 - `performance/`：角色表演、行为拍子和场景适配。
-- `script/`：剧本和镜头表拆解。
+
+剧本大纲到镜头表使用顶层 `shot-planning/`。
 
 ## prompt-execution
 
-当任务从“写提示词”进入“实际生成媒体”时，先读 `prompt-execution/SKILL.md`。它定义拆镜确认、概念锚图、关键帧、视频生成、质检和失败处理的顺序。
+当任务从镜头规划进入实际生成媒体时，先读 `prompt-execution/SKILL.md`。它定义镜头表确认、概念锚图、故事板、关键帧、视频生成、质检和失败处理的顺序。初剪复盘与补镜决策使用 `editing-review/`，需要重做的镜头再返回本流程。
 
 使用本地 `D:\files\code\ai_image_video_generator` 时，同时阅读 `prompt-execution/references/ai-image-video-generator.md`：其中记录 Flux.2 Klein → MiniMax H3 的接口、资产路径和执行限制。当前 MiniMax H3 输出的宽和高必须都能被 32 整除；未传时长时应用默认 8 秒，但单镜头时长可按镜头需要指定。
 

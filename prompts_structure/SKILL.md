@@ -24,13 +24,12 @@ Read [references/routing.md](references/routing.md) and choose exactly one prima
 |---|---|---|
 | Extract the person/character from an attached image into a character concept sheet | `concept-character-i2i-gpt` | `concept/character/core-i2i.md` + `adapters/gpt-image.md` |
 | Extract the background/environment from an attached image into a location concept sheet | `concept-location-i2i-gpt` | `concept/location/core-i2i.md` + `adapters/gpt-image.md` |
-| Split a screenplay/script into an importable JSON shot breakdown | `script-shot-breakdown` | `script/shot_breakdown/SKILL.md` |
 | Animate an attached image as one continuous shot | `shot-seedance` | `shot/seedance.md` |
 | Generate a passage from character/location concepts plus a shot list or script | `sequence-seedance` | `sequence/seedance.md` |
 
 These defaults apply even when the user never mentions `concept-character-i2i`, `concept-location-i2i`, `shot`, `sequence`, GPT, or Seedance.
 
-For requests such as “把剧本拆分成 JSON 镜头表”, “按镜头表 JSON 结构拆剧本”, or “生成可导入镜头表管理页的 JSON”, use `script-shot-breakdown`: read [`script/shot_breakdown/SKILL.md`](script/shot_breakdown/SKILL.md), return or save its linked `concepts` and `shot_breakdown` JSON files, and do not generate media or platform prompts unless the user separately requests them.
+For requests such as “把剧本拆分成 JSON 镜头表” or “根据剧本大纲设计分镜”, use [shot-planning/SKILL.md](../shot-planning/SKILL.md); this prompt-structure skill handles the prompts used to render the planned storyboards and shots.
 
 ## Routing precedence
 
