@@ -9,6 +9,7 @@ Use this skill as the routing layer for AI-film prompt work. Preserve the user's
 
 ## Route the request
 
+- For sustained development of an initial idea into a user-approved screenplay/story outline, read `screenplay-development/SKILL.md`. Hand the completed outline to `shot-planning/SKILL.md` only when the user asks to plan scenes or shots.
 - For visual DNA and reusable technical style language, read the matching file in `style-profiles/`.
 - For prompt construction, read the relevant architecture in `prompts_structure/`:
   - `world_view/` for a visual constitution or world-building frames.
