@@ -49,16 +49,16 @@ Scenes driven by visual effects: magic, energy manipulation, transformation, par
 
 | Storyboard Phase | VFX Intensity | What to Show |
 |-----------------|---------------|--------------|
-| **Early panels** (Frames 1–3) | Subtle, barely visible | Wind hints, dust motes, pressure lines, faint aura shimmer — the effect is nascent |
-| **Mid panels** (Frames 4–6) | Building, environmental interaction | Debris lifting, ground ripples, air shockwaves, visible energy trails — the effect is growing |
-| **Late panels** (Frames 7–9) | Controlled, shaped | Flame trails, energy spirals, directed beams, shaped shockwaves — the effect is weaponized |
-| **Final panel** (Last frame) | Maximum combined surge | All elements converging, peak intensity, environmental destruction at climax — the effect at full power |
+| **Initiation** | First visible sign | Wind hints, dust motes, pressure lines, faint aura shimmer — the effect begins |
+| **Development** | Growing and affecting surroundings | Debris lifting, ground ripples, air shockwaves, visible energy trails |
+| **Shaping / interaction** | Direction and contact become clear | Flame trails, energy spirals, directed beams, shaped shockwaves, interaction with characters or setting |
+| **Peak / consequence** | Climax, resolution, or aftermath as required by the scene | Converging elements, maximum intensity, environmental change, or a controlled release |
 
 **Progression rules:**
-- Never start at peak intensity. Frame 1's VFX should feel like the calm before the storm.
-- Each phase's VFX builds on the previous — mid panels don't abandon early panel effects, they amplify them.
-- The final panel is the only frame where multiple VFX elements combine at maximum intensity.
-- If the storyboard has fewer than 6 frames, compress to 3 phases: subtle → building → peak.
+- Show the phases needed to communicate the actual effect; not every effect needs every phase.
+- Carry continuing effects forward across panels unless the story shows them ending or changing.
+- The peak may occur before the final panel when the scene requires a reaction, release, or aftermath afterward.
+- If multiple phases must share a panel, keep each important effect and its interaction visually distinct; otherwise add the panel needed to make it clear.
 
 **VFX quality tone:** Effects should feel spiritual, ritualistic, and cinematic — not superheroic. Avoid comic-book energy blasts. Prefer atmospheric pressure, heat distortion, elemental residue, and gravitational warping.
 

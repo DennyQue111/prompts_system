@@ -1,5 +1,5 @@
 ## Description
-Use this architecture when generating a storyboard — a single 16:9 composite image containing 4–12 sequential frames that show narrative progression. This is the visual script: key moments arranged in reading order to communicate a scene's flow before video production.
+Use this architecture when generating a storyboard — sequential 16:9 panels that show the narrative, camera path, action and important visual effects clearly enough to guide video production. The panel count is determined by shot complexity and the number of visually meaningful beats, not by a preset range.
 
 **⚠️ Storyboards are BLACK AND WHITE LINE ART.** They serve as structural reference only: camera position, character blocking, scene layout, and composition. Color is deliberately avoided to prevent polluting the final video model's color/style decisions — those come from separate Frame references (see `frame/` skills).
 
@@ -10,6 +10,8 @@ Use this architecture when generating a storyboard — a single 16:9 composite i
 ### Per-frame aspect-ratio hard gate
 
 The overall storyboard canvas may use any aspect ratio. **Every individual frame panel must be an exact 16:9 image area**. Do not stretch, crop, or design panels as portrait or arbitrary rectangles. Choose the grid and total canvas ratio dynamically from the frame count; 32:9 for a 4×2 layout is only one example, not a fixed requirement. Leave any unused cell as white space or a clearly labeled blank area. Before generation, verify that every panel has the same 16:9 ratio and that no frame is made taller or narrower for visual emphasis.
+
+Example six-panel layout only; choose the grid after determining the panel list from the shot's meaningful beats and effects:
 
 ```
 ┌──────────────┬──────────────┬──────────────┐
@@ -25,26 +27,18 @@ The overall storyboard canvas may use any aspect ratio. **Every individual frame
 └──────────────┴──────────────┴──────────────┘
 ```
 
-- Default: 6 frames (3×2). Short scenes: 4 frames (2×2). Complex scenes: 8 frames (4×2). Extended action choreography: up to 12 frames (4×3).
 - Frames read left→right, top→bottom like a comic/manga page.
 - Each frame labeled: `FRAME N (SHOT TYPE — BEAT NAME)`
 - Thin black borders between frames. Clean white background.
 
-### Frame Count vs Video Duration
+### Panel Count by Shot Complexity
 
-When the user specifies a target video duration, choose the frame count accordingly:
-
-| Video Duration | Frame Count | Grid Layout | Rationale |
-|----------------|-------------|-------------|-----------|
-| 5s | 3–4 frames | 3×1 or 2×2 | Minimal: setup → action → reaction |
-| 10s | 5–6 frames | 3×2 | Standard: full 4-act pulse with breathing room |
-| 15s | 6–8 frames | 3×2 or 4×2 | Extended: room for secondary beats and transitions |
-| 20s | 8–10 frames | 4×2 or 5×2 | Complex: multiple scene-type transitions |
-| 30s | 10–12 frames | 4×3 or 5×3 | Full sequence: multiple scenes or extended choreography |
-
-- If the user doesn't specify duration, default to 6 frames (10s baseline).
-- Action scenes need more frames per second (shorter shots, faster cuts). Dialogue scenes need fewer frames per second (longer holds, reaction beats).
-- Never force a frame count that doesn't serve the story. A 10s dialogue scene might only need 4 frames; a 10s action scene might need 8.
+- Plan the shot's distinct visual beats first: camera/composition changes, character actions, state transitions, and effect events that the video model must reproduce.
+- Give each important effect at least one panel that makes its appearance, direction, scale, or interaction legible. If the effect has materially different stages (such as activation, growth, contact, peak, or aftermath), add panels for the stages that need separate guidance.
+- Separate simultaneous effects when one composition would make them hard to read; combine them when their interaction is the point and each remains visually clear.
+- Do not add a panel for every tiny motion change. Each panel should communicate a distinct composition or meaningful visual state. Do not omit a required effect merely to keep the board short.
+- Video duration guides the time labels and spacing between beats, but does not determine a preset panel count. A long, simple hold may need few panels; a short shot with several effects or transformations may need more.
+- Choose the grid only after the panel list is complete. Every panel remains the same 16:9 image area; the overall composite ratio and grid adapt to the actual count. If a platform cannot display or process the full board comfortably, split it into clearly ordered board pages without dropping required beats.
 
 ## Reference Image Declaration
 
@@ -161,7 +155,7 @@ In B&W storyboards, describe light *direction* and *shadow quality*, not color.
 
 ## Scene-Type Specializations
 
-When the scene contains action, dialogue, VFX, or a mix, apply the relevant section(s) below. These are **not mutually exclusive** — a single storyboard can use action rules for frames 1–4 and dialogue rules for frames 5–8. See [Mixed Scenes](#mixed-scenes) for combination guidance.
+When the scene contains action, dialogue, VFX, or a mix, apply the relevant section(s) below. These are **not mutually exclusive** — panels may combine scene types as the sequence requires. See [Mixed Scenes](#mixed-scenes) for combination guidance.
 
 ---
 
@@ -372,7 +366,7 @@ Scenes driven by visual effects: magic, energy manipulation, transformation, par
 1. **VFX must interact with the environment.** Sparks cast light. Smoke creates occlusion. Holograms reflect off wet surfaces. Never describe a VFX in isolation from its world.
 2. **Pair every VFX frame with a character reaction.** The effect means nothing without the human response in the next 1–2 panels.
 3. **Specify the effect precisely.** Never write "magic energy" — write "tendrils of cyan energy, arcing upward, casting cold light." Color + shape + direction + light interaction. All four.
-4. **One VFX type per scene.** Fire + ice + lightning + hologram in one scene = noise. Pick one visual language.
+4. **Keep every scripted effect readable.** Do not remove or merge distinct effects just to reduce storyboard length. Give each important effect its own clear visual beat; effects may share a panel when their interaction is intentional and their shapes, directions, and consequences remain legible. Avoid adding effects that are not in the scene.
 5. **VFX must have a source.** Character's hand, device, sky, ground — ground it in the physical world.
 6. **VFX must escalate across panels.** Effects should build progressively throughout the storyboard — not appear at full intensity from frame 1.
 
@@ -380,16 +374,16 @@ Scenes driven by visual effects: magic, energy manipulation, transformation, par
 
 | Storyboard Phase | VFX Intensity | What to Show |
 |-----------------|---------------|--------------|
-| **Early panels** (Frames 1–3) | Subtle, barely visible | Wind hints, dust motes, pressure lines, faint aura shimmer — the effect is nascent |
-| **Mid panels** (Frames 4–6) | Building, environmental interaction | Debris lifting, ground ripples, air shockwaves, visible energy trails — the effect is growing |
-| **Late panels** (Frames 7–9) | Controlled, shaped | Flame trails, energy spirals, directed beams, shaped shockwaves — the effect is weaponized |
-| **Final panel** (Last frame) | Maximum combined surge | All elements converging, peak intensity, environmental destruction at climax — the effect at full power |
+| **Initiation** | First visible sign | Wind hints, dust motes, pressure lines, faint aura shimmer — the effect begins |
+| **Development** | Growing and affecting surroundings | Debris lifting, ground ripples, air shockwaves, visible energy trails |
+| **Shaping / interaction** | Direction and contact become clear | Flame trails, energy spirals, directed beams, shaped shockwaves, interaction with characters or setting |
+| **Peak / consequence** | Climax, resolution, or aftermath as required by the scene | Converging elements, maximum intensity, environmental change, or a controlled release |
 
 **Progression rules:**
-- Never start at peak intensity. Frame 1's VFX should feel like the calm before the storm.
-- Each phase's VFX builds on the previous — mid panels don't abandon early panel effects, they amplify them.
-- The final panel is the only frame where multiple VFX elements combine at maximum intensity.
-- If the storyboard has fewer than 6 frames, compress to 3 phases: subtle → building → peak.
+- Show the phases needed to communicate the actual effect; not every effect needs every phase.
+- Carry continuing effects forward across panels unless the story shows them ending or changing.
+- The peak may occur before the final panel when the scene requires a reaction, release, or aftermath afterward.
+- If multiple phases must share a panel, keep each important effect and its interaction visually distinct; otherwise add the panel needed to make it clear.
 
 **VFX quality tone:** Effects should feel spiritual, ritualistic, and cinematic — not superheroic. Avoid comic-book energy blasts. Prefer atmospheric pressure, heat distortion, elemental residue, and gravitational warping.
 
@@ -427,7 +421,7 @@ When a single storyboard contains multiple scene types — e.g., action leading 
 
 #### Combination Rules
 
-1. **Per-frame type classification.** Classify each frame individually, not the entire storyboard. Frame 1–3 might be action, frame 4–5 dialogue, frame 6–8 VFX.
+1. **Per-frame type classification.** Classify each frame individually, not the entire storyboard. A sequence may move between action, dialogue, and VFX in any order and at any panel count.
 2. **Apply the relevant section's rules per frame.** Action frames follow action rules (anti-cold-open, motion requirement, energy vocabulary). Dialogue frames follow dialogue rules (eyeline match, hand performance, listener focus). VFX frames follow VFX rules (progression, environment interaction, precise specification).
 3. **Transitions between types need a bridge frame.** Don't jump from an action CU directly to a dialogue two-shot. Insert a wide frame that re-establishes space and signals the tonal shift.
 4. **Exclusion list: take the union of all involved types.** If action + VFX, combine both exclusion lists.
