@@ -155,11 +155,12 @@ The final prompt, formatted for the supported image renderers image generation. 
 ```
 [Style preservation keywords from Step 2.6] +
 
-[Layout instruction: reference simple_layout_instruction.md in this directory for simple three-column spec — 16:9 character concept design sheet, LEFT FACIAL CLOSE-UP / CENTER FRONT FULL BODY from shoulder line to shoes with the entire head and neck outside the panel / RIGHT BACK FULL BODY. Clean near-white background, thin dark vertical panel dividers.] +
+[Layout instruction: reference simple_layout_instruction.md in this directory for the simple three-column spec — 16:9 character concept design sheet, LEFT FRONT-FACING CHEST-UP FACE PORTRAIT with both eyes visible / CENTER FRONT FULL BODY from shoulder line to shoes with the entire head and neck outside the panel / RIGHT BACK FULL BODY. Clean near-white background, thin dark vertical panel dividers.] +
 
-LEFT COLUMN — FACIAL CLOSE-UP (shoulder-up, neutral expression):
-[Face: from Step 1 face observation] +
-[Hair: from Step 1 hair observation, as visible from front] +
+LEFT COLUMN — FRONT-FACING FACE PORTRAIT (chest-up / upper torso, eye-level, neutral expression):
+[Head and shoulders face the camera; both eyes are visible; face centered and dominant in panel] +
+[Face: from Step 1 face observation; if the source is not frontal, infer the unseen front conservatively and mark uncertain details as inferred] +
+[Hair: from Step 1 hair observation, adapted to a frontal view] +
 [Facial marks: scars/freckles/tattoos from Step 1, if any] +
 [Expression: neutral, reference pose]
 

@@ -1,6 +1,6 @@
 # ai_image_video_generator · image generation → MiniMax H3 integration
 
-Use this reference only when the target is `D:\files\code\ai_image_video_generator` and the user has selected Flux.2 Klein or Codex-direct GPT image generation for images, and MiniMax H3 for video. It maps `prompt-execution` onto the application's real capabilities as of 2026-10-17.
+Use this reference only when the target is `D:\files\code\ai_image_video_generator` and the user has selected Flux.2 Klein or Codex-direct GPT image generation for images, and MiniMax H3 for video. It maps `prompt-execution` onto the application's real capabilities as of 2026-11-07.
 
 ## What the application can do now
 
@@ -11,16 +11,17 @@ Use this reference only when the target is `D:\files\code\ai_image_video_generat
 | Refine an existing asset with Flux | `POST /api/image-to-image`, `model: "comfyui-flux-kontext"`; use inpaint where a local correction is needed | Preserve the core identity and topology in the edit prompt; do not use a multi-view sheet as a single-shot composition reference. |
 | Prepare a MiniMax H3 keyframe | Generate one complete, camera-matched cinematic frame with the selected project renderer | **Do not use a crop from a storyboard/contact sheet as the final keyframe.** Use a native, clean 16:9 image at least 1536×864 pixels (prefer 1920×1080 or the highest clean 16:9 output supported). It must be at least as large as the submitted video dimensions; never send a tiny crop and rely on H3 to upscale it. |
 | Generate a Flux character concept image | Free Canvas → Image-to-Image → Skill → Concept Image; select exactly one character source image, optionally enter extra constraints, then click “生成角色概念图” | This is an application-native end-to-end workflow. Let the UI run its ordered Flux front view on a seamless pure-white studio background, Flux back view on the same background, direct headless-body crop, SeedVR2 2× face source, and final combined concept sheet. The face-detail panel crops the upper half of the 2× image starting at its top edge (`y=0`), prioritizing complete hair and head over showing the torso. Intermediate assets remain on the canvas. Do not manually reproduce these steps with separate API calls or hand-built crops/composites when this workflow is available. Use the final combined sheet for MiniMax, not for Flux keyframe composition. |
-| Produce a MiniMax H3 video | `POST /api/image-to-video`, `model: "comfyui-minimax"` | Default to **reference images only** (`reference_images`, `workflow_type: "int8"`). Use ordered prompt labels to assign opening-state, target-ending-state, character, scene, and entity roles. These are visual references, not hard frame locks. `first_frame_image` + refs is an optional Ref2VA + AddGuide path when the user explicitly requests a locked first frame; native first+last locking uses FL2VA and must be submitted without refs. Do not mix native tail-frame locking with refs. The API currently defaults to int8; send it explicitly for reproducibility. Default is 8 s at 1344×768 when duration and size are omitted. **Width and height must each be divisible by 32** (for example, 1280×704 or 1344×768); 1280×720 will fail at the MiniMax conditioning node. See the prompt-transport note below for text-conditioning fields. |
+| Produce a MiniMax H3 video | `POST /api/image-to-video`, `model: "comfyui-minimax"` | Use ordered `reference_images` and prompt labels; these are visual references, not hard frame locks. Standard MiniMax H3 Ref2VA uses the full int8 model variant (the API default; `workflow_type: "int8"` is a legacy selector that resolves to standard Ref2VA when refs are present). When the user selects the dedicated Pika H3 Flex Ref2VA workflow, explicitly send `workflow_type: "pika_ref2va"`; it builds the Pika LoRA graph and must not be replaced with the `int8` alias. `first_frame_image` + refs is an optional Ref2VA + AddGuide path for a requested hard opening anchor; native first+last locking uses FL2VA without refs. Pika Ref2VA currently accepts multi-reference mode only, without first/last frame fields. Default is 8 s at 1344×768 when duration and size are omitted. **Width and height must each be divisible by 32** (for example, 1280×704 or 1344×768); 1280×720 will fail at the MiniMax conditioning node. See the prompt-transport note below for text-conditioning fields. |
 | Derive a per-shot MiniMax prompt | `POST /api/shot-video-prompt` | Requires an existing `project_id`, `shot_id`, and the selected reference-image URLs. |
 | Work on a shot in isolation | Project Management → open shot canvas | The canvas is a useful per-shot workspace; it is not a batch runner. |
 
-The application copies generated outputs into `outputs/_temp/generator_outputs/` and serves them as `/static/projects/...`. Never replace these paths with guessed local paths when writing JSON.
+The application now uses `D:\files\code\ai_image_video_generator\caches` as its canonical asset root. Generation endpoints write to `caches/generation/exports/<category>/`, and FastAPI serves that tree from `/static/projects/`; for example, `caches/generation/exports/text_to_image/example.png` is `/static/projects/generation/exports/text_to_image/example.png`. Use the exact returned URL for generated assets. `outputs/_temp/generator_outputs/` is a legacy/temporary tree and must not be used as the destination for new assets or new project references. The app retains a compatibility resolver for older `_temp/generator_outputs` URLs; keep legacy source files intact unless a deliberate migration has been verified.
 
 ### MiniMax H3 prompt transport
 
 - The H3 branch forwards the request's single `prompt` string to the workflow. It has no independent dialogue or `negative_prompt` channel; do not invent request fields or describe a text block as native negative conditioning.
 - The backend translates project tags such as `@图片1` to MiniMax's native `<Picture 1>` tags. In the default refs-only mode, numbering follows the exact order of `reference_images`; author prompts and image-role labels using that numbering.
+- **Storyboard-led ordering:** place the one assembled storyboard image first in `reference_images`, then character/entity/prop concepts, then the single authoritative location concept. This applies to both a single-shot storyboard and a sequence storyboard. Generate each panel image separately and assemble it locally before submission; never use one GPT request to draw the entire contact sheet. Keyframe-led ordering starts with the selected keyframe, followed by design concepts.
 - Ref2VA references alone are not exact first/last-frame constraints. If the user only wants a preferred start/end state, submit those images as ordinary ordered references and describe their roles in the prompt. For a specifically requested hard first-frame anchor, pass the frame separately through `first_frame_image`; the backend also places it as Picture 1 and uses Ref2VA + AddGuide. For native first-and-last-frame locking, pass both frame fields and no references. Do not combine native tail-frame locking with reference images.
 - Prompt composition—including dialogue placement, positive/negative separation, and motion wording—belongs to `prompts_structure/shot/minimax.md` or `prompts_structure/sequence/minimax.md`, not this integration reference.
 - Keep the exact submitted prompt in the production record when reproducibility matters. Record that any labeled negative section was part of the same text string.
@@ -46,16 +47,18 @@ Renderer-specific application behavior for generating character concepts:
 
 Save GPT-generated raster output under the same application-owned directories used by Flux, never only in the chat or an external temporary location:
 
-The project's own media tree is the canonical archive. The built-in GPT image tool may initially stage generated files under `CODEX_HOME/generated_images` (commonly `C:\Users\<user>\.codex\generated_images`). Copy the selected final asset into the project structure and verify the project copy. Existing staged or previously generated files under `.codex` may remain; routine production does not require cleaning or deleting them. MiniMax videos are generated by the local app under its D: `outputs\_temp\generator_outputs\image_to_video` directory and copied into the project's shot folder. Preserve the app output when project metadata still references its static URL.
+The project's own media tree is the canonical archive. The built-in GPT image tool may initially stage generated files under `CODEX_HOME/generated_images` (commonly `C:\Users\<user>\.codex\generated_images`). Copy the selected final asset into the project structure and verify the project copy. Existing staged or previously generated files under `.codex` may remain; routine production does not require cleaning or deleting them. MiniMax videos are generated under `D:\files\code\ai_image_video_generator\caches\generation\exports\image_to_video\` and served as `/static/projects/generation/exports/image_to_video/<filename>`. Copy the video into the project's shot folder and verify it there; preserve the canonical app cache output when project metadata still references its static URL.
 
 | Asset kind | Local directory | Public URL prefix | Filename prefix |
 |---|---|---|---|
-| Text-derived anchor or keyframe | `D:\files\code\ai_image_video_generator\outputs\_temp\generator_outputs\text_to_image\` | `/static/projects/_temp/generator_outputs/text_to_image/` | `gpt_txt2img_` |
-| Reference-guided edit, camera plate, action plate, or composite | `D:\files\code\ai_image_video_generator\outputs\_temp\generator_outputs\image_to_image\` | `/static/projects/_temp/generator_outputs/image_to_image/` | `gpt_img2img_` |
+| Text-derived anchor or keyframe | `D:\files\code\ai_image_video_generator\caches\generation\exports\text_to_image\` | `/static/projects/generation/exports/text_to_image/` | `gpt_txt2img_` |
+| Reference-guided edit, camera plate, action plate, or composite | `D:\files\code\ai_image_video_generator\caches\generation\exports\image_to_image\` | `/static/projects/generation/exports/image_to_image/` | `gpt_img2img_` |
+| Generated video | `D:\files\code\ai_image_video_generator\caches\generation\exports\image_to_video\` | `/static/projects/generation/exports/image_to_video/` | `img2video_` |
 
 - Use a collision-safe filename ending in a short unique identifier and preserve the generated file extension.
-- Verify the file exists locally, then construct the `/static/projects/...` URL from its path relative to `outputs/`. Do not invent a URL before the file is present.
-- The file is discoverable by the existing frontend because FastAPI mounts `outputs/` at `/static/projects/`; no separate frontend path, upload directory, or remote URL is required.
+- Verify the file exists locally, then construct the `/static/projects/...` URL from its path relative to `caches/`. Do not invent a URL before the file is present. For video API responses, keep the exact `url` returned by the endpoint; the current local target is `caches/generation/exports/image_to_video/`.
+- The file is discoverable because FastAPI mounts `caches/` at `/static/projects/`; no separate frontend path, upload directory, or remote URL is required.
+- When migrating older assets, copy them into the matching canonical category under `caches/generation/exports/`, compare hashes/verify readability, and update project metadata before relying on the new URL. Do not remove legacy copies as part of a routine path update.
 - If the direct image-generation tool cannot provide a writable local artifact, stop before recording a fake path. Use a supported artifact export/ingest step first, then verify the saved bytes. Do not silently fall back to a remote URL.
 
 ### JSON records
@@ -68,8 +71,8 @@ Keep the existing `reference_images`, `keyframe_url`, and `video_url` paths exac
     "image_renderer": "gpt-image",
     "generation_method": "text_to_image",
     "prompt": "actual submitted image prompt",
-    "reference_images": ["/static/projects/_temp/generator_outputs/text_to_image/gpt_txt2img_xxxxxxxx.png"],
-    "keyframe_url": "/static/projects/_temp/generator_outputs/image_to_image/gpt_img2img_xxxxxxxx.png"
+    "reference_images": ["/static/projects/generation/exports/text_to_image/gpt_txt2img_xxxxxxxx.png"],
+    "keyframe_url": "/static/projects/generation/exports/image_to_image/gpt_img2img_xxxxxxxx.png"
   }
 }
 ```
@@ -88,7 +91,7 @@ Suggested status payload, kept alongside the canonical shot fields:
 {
   "production": {
     "status": "keyframe_ready",
-    "keyframe_url": "/static/projects/_temp/generator_outputs/text_to_image/example.png",
+    "keyframe_url": "/static/projects/generation/exports/text_to_image/example.png",
     "video_url": "",
     "attempts": 1,
     "note": "identity and 180-degree screen direction verified"

@@ -39,7 +39,7 @@ This is a community-validated best practice observed in advanced Seedance / Klin
 
 ## Panel Definitions
 
-- **LEFT — FACE CLOSE-UP**, 1/3 width × full height. Upper body or shoulder-up shot, head fully visible including hairline to chin. This is the **sole facial data source** in the entire reference image — no other panel contains any face pixels. Facial features, skin tone, eye shape, hairline, expression, and any facial markings must be rendered with maximum clarity. The face should fill most of this panel's height. Lighting should be even and neutral (no harsh shadows across the face) to give the video model the cleanest possible facial reference.
+- **LEFT — FRONT-FACING FACE PORTRAIT**, 1/3 width × full height. Chest-up / upper-torso framing, photographed straight-on at eye level. The head and shoulders face the camera; both eyes and the full face are clearly visible. This is the **sole facial data source** in the entire reference image — no other panel contains any face pixels. The face is the primary subject and should be centered, unobstructed, and large in the panel; show only enough shoulders and upper chest to establish the head-to-body connection. Do not use profile or three-quarter orientation unless the user explicitly requests it. If the source image shows a non-frontal face, infer a conservative frontal view from visible evidence while preserving the observed identity; mark uncertain features as inferred in the prompt. Render facial features, skin tone, eye shape, hairline, expression, and visible facial markings with maximum clarity. Use even neutral light with no harsh shadow across the face.
 
 - **MIDDLE — FRONT VIEW (HEADLESS)**, 1/3 width × full height. Front-facing, neutral standing full-body view from the **shoulder/clavicle line down to the shoes**. Reserve a clean near-white blank safety band across the top 10–12% of this panel; place/scale the body slightly lower so shoulder clothing/armor is the first visible figure content below that band. The entire head and neck must be outside this panel. Show no head, hair, ears, jaw, chin, mouth, throat, exposed neck, or facial pixels, and never let a chin fragment touch the panel edge. This panel provides body type, proportions, posture, outfit front, and accessories. By removing the entire head, it eliminates the low-resolution facial signal that would otherwise compete with the dedicated close-up panel. Pose should be relaxed and natural (arms at sides or slightly relaxed), not an action pose.
 
@@ -54,7 +54,7 @@ All three panels share a unified clean white or near-white background. Thin dark
 ```
 [Layout instruction: 16:9, 3 equal vertical columns, white background, thin dark dividers] +
 [Character identity: name + age + role] +
-[Panel 1: FACE CLOSE-UP — upper body / shoulder-up, highest fidelity, neutral expression, even lighting, face fills most of panel height. THIS IS THE ONLY FACIAL DATA IN THE ENTIRE IMAGE.] +
+[Panel 1: FRONT-FACING FACE PORTRAIT — chest-up / upper-torso crop, straight-on eye-level camera, head and shoulders facing camera, both eyes visible, face centered and dominant, neutral expression, even lighting, only enough upper chest to establish the shoulders. No profile or three-quarter view unless explicitly requested. THIS IS THE ONLY FACIAL DATA IN THE ENTIRE IMAGE.] +
 [Panel 2: FRONT VIEW (HEADLESS) — full body from the shoulder/clavicle line to the shoes; reserve a clean near-white blank safety band across the top 10–12% of this panel, then place/scale the body slightly lower so shoulder clothing/armor is the first visible figure content. The entire head and neck are outside the panel. No head, hair, ears, jaw, chin, mouth, throat, exposed neck, or facial pixels; no chin/jaw fragment touching the top edge. Front-facing, neutral standing pose, full outfit visible, relaxed posture.] +
 [Panel 3: BACK VIEW — full body head-to-toe including back of head and shoes/feet, rear-facing, back of hairstyle, back of outfit, any back markings] +
 [Style suffix]
@@ -62,7 +62,7 @@ All three panels share a unified clean white or near-white background. Thin dark
 
 ## Key Rules
 
-1. **Face close-up is the ONLY facial data source**: The middle panel must have zero face pixels. Neck cut must be clean and unambiguous.
+1. **Front-facing face portrait is the ONLY facial data source**: Default to a straight-on chest-up view with both eyes visible and the face as the panel's main subject. Do not carry a source image's profile angle into this panel unless the user asks for it. The middle panel must have zero face pixels and a clean, unambiguous shoulder-line crop.
 2. **Even lighting on face**: No dramatic chiaroscuro, no half-shadow — the video model needs clean geometry.
 3. **Neutral expression**: This is a reference sheet, not a performance. Save emotions for shot-level prompts.
 4. **Front and back body should match**: Same pose energy, same lighting, same rendering quality. The model cross-references them.

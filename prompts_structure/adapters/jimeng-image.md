@@ -14,4 +14,5 @@ Use this adapter after a Core only when the user explicitly chooses Jimeng image
 
 - State the layout before the content. Use short labelled modules such as `【Layout 布局】`, `【主体】`, `【镜头与构图】`, `【风格锚定】`, and `【反向提示词】` only when needed.
 - For Storyboards, default to no more than six panels and lock black-and-white line art in the style description, reference declaration, and negative list.
+- Generate Storyboard panels individually, review each, then assemble locally; never request one complete storyboard sheet generation. Use clear high-contrast black contours by default, not faint sketch lines.
 - For character and location concept sheets, preserve the Core's panel grammar exactly; do not simplify a sheet into a single illustration.

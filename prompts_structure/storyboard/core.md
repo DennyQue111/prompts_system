@@ -62,6 +62,17 @@ When the user provides reference images (character concept sheets, location conc
 - State clearly what the reference is for (character design / environment / lighting / mood) and what to maintain from it.
 - If no reference images are provided, skip this section entirely — describe characters and environment from the prompt's scene context.
 
+## Generation and Assembly — Mandatory
+
+- Generate **one storyboard panel per image-generation call**. This applies equally to a single-shot board, a multi-shot sequence board, and a VFX/state board. Never ask GPT or another image model to render the complete multi-panel sheet in one call.
+- Before generation, write the panel list and reading order. Generate panels individually; use the immediately preceding panel as a continuity reference when pose, screen direction, or camera geography must carry forward. Keep the same style and panel aspect ratio for every image.
+- Review each standalone panel for its intended shot/action, character count, left/right anatomy, pose continuity, framing and readable silhouettes. Correct a bad panel before assembly instead of hoping it will be repaired by the contact sheet.
+- After all panels pass review, assemble them with local image-processing/layout tools into the chosen grid. Do not send the complete sheet back through an image model for “cleanup.” Preserve the individual source frames and the assembled board. Never stretch panels; use equal cell dimensions and an explicit reading order.
+
+## Video Reference Ordering
+
+For a storyboard-led video request, put the **assembled storyboard first** in the ordered video reference list. Place character, entity/prop and location concepts after it, in a stable documented order. The storyboard is then `<Picture 1>` and the concepts follow; make prompt labels match the actual `reference_images` order. For a keyframe-led request, put the selected keyframe first and the design concepts afterward. Do not put concept sheets before the storyboard in a storyboard-led reference list.
+
 ## Prompt Composition
 
 ```
@@ -421,7 +432,7 @@ When a single storyboard contains multiple scene types — e.g., action leading 
 3. **Transitions between types need a bridge frame.** Don't jump from an action CU directly to a dialogue two-shot. Insert a wide frame that re-establishes space and signals the tonal shift.
 4. **Exclusion list: take the union of all involved types.** If action + VFX, combine both exclusion lists.
 5. **Frame rhythm: follow the dominant type.** If 8 of 12 frames are action, use action rhythm (2 short → 1 wide) as the backbone, with dialogue/VFX frames as "breather" beats within that rhythm.
-6. **Style suffix: pick one.** Don't switch between "clean ink" and "rough pencil" mid-storyboard. If action dominates, use rough pencil throughout — dialogue frames will still read fine in rough style.
+6. **Style suffix: pick one.** Don't switch between "clean ink" and "rough pencil" mid-storyboard. Default to clear, high-contrast black ink. Use rough pencil when the user selects it or when a defined visual style calls for it; even then keep contours dark enough to read at a glance. Never default to pale or low-contrast lines.
 
 ---
 

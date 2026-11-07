@@ -19,6 +19,7 @@ Records the prompt structure for generating **storyboards** — visual scripts s
 3. **Load exactly one renderer Adapter** for model-specific compilation
 4. **If GPT**: read `../meta/gpt-image-hygiene.md` before writing the prompt
 5. **Determine scene type(s)** — action / dialogue / VFX / mixed. Apply relevant sections from `core.md`.
+6. **Generate and assemble** — create one frame per image call, inspect each frame, then assemble locally in reading order. Never generate the complete storyboard sheet in one image-model call.
 
 ## File Structure (After Merge)
 

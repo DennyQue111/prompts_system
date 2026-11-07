@@ -15,7 +15,7 @@ Use this adapter after the selected deliverable Core. GPT is the default image r
 - For i2i, bind each reference by role and state what it locks and what it must not transfer.
 - For design sheets, say that panel dividers, labels, and empty background areas are crisp, clean, and undecorated.
 - For KeyFrames, state each internal cinematic frame is 16:9 landscape and has clean, undecorated separators.
-- For Storyboards, enforce either `pure black ink linework, white unfilled surfaces, sparse black hatching only` or the user-selected rough-pencil alternative. Explicitly exclude gray fills, color, text, timestamps, logos, and watermarks.
+- For Storyboards, generate one frame per call; never ask GPT to create the complete multi-panel sheet. After per-frame QC, assemble locally. Default to clear, high-contrast black ink contours on white, readable silhouettes and gestures, restrained interior detail and sparse hatching. Use rough pencil only when explicitly selected, and keep it dark/readable rather than pale or washed out. Explicitly exclude gray fills, color, text, timestamps, logos, and watermarks.
 
 ## Recovery
 
