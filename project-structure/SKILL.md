@@ -49,6 +49,7 @@ description: Universal file structure & naming conventions for Denny's AI short-
 │   └── poster/                 ← 海报概念
 ├── scenes/
 │   └── {N}_{缩写}/             ← 每场一个文件夹（N=全局序号跨剧本递增，缩写=英文主题）
+│       ├── plate/              ← 实拍素材 plate（按镜头编号归档；仅当场次含实拍素材时使用）
 │       ├── storyboard/         ← ★ 所有分镜图像统一归档于 image/（单镜/多镜/特效状态板）
 │       │   ├── image/          ← 故事板图像唯一归档目录
 │       │   └── prompts/        ← 故事板生成提示词（可选）
@@ -97,6 +98,8 @@ description: Universal file structure & naming conventions for Denny's AI short-
 - `keyframes/image/singles/` 放可作为镜头首帧/构图依据的完整单镜关键帧；storyboard 裁格不放这里。
 - `keyframes/image/entity_refs/` 放与具体镜头状态匹配的实体单体参考图；`process_refs/` 仅放非故事板式的辅助特效/形态参考。多格、按顺序表达状态或变化的图均属于 storyboard，归档到 `storyboard/image/`。
 - `sequence/video/` 按镜头号建目录，而不是按模型或全局版本建目录。一个镜头的全部模型输出版本并列放在 `sequence/video/{SHOT_ID}/`，文件名带模型与版本，例如 `FWW_0090_minimax_h3_v010.mp4`。
+- `plate/` 用于存放该场次中每个镜头涉及的实拍素材（原始视频、照片或选定的实拍片段）；按镜头编号分子目录归档，例如 `plate/TIDE_0010/`。素材文件名带镜头号、简短内容说明和版本/机位信息，保留原始文件，不与 AI 生成的 keyframe、storyboard 或成片混放。若场次没有实拍素材，可不创建此目录。
+- 实拍 plate 与生成资产按镜头号对应：`plate/{SHOT_ID}/` 保存实拍来源，`keyframes/`、`storyboard/` 保存规划/生成参考，`sequence/video/{SHOT_ID}/` 保存生成视频及 QA 帧。提示词或请求记录应注明 plate 的具体用途（例如身份/表演、动作、机位、构图或环境参考），并按目标模型的真实输入能力决定是否传入；不得仅因素材放在 `plate/` 就假定它已提交给模型。
 - 视频质检抽帧放在对应镜头目录的 `qa_frames/v{NNN}/`，例如 `sequence/video/FWW_0090/qa_frames/v010/frame_3.0s.png`。QA 帧是从视频抽取的检查样本，不是 keyframe，也不回填到 `keyframes/image/singles/`。
 - 如果旧项目的 QA 图无法可靠对应镜头/版本，不要猜测归档；先保留原位置并标记待整理。历史视频迁移时同步更新 prompt JSON 中的相对 `output` 路径。
 - 跨镜头剪辑成片仍放 `sequence/edited/`；不要将多个镜头的合成视频误放入单镜头目录。
