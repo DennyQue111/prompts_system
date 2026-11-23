@@ -38,6 +38,7 @@ description: 调度剧本到成片的镜头级生产流程，管理阶段顺序�
 | 视频模型 | 提示词结构 | 执行说明 |
 |---|---|---|
 | MiniMax H3 | `prompts_structure/shot/minimax.md` 或 `prompts_structure/sequence/minimax.md` | [references/video-models/minimax-h3.md](references/video-models/minimax-h3.md) |
+| MiniMax H3 · RunningHub Pika Ref2VA | 同上 | [references/video-models/runninghub-minimax-pika.md](references/video-models/runninghub-minimax-pika.md) |
 | Seedance | `prompts_structure/shot/seedance.md` 或 `prompts_structure/sequence/seedance.md` | 当前未维护独立执行适配说明。提交前须核实目标应用提供的参考图/首尾帧能力、参数、尺寸/时长、任务状态查询和输出路径；不沿用 MiniMax 专属限制。 |
 
 若在 `ai_image_video_generator` 执行，另读 [references/ai-image-video-generator.md](references/ai-image-video-generator.md) 获取应用接口、缓存路径、资产回填和当前应用限制。应用集成说明不替代视频模型适配说明或 Prompt Structure。

@@ -9,6 +9,7 @@ Use this skill as the routing layer for AI-film prompt work. Preserve the user's
 
 ## Route the request
 
+- When a request needs a defined video category or format-specific creative constraints, read `content-formats/SKILL.md` first, then route to screenplay development and shot planning as appropriate.
 - For sustained development of an initial idea into a user-approved screenplay/story outline, read `screenplay-development/SKILL.md`. Hand the completed outline to `shot-planning/SKILL.md` only when the user asks to plan scenes or shots.
 - For visual DNA and reusable technical style language, read the matching file in `style-profiles/`.
 - For prompt construction, read the relevant architecture in `prompts_structure/`:
